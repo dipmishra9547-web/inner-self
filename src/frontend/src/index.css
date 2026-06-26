@@ -1,0 +1,216 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-display: "Lora";
+    --font-body: "Satoshi";
+    --font-mono: "JetBrainsMono";
+    --radius: 0.5rem;
+
+    --background: 0.14 0.015 50;
+    --foreground: 0.92 0.01 60;
+    --card: 0.18 0.018 50;
+    --card-foreground: 0.92 0.01 60;
+    --popover: 0.18 0.018 50;
+    --popover-foreground: 0.92 0.01 60;
+
+    --primary: 0.48 0.18 30;
+    --primary-foreground: 0.14 0.015 30;
+
+    --secondary: 0.22 0.02 50;
+    --secondary-foreground: 0.82 0.01 60;
+    --muted: 0.22 0.02 50;
+    --muted-foreground: 0.52 0.012 55;
+
+    --accent: 0.78 0.16 82;
+    --accent-foreground: 0.14 0.015 70;
+
+    --destructive: 0.55 0.22 25;
+    --destructive-foreground: 0.92 0.01 25;
+
+    --success: 0.65 0.16 140;
+    --success-foreground: 0.14 0.015 140;
+
+    --warning: 0.62 0.18 65;
+    --warning-foreground: 0.14 0.015 65;
+
+    --border: 0.28 0.02 50;
+    --input: 0.28 0.02 50;
+    --ring: 0.48 0.18 30;
+
+    --chart-1: 0.78 0.16 82;
+    --chart-2: 0.72 0.18 185;
+    --chart-3: 0.62 0.22 10;
+    --chart-4: 0.62 0.28 300;
+    --chart-5: 0.38 0.2 285;
+
+    --emotion-fear: 0.45 0.2 25;
+    --emotion-anger: 0.55 0.22 20;
+    --emotion-happiness: 0.72 0.17 70;
+    --emotion-sadness: 0.35 0.12 260;
+    --emotion-love: 0.58 0.18 10;
+
+    --sidebar: 0.18 0.018 50;
+    --sidebar-foreground: 0.92 0.01 60;
+    --sidebar-primary: 0.48 0.18 30;
+    --sidebar-primary-foreground: 0.14 0.015 30;
+    --sidebar-accent: 0.62 0.28 300;
+    --sidebar-accent-foreground: 0.82 0.01 60;
+    --sidebar-border: 0.28 0.02 50;
+    --sidebar-ring: 0.48 0.18 30;
+
+    --color-vivid-violet: 0.62 0.28 300;
+    --color-neon-teal: 0.72 0.18 185;
+    --color-rose-ember: 0.62 0.22 10;
+    --color-gold-foil: 0.78 0.16 82;
+    --color-midnight-iris: 0.38 0.2 285;
+  }
+
+  .dark {
+    --background: 0.14 0.015 50;
+    --foreground: 0.92 0.01 60;
+    --card: 0.18 0.018 50;
+    --card-foreground: 0.92 0.01 60;
+    --popover: 0.18 0.018 50;
+    --popover-foreground: 0.92 0.01 60;
+
+    --primary: 0.48 0.18 30;
+    --primary-foreground: 0.14 0.015 30;
+
+    --secondary: 0.22 0.02 50;
+    --secondary-foreground: 0.82 0.01 60;
+    --muted: 0.22 0.02 50;
+    --muted-foreground: 0.52 0.012 55;
+
+    --accent: 0.78 0.16 82;
+    --accent-foreground: 0.14 0.015 70;
+
+    --destructive: 0.55 0.22 25;
+    --destructive-foreground: 0.92 0.01 25;
+
+    --success: 0.65 0.16 140;
+    --success-foreground: 0.14 0.015 140;
+
+    --warning: 0.62 0.18 65;
+    --warning-foreground: 0.14 0.015 65;
+
+    --border: 0.28 0.02 50;
+    --input: 0.28 0.02 50;
+    --ring: 0.48 0.18 30;
+
+    --chart-1: 0.78 0.16 82;
+    --chart-2: 0.72 0.18 185;
+    --chart-3: 0.62 0.22 10;
+    --chart-4: 0.62 0.28 300;
+    --chart-5: 0.38 0.2 285;
+
+    --emotion-fear: 0.45 0.2 25;
+    --emotion-anger: 0.55 0.22 20;
+    --emotion-happiness: 0.72 0.17 70;
+    --emotion-sadness: 0.35 0.12 260;
+    --emotion-love: 0.58 0.18 10;
+
+    --sidebar: 0.18 0.018 50;
+    --sidebar-foreground: 0.92 0.01 60;
+    --sidebar-primary: 0.48 0.18 30;
+    --sidebar-primary-foreground: 0.14 0.015 30;
+    --sidebar-accent: 0.62 0.28 300;
+    --sidebar-accent-foreground: 0.82 0.01 60;
+    --sidebar-border: 0.28 0.02 50;
+    --sidebar-ring: 0.48 0.18 30;
+
+    --color-vivid-violet: 0.62 0.28 300;
+    --color-neon-teal: 0.72 0.18 185;
+    --color-rose-ember: 0.62 0.22 10;
+    --color-gold-foil: 0.78 0.16 82;
+    --color-midnight-iris: 0.38 0.2 285;
+  }
+
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply text-foreground font-body antialiased;
+    background-color: oklch(0.14 0.015 50);
+    background-image: url("/assets/images/wallpaper.svg");
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+}
+
+@font-face {
+  font-family: "Lora";
+  src: url("/assets/fonts/Lora.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Satoshi";
+  src: url("/assets/fonts/Satoshi.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrainsMono";
+  src: url("/assets/fonts/JetBrainsMono.woff2") format("woff2");
+  font-display: swap;
+}
+
+@layer utilities {
+  .transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .shadow-card {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  .shadow-card-hover {
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
+  }
+
+  .gradient-warm-accent {
+    background: linear-gradient(
+      135deg,
+      oklch(var(--accent)) 0%,
+      oklch(var(--primary)) 100%
+    );
+  }
+
+  .shadow-elevated {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  }
+
+  .shadow-admin {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  }
+
+  .bg-input-focus {
+    @apply border-accent ring-2 ring-accent/30;
+  }
+
+  .text-data-mono {
+    @apply font-mono text-xs text-muted-foreground;
+  }
+
+  .badge-emotion {
+    @apply px-3 py-1 rounded-full text-xs font-semibold bg-muted/40 text-foreground inline-flex items-center gap-2;
+  }
+
+  .print-friendly {
+    @apply break-inside-avoid;
+    page-break-inside: avoid;
+  }
+
+  .gradient-modern {
+    background: linear-gradient(
+      135deg,
+      oklch(var(--color-vivid-violet)) 0%,
+      oklch(var(--color-neon-teal)) 100%
+    );
+  }
+}

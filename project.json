@@ -1,0 +1,28 @@
+{
+  "overview": "Inner-Self is a psychological personality platform on the Internet Computer with four interactive quizzes: Animal Archetype, Emotion, Know Your Dark Side, and Seven Deadly Sins. Users discover their personality through scientifically-informed assessments with detailed result screens, share features, and full result history. Admins manage all users and quiz data through a secure dashboard.",
+  "features": [
+    "Seven Deadly Sins Quiz (40 questions, 7 sin categories, percentage scoring)",
+    "Animal Archetype Quiz (15 questions, 12 archetypes)",
+    "Emotion Quiz (10 emotions with philosophical insights)",
+    "Know Your Dark Side Quiz (7 types: MBTI blends + Dark Triad)",
+    "Dominant sin result screen with pie chart and personalized insight",
+    "Share Your Result button on all quiz result pages",
+    "Admin dashboard with sin distribution pie chart and results table",
+    "User dashboard showing full history of all four quiz attempts",
+    "Secure login and signup with security question password recovery",
+    "On-chain storage via Motoko canister on Internet Computer"
+  ],
+  "category": "productivity",
+  "tags": [
+    "personality-quiz",
+    "psychology",
+    "seven-deadly-sins",
+    "self-discovery",
+    "inner-self",
+    "dark-side",
+    "emotion",
+    "animal-archetype",
+    "internet-computer"
+  ],
+  "last_updated": "2026-05-08T10:21:25.342Z"
+}
