@@ -4,15 +4,23 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter } from "@tanstack/react-router";
 import {
   ArrowLeft,
+  ArrowRight,
+  Brain,
   ChevronDown,
   ChevronUp,
   ClipboardList,
+  Flame,
+  PawPrint,
   Share2,
+  Skull,
+  Sparkles,
+  TrendingUp,
 } from "lucide-react";
 import { motion } from "motion/react";
 import * as React from "react";
 import { useState } from "react";
-import { SIN_PROFILES } from "../data/sevenSinsData";
+import { ARCHETYPES } from "../data/archetypes";
+import { SIN_ICONS, SIN_PROFILES } from "../data/sevenSinsData";
 import { useAuth } from "../hooks/useAuth";
 import {
   useMyAnimalResults,
@@ -20,12 +28,14 @@ import {
   useMyEmotionResults,
 } from "../hooks/useAuth";
 import { useMySevenSinsResults } from "../hooks/useProfile";
+import type { AnimalType } from "../types/animals";
 import type {
   AnimalResultEntry,
   DarkSideResultEntry,
   EmotionResultEntry,
   SevenSinsResultEntry,
 } from "../types/auth";
+import { EMOTION_ICONS, type EmotionType } from "../types/emotion";
 import type { SinType } from "../types/sevenSins";
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -107,16 +117,6 @@ function ResultSection({
 
 // ─── Animal Results Table ─────────────────────────────────────────────────────
 
-const ANIMAL_EMOJIS: Record<string, string> = {
-  Lion: "🦁",
-  Otter: "🦦",
-  GoldenRetriever: "🐕",
-  Beaver: "🦫",
-  Wolf: "🐺",
-  Sheep: "🐑",
-  Shepherd: "🧑‍🌾",
-};
-
 function AnimalResultsTable({ results }: { results: AnimalResultEntry[] }) {
   const sorted = [...results].sort(
     (a, b) => Number(b.createdAt) - Number(a.createdAt),
@@ -146,7 +146,9 @@ function AnimalResultsTable({ results }: { results: AnimalResultEntry[] }) {
             >
               <td className="py-3 px-3">
                 <span className="flex items-center gap-2 text-foreground font-medium">
-                  <span>{ANIMAL_EMOJIS[r.animalType] ?? "🐾"}</span>
+                  <span>
+                    {ARCHETYPES[r.animalType as AnimalType]?.emoji ?? "🐾"}
+                  </span>
                   {r.animalType}
                 </span>
               </td>
@@ -165,19 +167,6 @@ function AnimalResultsTable({ results }: { results: AnimalResultEntry[] }) {
 }
 
 // ─── Emotion Results Table ────────────────────────────────────────────────────
-
-const EMOTION_EMOJIS: Record<string, string> = {
-  Fear: "😨",
-  Anger: "😠",
-  Happiness: "😊",
-  Sadness: "😢",
-  Love: "😍",
-  Anxiety: "😟",
-  Desire: "😤",
-  Guilt: "😔",
-  Awe: "😮",
-  Peace: "🧘",
-};
 
 function EmotionResultsTable({ results }: { results: EmotionResultEntry[] }) {
   const sorted = [...results].sort(
@@ -208,7 +197,10 @@ function EmotionResultsTable({ results }: { results: EmotionResultEntry[] }) {
             >
               <td className="py-3 px-3">
                 <span className="flex items-center gap-2 text-foreground font-medium">
-                  <span>{EMOTION_EMOJIS[r.emotionType] ?? "🧠"}</span>
+                  {(() => {
+                    const Icon = EMOTION_ICONS[r.emotionType as EmotionType];
+                    return Icon ? <Icon className="w-4 h-4" /> : null;
+                  })()}
                   {r.emotionType}
                 </span>
               </td>
@@ -247,8 +239,9 @@ function DarkSideResultRow({
         data-ocid={`my_results.darkside_item.${idx + 1}`}
       >
         <td className="py-3 px-3">
-          <span className="text-foreground font-medium">
-            💀 {r.personalityType}
+          <span className="text-foreground font-medium flex items-center gap-2">
+            <Skull className="w-4 h-4 text-muted-foreground" />
+            {r.personalityType}
           </span>
         </td>
         <td className="py-3 px-3 text-right text-muted-foreground font-mono">
@@ -395,10 +388,13 @@ function SevenSinsResultsTable({
                 >
                   <td className="py-3 px-3">
                     <span className="flex items-center gap-2 text-foreground font-medium">
-                      <span>
-                        {SIN_PROFILES[r.dominantSin.toLowerCase() as SinType]
-                          ?.emoji ?? "😈"}
-                      </span>
+                      {(() => {
+                        const Icon =
+                          SIN_ICONS[r.dominantSin.toLowerCase() as SinType];
+                        return Icon ? (
+                          <Icon className="w-4 h-4 text-muted-foreground" />
+                        ) : null;
+                      })()}
                       {r.dominantSin}
                     </span>
                   </td>
@@ -434,20 +430,23 @@ function SevenSinsResultsTable({
                   >
                     <td colSpan={4} className="px-3 py-3">
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                        {ALL_SINS.map((sin: SinKey) => (
-                          <div
-                            key={sin}
-                            className="bg-card border border-border/50 rounded-lg px-3 py-2"
-                          >
-                            <p className="text-xs text-muted-foreground font-body capitalize">
-                              {SIN_PROFILES[sin as SinType]?.emoji ?? "😈"}{" "}
-                              {sin}
-                            </p>
-                            <p className="font-display text-sm font-bold text-foreground">
-                              {Math.round(r[sin])}%
-                            </p>
-                          </div>
-                        ))}
+                        {ALL_SINS.map((sin: SinKey) => {
+                          const Icon = SIN_ICONS[sin as SinType];
+                          return (
+                            <div
+                              key={sin}
+                              className="bg-card border border-border/50 rounded-lg px-3 py-2"
+                            >
+                              <p className="text-xs text-muted-foreground font-body capitalize flex items-center gap-1.5">
+                                {Icon ? <Icon className="w-3 h-3" /> : null}
+                                {sin}
+                              </p>
+                              <p className="font-display text-sm font-bold text-foreground">
+                                {Math.round(r[sin])}%
+                              </p>
+                            </div>
+                          );
+                        })}
                       </div>
                     </td>
                   </tr>
@@ -462,16 +461,6 @@ function SevenSinsResultsTable({
 }
 
 // ─── Full Profile Card ──────────────────────────────────────────────────────
-
-const DARKSIDE_EMOJIS: Record<string, string> = {
-  "Lone Planner": "🕵️",
-  Mastermind: "🧠",
-  "Quiet Idealist": "🌿",
-  "Social Flame": "🔆",
-  Manipulator: "🎭",
-  Psychopath: "🥶",
-  Sociopath: "🌀",
-};
 
 function FullProfileCard({
   animalResults,
@@ -502,21 +491,15 @@ function FullProfileCard({
   )[0];
 
   const animalLabel = latestAnimal
-    ? `${ANIMAL_EMOJIS[latestAnimal.animalType] ?? "🐾"} ${latestAnimal.animalType}`
+    ? `${ARCHETYPES[latestAnimal.animalType as AnimalType]?.emoji ?? "🐾"} ${latestAnimal.animalType}`
     : null;
-  const emotionLabel = latestEmotion
-    ? `${EMOTION_EMOJIS[latestEmotion.emotionType] ?? "🧠"} ${latestEmotion.emotionType}`
-    : null;
-  const darkLabel = latestDark
-    ? `${DARKSIDE_EMOJIS[latestDark.personalityType] ?? "💀"} ${latestDark.personalityType}`
-    : null;
+  const emotionLabel = latestEmotion ? latestEmotion.emotionType : null;
+  const darkLabel = latestDark ? latestDark.personalityType : null;
   const sinKey = latestSin
     ? (latestSin.dominantSin.toLowerCase() as keyof typeof SIN_PROFILES)
     : null;
   const sinLabel =
-    sinKey && SIN_PROFILES[sinKey]
-      ? `${SIN_PROFILES[sinKey].emoji} ${SIN_PROFILES[sinKey].name}`
-      : null;
+    sinKey && SIN_PROFILES[sinKey] ? SIN_PROFILES[sinKey].name : null;
 
   function handleShare() {
     const parts: string[] = [];
@@ -544,28 +527,28 @@ function FullProfileCard({
   const quizItems = [
     {
       label: "Animal Archetype",
-      emoji: "🐾",
+      icon: PawPrint,
       result: animalLabel,
       route: "/",
       ocid: "my_results.full_profile_animal",
     },
     {
       label: "Top Emotion",
-      emoji: "🧠",
+      icon: Brain,
       result: emotionLabel,
       route: "/emotion-quiz",
       ocid: "my_results.full_profile_emotion",
     },
     {
       label: "Dark Side",
-      emoji: "💀",
+      icon: Skull,
       result: darkLabel,
       route: "/dark-side-quiz",
       ocid: "my_results.full_profile_darkside",
     },
     {
       label: "Dominant Sin",
-      emoji: "😈",
+      icon: Flame,
       result: sinLabel,
       route: "/seven-sins-quiz",
       ocid: "my_results.full_profile_sin",
@@ -594,11 +577,12 @@ function FullProfileCard({
       <div className="relative z-10 p-6">
         <div className="flex items-center justify-between mb-5 flex-wrap gap-3">
           <div>
-            <h2 className="font-display text-xl font-bold text-foreground">
-              ✨ Your Full Profile
+            <h2 className="font-display text-xl font-bold text-foreground flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-primary" />
+              Your Full Profile
             </h2>
             <p className="text-xs text-muted-foreground font-body mt-0.5">
-              Your latest result from every quiz — at a glance
+              Your latest result from every quiz, at a glance
             </p>
           </div>
           {hasAnyResult && (
@@ -629,8 +613,9 @@ function FullProfileCard({
                 className="bg-card/70 backdrop-blur-sm border border-border/50 rounded-xl p-3 flex flex-col gap-1.5"
                 data-ocid={item.ocid}
               >
-                <p className="text-[10px] text-muted-foreground font-body uppercase tracking-wider font-semibold">
-                  {item.emoji} {item.label}
+                <p className="text-[10px] text-muted-foreground font-body uppercase tracking-wider font-semibold flex items-center gap-1">
+                  <item.icon className="w-3 h-3" />
+                  {item.label}
                 </p>
                 {item.result ? (
                   <p className="font-display text-sm font-bold text-foreground leading-tight">
@@ -644,10 +629,11 @@ function FullProfileCard({
                     <button
                       type="button"
                       onClick={() => onNavigate(item.route)}
-                      className="text-[10px] text-primary hover:text-primary/80 font-body font-semibold underline underline-offset-2 text-left transition-colors"
+                      className="text-[10px] text-primary hover:text-primary/80 font-body font-semibold underline underline-offset-2 text-left transition-colors inline-flex items-center gap-0.5"
                       data-ocid={`${item.ocid}_take_quiz_link`}
                     >
-                      Take Quiz →
+                      Take Quiz
+                      <ArrowRight className="w-2.5 h-2.5" />
                     </button>
                   </div>
                 )}
@@ -672,8 +658,9 @@ function SevenSinsTimeline({ results }: { results: SevenSinsResultEntry[] }) {
   if (sorted.length === 1) {
     return (
       <div className="mt-6 pt-5 border-t border-border/40">
-        <h3 className="font-display text-sm font-semibold text-foreground mb-2">
-          📈 Dominant Sin Timeline
+        <h3 className="font-display text-sm font-semibold text-foreground mb-2 flex items-center gap-1.5">
+          <TrendingUp className="w-4 h-4 text-primary" />
+          Dominant Sin Timeline
         </h3>
         <p className="text-xs text-muted-foreground font-body italic">
           Take the quiz again to see how your dominant sin changes over time.
@@ -724,8 +711,9 @@ function SevenSinsTimeline({ results }: { results: SevenSinsResultEntry[] }) {
       className="mt-6 pt-5 border-t border-border/40"
       data-ocid="my_results.seven_sins_timeline"
     >
-      <h3 className="font-display text-sm font-semibold text-foreground mb-4">
-        📈 Dominant Sin Timeline
+      <h3 className="font-display text-sm font-semibold text-foreground mb-4 flex items-center gap-1.5">
+        <TrendingUp className="w-4 h-4 text-primary" />
+        Dominant Sin Timeline
       </h3>
       <div className="overflow-x-auto">
         <svg
@@ -872,7 +860,7 @@ export function MyResultsPage() {
           </h1>
         </div>
         <p className="text-muted-foreground font-body text-sm">
-          Your complete quiz history — all attempts, newest first.
+          Your complete quiz history: all attempts, newest first.
         </p>
       </div>
 
@@ -890,11 +878,11 @@ export function MyResultsPage() {
         {/* Animal Results */}
         <ResultSection
           title="Animal Archetype Results"
-          icon={<span className="text-lg">🐾</span>}
+          icon={<PawPrint className="w-4 h-4" />}
           count={animalResults.length}
           isEmpty={animalResults.length === 0}
           isLoading={loadingAnimal}
-          emptyMessage="No animal quiz results yet — take the Animal Quiz to discover your archetype!"
+          emptyMessage="No animal quiz results yet, take the Animal Quiz to discover your archetype!"
           ocid="my_results.animal_section"
         >
           <AnimalResultsTable results={animalResults} />
@@ -906,7 +894,8 @@ export function MyResultsPage() {
               className="font-body text-xs gap-1.5"
               data-ocid="my_results.take_animal_quiz_button"
             >
-              🦁 Retake Animal Quiz
+              <PawPrint className="w-3.5 h-3.5" />
+              Retake Animal Quiz
             </Button>
           </div>
         </ResultSection>
@@ -914,11 +903,11 @@ export function MyResultsPage() {
         {/* Emotion Results */}
         <ResultSection
           title="Emotion Quiz Results"
-          icon={<span className="text-lg">🧠</span>}
+          icon={<Brain className="w-4 h-4" />}
           count={emotionResults.length}
           isEmpty={emotionResults.length === 0}
           isLoading={loadingEmotion}
-          emptyMessage="No emotion quiz results yet — take the Emotion Quiz to discover your inner world!"
+          emptyMessage="No emotion quiz results yet, take the Emotion Quiz to discover your inner world!"
           ocid="my_results.emotion_section"
         >
           <EmotionResultsTable results={emotionResults} />
@@ -930,7 +919,8 @@ export function MyResultsPage() {
               className="font-body text-xs gap-1.5"
               data-ocid="my_results.take_emotion_quiz_button"
             >
-              🧠 Retake Emotion Quiz
+              <Brain className="w-3.5 h-3.5" />
+              Retake Emotion Quiz
             </Button>
           </div>
         </ResultSection>
@@ -938,11 +928,11 @@ export function MyResultsPage() {
         {/* Seven Deadly Sins Results */}
         <ResultSection
           title="Seven Deadly Sins Results"
-          icon={<span className="text-lg">😈</span>}
+          icon={<Flame className="w-4 h-4" />}
           count={sevenSinsResults.length}
           isEmpty={sevenSinsResults.length === 0}
           isLoading={loadingSevenSins}
-          emptyMessage="No Seven Deadly Sins results yet — take the quiz to uncover your dominant sin!"
+          emptyMessage="No Seven Deadly Sins results yet, take the quiz to uncover your dominant sin!"
           ocid="my_results.seven_sins_section"
         >
           <SevenSinsResultsTable results={sevenSinsResults} />
@@ -955,7 +945,8 @@ export function MyResultsPage() {
               className="font-body text-xs gap-1.5"
               data-ocid="my_results.take_seven_sins_quiz_button"
             >
-              😈 Take Seven Deadly Sins Quiz
+              <Flame className="w-3.5 h-3.5" />
+              Take Seven Deadly Sins Quiz
             </Button>
           </div>
         </ResultSection>
@@ -963,11 +954,11 @@ export function MyResultsPage() {
         {/* Dark Side Results */}
         <ResultSection
           title="Dark Side Results"
-          icon={<span className="text-lg">💀</span>}
+          icon={<Skull className="w-4 h-4" />}
           count={darkSideResults.length}
           isEmpty={darkSideResults.length === 0}
           isLoading={loadingDark}
-          emptyMessage="No dark side results yet — take the Dark Side Quiz to understand your hidden patterns!"
+          emptyMessage="No dark side results yet, take the Dark Side Quiz to understand your hidden patterns!"
           ocid="my_results.darkside_section"
         >
           <DarkSideResultsTable results={darkSideResults} />
@@ -979,7 +970,8 @@ export function MyResultsPage() {
               className="font-body text-xs gap-1.5"
               data-ocid="my_results.take_darkside_quiz_button"
             >
-              💀 Retake Dark Side Quiz
+              <Skull className="w-3.5 h-3.5" />
+              Retake Dark Side Quiz
             </Button>
           </div>
         </ResultSection>
