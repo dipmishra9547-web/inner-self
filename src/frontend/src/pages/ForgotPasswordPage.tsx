@@ -331,7 +331,7 @@ export function ForgotPasswordPage() {
                   >
                     {securityQuestion}
                   </p>
-                  {/* Hint — shown only if non-empty */}
+                  {/* Hint: shown only if non-empty */}
                   {securityHint && securityHint.trim() !== "" && (
                     <p
                       className="mt-2 text-xs italic text-muted-foreground font-body"

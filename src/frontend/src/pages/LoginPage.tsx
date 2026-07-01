@@ -51,7 +51,7 @@ const GUIDE_STEPS = [
   {
     icon: LockKeyhole,
     title: "Choose a strong password",
-    desc: "Use at least 8 characters — mix letters, numbers, and symbols.",
+    desc: "Use at least 8 characters, mixing letters, numbers, and symbols.",
   },
   {
     icon: ShieldCheck,
@@ -60,7 +60,7 @@ const GUIDE_STEPS = [
   },
   {
     icon: Sparkles,
-    title: 'Click "Sign Up" — you\'re in!',
+    title: 'Click "Sign Up" and you\'re in!',
     desc: "Your account is created instantly. Start exploring your inner self.",
   },
 ];

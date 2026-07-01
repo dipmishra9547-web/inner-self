@@ -136,7 +136,7 @@ function validateField(field: FieldKey, f: Fields): string | undefined {
   if (field === "age") {
     const n = Number.parseInt(f.age, 10);
     if (!f.age) return "Age is required";
-    if (Number.isNaN(n) || n < 1 || n > 120) return "Enter a valid age (1–120)";
+    if (Number.isNaN(n) || n < 1 || n > 120) return "Enter a valid age (1-120)";
   }
   if (field === "gender") {
     if (!f.gender) return "Please select a gender";
@@ -569,7 +569,7 @@ export function SignupPage() {
                   data-ocid="signup.security_answer_input"
                   type="text"
                   autoComplete="off"
-                  placeholder="Your answer (2–100 characters)"
+                  placeholder="Your answer (2-100 characters)"
                   value={fields.securityAnswer}
                   onChange={(e) => update("securityAnswer", e.target.value)}
                   onBlur={() => handleBlur("securityAnswer")}
@@ -597,13 +597,13 @@ export function SignupPage() {
                   type="text"
                   autoComplete="off"
                   maxLength={100}
-                  placeholder="e.g. my childhood nickname — shown to you when resetting your password"
+                  placeholder="e.g. my childhood nickname (shown to you when resetting your password)"
                   value={fields.securityHint}
                   onChange={(e) => update("securityHint", e.target.value)}
                   className="font-body text-sm focus-visible:border-primary focus-visible:ring-primary/20 placeholder:text-muted-foreground/50"
                 />
                 <p className="mt-1 text-xs text-muted-foreground/70 font-body">
-                  This is a personal reminder only — it is not a secret and not
+                  This is a personal reminder only: it is not a secret and not
                   validated.
                 </p>
               </div>
