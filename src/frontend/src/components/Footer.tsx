@@ -10,7 +10,7 @@ export function Footer() {
 
   return (
     <footer className="bg-card border-t border-border mt-auto">
-      <div className="max-w-5xl mx-auto px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
         <div className="flex flex-col sm:flex-row items-center gap-3">
           <p className="text-xs text-muted-foreground text-center sm:text-left font-body max-w-sm">
             For self-reflection and entertainment. Not professional

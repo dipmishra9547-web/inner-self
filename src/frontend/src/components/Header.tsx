@@ -52,7 +52,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-card border-b border-border shadow-subtle">
-      <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between gap-4">
+      <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-4">
         {/* Logo */}
         <a
           href={isLoggedIn ? "/" : "/login"}
