@@ -1,3 +1,5 @@
+import { Bed, Coins, Crown, Eye, Flame, Heart, Wine } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import type { SevenSinsScore, SinType } from "../types/sevenSins";
 
 // ── Sin profiles ───────────────────────────────────────────────────────────────
@@ -90,7 +92,7 @@ export const SIN_PROFILES: Record<SinType, SinProfile> = {
     emoji: "💰",
     color: "#10b981",
     description:
-      "An insatiable desire for wealth, possessions, or power — always wanting more than enough.",
+      "An insatiable desire for wealth, possessions, or power: always wanting more than enough.",
     insight:
       "Enough is a mindset, not a number. The more you cling, the less you truly possess.",
   },
@@ -108,7 +110,7 @@ export const SIN_PROFILES: Record<SinType, SinProfile> = {
     emoji: "💚",
     color: "#22c55e",
     description:
-      "A bitter resentment of others' success, beauty, or fortune — wanting what they have.",
+      "A bitter resentment of others' success, beauty, or fortune: wanting what they have.",
     insight:
       "Envy is a compass pointing to your own unfulfilled desires. Use it as a map, not a weapon.",
   },
@@ -117,7 +119,7 @@ export const SIN_PROFILES: Record<SinType, SinProfile> = {
     emoji: "🍷",
     color: "#a855f7",
     description:
-      "Overindulgence in food, pleasure, or experiences — consuming far beyond genuine need.",
+      "Overindulgence in food, pleasure, or experiences: consuming far beyond genuine need.",
     insight:
       "Pleasure is healthiest in measure. Excess dulls the very senses it seeks to satisfy.",
   },
@@ -126,7 +128,7 @@ export const SIN_PROFILES: Record<SinType, SinProfile> = {
     emoji: "❤️‍🔥",
     color: "#ec4899",
     description:
-      "An intense craving for physical pleasure, desire, and attraction — often overriding reason.",
+      "An intense craving for physical pleasure, desire, and attraction: often overriding reason.",
     insight:
       "Desire is natural; obsession is the trap. Real intimacy grows where craving gives way to care.",
   },
@@ -135,10 +137,20 @@ export const SIN_PROFILES: Record<SinType, SinProfile> = {
     emoji: "😴",
     color: "#6366f1",
     description:
-      "A deep avoidance of effort, responsibility, and growth — choosing inaction over discomfort.",
+      "A deep avoidance of effort, responsibility, and growth: choosing inaction over discomfort.",
     insight:
       "Rest restores; avoidance corrodes. The hardest step is often the only one that matters.",
   },
+};
+
+export const SIN_ICONS: Record<SinType, LucideIcon> = {
+  pride: Crown,
+  greed: Coins,
+  wrath: Flame,
+  envy: Eye,
+  gluttony: Wine,
+  lust: Heart,
+  sloth: Bed,
 };
 
 // ── Questions ─────────────────────────────────────────────────────────────────
@@ -155,7 +167,7 @@ export interface SinQuestion {
   options: SinOption[];
 }
 
-// 15 questions — distribution: Pride×2, Greed×2, Wrath×2, Envy×2, Gluttony×2, Lust×2, Sloth×3
+// 15 questions, distribution: Pride×2, Greed×2, Wrath×2, Envy×2, Gluttony×2, Lust×2, Sloth×3
 export const SEVEN_SINS_QUESTIONS: SinQuestion[] = [
   // ── Pride (Q1, Q2) ──────────────────────────────────────────────────────────
   {
@@ -164,7 +176,7 @@ export const SEVEN_SINS_QUESTIONS: SinQuestion[] = [
     question: "You just completed a big project. What's your first instinct?",
     options: [
       {
-        text: "Tell everyone how much effort you put in — they should know",
+        text: "Tell everyone how much effort you put in: they should know",
         sin: "pride",
         score: 5,
       },
@@ -175,7 +187,7 @@ export const SEVEN_SINS_QUESTIONS: SinQuestion[] = [
       },
       { text: "Ask for feedback so you can improve", sin: "pride", score: 1 },
       {
-        text: "Move on quietly — you'll do even better next time",
+        text: "Move on quietly: you'll do even better next time",
         sin: "sloth",
         score: 1,
       },
@@ -188,7 +200,7 @@ export const SEVEN_SINS_QUESTIONS: SinQuestion[] = [
       "Someone publicly corrects you when you're wrong. How do you react?",
     options: [
       {
-        text: "Get defensive — you don't like being challenged in front of others",
+        text: "Get defensive: you don't like being challenged in front of others",
         sin: "pride",
         score: 5,
       },
@@ -209,11 +221,11 @@ export const SEVEN_SINS_QUESTIONS: SinQuestion[] = [
       "You find out a friend earns significantly more than you for the same job. What do you feel?",
     options: [
       {
-        text: "Driven to demand a raise immediately — you deserve more",
+        text: "Driven to demand a raise immediately: you deserve more",
         sin: "greed",
         score: 5,
       },
-      { text: "Jealous — it's not fair", sin: "envy", score: 4 },
+      { text: "Jealous: it's not fair", sin: "envy", score: 4 },
       {
         text: "Curious about what they did differently",
         sin: "greed",
@@ -226,10 +238,10 @@ export const SEVEN_SINS_QUESTIONS: SinQuestion[] = [
     id: 4,
     sin: "greed",
     question:
-      "You're offered a bonus — but only if you take credit for a teammate's idea. Do you?",
+      "You're offered a bonus, but only if you take credit for a teammate's idea. Do you?",
     options: [
       {
-        text: "Yes, without hesitation — you need that money",
+        text: "Yes, without hesitation: you need that money",
         sin: "greed",
         score: 5,
       },
@@ -245,7 +257,7 @@ export const SEVEN_SINS_QUESTIONS: SinQuestion[] = [
     question: "Someone cuts in front of you in a long queue. What do you do?",
     options: [
       {
-        text: "Confront them loudly — you won't be disrespected",
+        text: "Confront them loudly: you won't be disrespected",
         sin: "wrath",
         score: 5,
       },
@@ -254,7 +266,11 @@ export const SEVEN_SINS_QUESTIONS: SinQuestion[] = [
         sin: "wrath",
         score: 3,
       },
-      { text: "Let it go — it's not worth the drama", sin: "wrath", score: 1 },
+      {
+        text: "Let it go: it's not worth the drama",
+        sin: "wrath",
+        score: 1,
+      },
       {
         text: "Passive-aggressively comment to the person next to you",
         sin: "wrath",
@@ -266,9 +282,9 @@ export const SEVEN_SINS_QUESTIONS: SinQuestion[] = [
     id: 6,
     sin: "wrath",
     question:
-      "A close friend cancels plans on you last minute — again. How do you respond?",
+      "A close friend cancels plans on you last minute, again. How do you respond?",
     options: [
-      { text: "Blow up at them — you've had enough", sin: "wrath", score: 5 },
+      { text: "Blow up at them: you've had enough", sin: "wrath", score: 5 },
       {
         text: "Give them the silent treatment for days",
         sin: "wrath",
@@ -303,7 +319,11 @@ export const SEVEN_SINS_QUESTIONS: SinQuestion[] = [
         sin: "envy",
         score: 3,
       },
-      { text: "Congratulations — I'm genuinely happy", sin: "envy", score: 1 },
+      {
+        text: "Congratulations, I'm genuinely happy",
+        sin: "envy",
+        score: 1,
+      },
       {
         text: "I need to find something even better to compete",
         sin: "pride",
@@ -325,7 +345,7 @@ export const SEVEN_SINS_QUESTIONS: SinQuestion[] = [
       { text: "Like it, but wish it were you", sin: "envy", score: 3 },
       { text: "Feel inspired to work harder", sin: "envy", score: 1 },
       {
-        text: "Unfollow — you don't need that negativity",
+        text: "Unfollow: you don't need that negativity",
         sin: "envy",
         score: 2,
       },
@@ -338,7 +358,7 @@ export const SEVEN_SINS_QUESTIONS: SinQuestion[] = [
     question: "At an all-you-can-eat buffet, you:",
     options: [
       {
-        text: "Go back 3+ times — you want your money's worth and then some",
+        text: "Go back 3+ times: you want your money's worth and then some",
         sin: "gluttony",
         score: 5,
       },
@@ -364,7 +384,7 @@ export const SEVEN_SINS_QUESTIONS: SinQuestion[] = [
     sin: "gluttony",
     question: "When you're stressed, you tend to:",
     options: [
-      { text: "Binge eat — food is comfort", sin: "gluttony", score: 5 },
+      { text: "Binge eat: food is comfort", sin: "gluttony", score: 5 },
       {
         text: "Overconsume TV, social media, or games for hours",
         sin: "gluttony",
@@ -382,7 +402,7 @@ export const SEVEN_SINS_QUESTIONS: SinQuestion[] = [
       "You're in a relationship but feel a strong attraction to someone else. You:",
     options: [
       {
-        text: "Act on it — you can't help how you feel",
+        text: "Act on it: you can't help how you feel",
         sin: "lust",
         score: 5,
       },
@@ -409,21 +429,25 @@ export const SEVEN_SINS_QUESTIONS: SinQuestion[] = [
     question: "How often do your desires and impulses drive your decisions?",
     options: [
       {
-        text: "Almost always — I act on what I want in the moment",
+        text: "Almost always: I act on what I want in the moment",
         sin: "lust",
         score: 5,
       },
       {
-        text: "Often — I know I should think more but my urges win",
+        text: "Often: I know I should think more but my urges win",
         sin: "lust",
         score: 3,
       },
       {
-        text: "Sometimes — I try to balance logic and desire",
+        text: "Sometimes: I try to balance logic and desire",
         sin: "lust",
         score: 2,
       },
-      { text: "Rarely — I always think things through", sin: "lust", score: 1 },
+      {
+        text: "Rarely: I always think things through",
+        sin: "lust",
+        score: 1,
+      },
     ],
   },
   // ── Sloth (Q13, Q14, Q15) ───────────────────────────────────────────────────
@@ -456,7 +480,7 @@ export const SEVEN_SINS_QUESTIONS: SinQuestion[] = [
     question:
       "A task you've been avoiding for weeks is still undone. What's your approach?",
     options: [
-      { text: "Keep avoiding it — it can wait", sin: "sloth", score: 5 },
+      { text: "Keep avoiding it: it can wait", sin: "sloth", score: 5 },
       { text: "Think about doing it but never start", sin: "sloth", score: 3 },
       {
         text: "Break it into small steps and do the first one today",
@@ -469,7 +493,7 @@ export const SEVEN_SINS_QUESTIONS: SinQuestion[] = [
   {
     id: 15,
     sin: "sloth",
-    question: "When it comes to self-improvement — gym, learning, goals — you:",
+    question: "When it comes to self-improvement (gym, learning, goals), you:",
     options: [
       {
         text: "Know you should but rarely follow through",

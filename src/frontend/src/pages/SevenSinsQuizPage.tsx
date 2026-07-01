@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useActor } from "@caffeineai/core-infrastructure";
 import { useRouter } from "@tanstack/react-router";
+import { ArrowLeft, ArrowRight, ScrollText } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import type React from "react";
 import { useCallback, useState } from "react";
@@ -172,7 +173,7 @@ export function SevenSinsQuizPage() {
             Seven Deadly Sins
           </h1>
           <p className="text-sm text-muted-foreground font-body mt-1">
-            Choose the answers that feel most honest — even if they're
+            Choose the answers that feel most honest, even if they're
             uncomfortable
           </p>
         </motion.div>
@@ -227,8 +228,9 @@ export function SevenSinsQuizPage() {
 
             <div className="p-6 sm:p-8">
               {/* Scenario label */}
-              <p className="text-xs uppercase tracking-widest text-muted-foreground font-body mb-3">
-                🕯 Confessional Scenario
+              <p className="text-xs uppercase tracking-widest text-muted-foreground font-body mb-3 flex items-center gap-1.5">
+                <ScrollText className="w-3.5 h-3.5" />
+                Confessional Scenario
               </p>
               <p className="font-display text-xl font-semibold text-foreground mb-2 leading-relaxed">
                 {question.question}
@@ -319,10 +321,11 @@ export function SevenSinsQuizPage() {
                   variant="outline"
                   onClick={handleBack}
                   disabled={currentQ === 0}
-                  className="font-body transition-smooth"
+                  className="gap-1.5 font-body transition-smooth"
                   data-ocid="seven_sins_quiz.back_button"
                 >
-                  ← Back
+                  <ArrowLeft className="w-4 h-4" />
+                  Back
                 </Button>
                 <Button
                   type="button"
@@ -337,9 +340,15 @@ export function SevenSinsQuizPage() {
                       Saving…
                     </>
                   ) : isLast ? (
-                    "See Results →"
+                    <>
+                      See Results
+                      <ArrowRight className="w-4 h-4" />
+                    </>
                   ) : (
-                    "Next →"
+                    <>
+                      Next
+                      <ArrowRight className="w-4 h-4" />
+                    </>
                   )}
                 </Button>
               </div>

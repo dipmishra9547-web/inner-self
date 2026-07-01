@@ -1,9 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { useRouter } from "@tanstack/react-router";
-import { CheckCircle2, Copy, Facebook, Share2, Twitter } from "lucide-react";
+import {
+  ArrowLeft,
+  CheckCircle2,
+  Copy,
+  Facebook,
+  Share2,
+  Twitter,
+} from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { SiWhatsapp } from "react-icons/si";
+import { BRAND_COLORS } from "../components/ShareSection";
 import { SIN_PRINCIPLES, SIN_PROFILES } from "../data/sevenSinsData";
 import type { SinPrinciples } from "../data/sevenSinsData";
 import type { SevenSinsResult, SinType } from "../types/sevenSins";
@@ -2318,7 +2326,7 @@ function ShareSection({
           rel="noopener noreferrer"
           aria-label="Share on WhatsApp"
           className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-smooth hover:opacity-90 active:scale-95"
-          style={{ background: "#25D366", color: "#fff" }}
+          style={{ background: BRAND_COLORS.whatsapp, color: "#fff" }}
           data-ocid="seven_sins_result.share_whatsapp"
         >
           <SiWhatsapp className="w-3.5 h-3.5" /> WhatsApp
@@ -2329,7 +2337,7 @@ function ShareSection({
           rel="noopener noreferrer"
           aria-label="Share on Facebook"
           className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-smooth hover:opacity-90 active:scale-95"
-          style={{ background: "#1877F2", color: "#fff" }}
+          style={{ background: BRAND_COLORS.facebook, color: "#fff" }}
           data-ocid="seven_sins_result.share_facebook"
         >
           <Facebook className="w-3.5 h-3.5" /> Facebook
@@ -2341,7 +2349,7 @@ function ShareSection({
           aria-label="Share on Twitter/X"
           className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-smooth hover:opacity-90 active:scale-95"
           style={{
-            background: "#0f1419",
+            background: BRAND_COLORS.twitter,
             color: "#fff",
             border: `1px solid ${G.dark}`,
           }}
@@ -2670,7 +2678,7 @@ export function SevenSinsResultPage() {
           <Button
             type="button"
             onClick={() => router.navigate({ to: "/" })}
-            className="font-display transition-smooth"
+            className="font-display transition-smooth gap-1.5"
             style={{
               background: "transparent",
               border: `1px solid ${G.dark}44`,
@@ -2678,7 +2686,8 @@ export function SevenSinsResultPage() {
             }}
             data-ocid="seven_sins_result.home_button"
           >
-            ← Back to Home
+            <ArrowLeft className="w-4 h-4" />
+            Back to Home
           </Button>
         </motion.div>
 
