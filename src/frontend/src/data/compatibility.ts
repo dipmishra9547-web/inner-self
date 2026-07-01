@@ -16,7 +16,7 @@ export const COMPATIBILITY_MAP: Record<AnimalType, CompatibilityEntry[]> = {
       level: "Dynamic Synergy | High",
       levelScore: 4,
       description:
-        "Electric pairing that fuels ambition and adventure — as long as Lion doesn't steal Otter's spotlight.",
+        "Electric pairing that fuels ambition and adventure, as long as Lion doesn't steal Otter's spotlight.",
     },
     {
       type: "GoldenRetriever",
@@ -40,7 +40,7 @@ export const COMPATIBILITY_MAP: Record<AnimalType, CompatibilityEntry[]> = {
       level: "Strong Trust | High",
       levelScore: 4,
       description:
-        "Two apex types who respect each other's power. Trust is earned, not given — and that makes it real.",
+        "Two apex types who respect each other's power. Trust is earned, not given, and that makes it real.",
     },
     {
       type: "Sheep",
@@ -374,7 +374,7 @@ export const COMPATIBILITY_MAP: Record<AnimalType, CompatibilityEntry[]> = {
       level: "Intellectual Match | Very High",
       levelScore: 5,
       description:
-        "The sharpest minds in any room. Fox acts while Owl analyses — a potent, complementary pairing.",
+        "The sharpest minds in any room. Fox acts while Owl analyses: a potent, complementary pairing.",
     },
     {
       type: "Wolf",
@@ -582,7 +582,7 @@ export const COMPATIBILITY_MAP: Record<AnimalType, CompatibilityEntry[]> = {
       level: "Shared Duty | Very High",
       levelScore: 5,
       description:
-        "Two natural protectors united by values. Different styles, same mission — a formidable alliance.",
+        "Two natural protectors united by values. Different styles, same mission: a formidable alliance.",
     },
     {
       type: "Dolphin",

@@ -88,7 +88,7 @@ export function EmotionQuizPage() {
           );
         } catch (err) {
           console.error("Failed to save emotion result:", err);
-          // Non-blocking — result still shown
+          // Non-blocking: result still shown
         } finally {
           setIsSaving(false);
         }

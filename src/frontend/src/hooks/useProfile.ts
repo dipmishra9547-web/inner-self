@@ -16,7 +16,7 @@ export function useMyProfile() {
     queryKey: ["myProfile"],
     queryFn: async () => {
       if (!actor) return null;
-      // Backend not yet fully typed — gracefully handle
+      // Backend not yet fully typed: gracefully handle
       try {
         const actorRecord = actor as unknown as Record<
           string,

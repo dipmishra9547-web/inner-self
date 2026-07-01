@@ -79,7 +79,7 @@ export function DarkSideQuizPage() {
           }
         } catch (err) {
           console.error("Failed to save dark side result:", err);
-          // Non-blocking — result still shown
+          // Non-blocking: result still shown
         } finally {
           setIsSaving(false);
         }

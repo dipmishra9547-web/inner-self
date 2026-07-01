@@ -59,7 +59,7 @@ export function Header() {
           className="flex items-center shrink-0 transition-smooth hover:opacity-80"
         >
           <img
-            src="/assets/images/Innerself_logo.svg"
+            src="/assets/images/Innerself_logo.png"
             alt="Inner-Self"
             className="h-10 w-auto object-contain"
           />
@@ -225,7 +225,7 @@ export function Header() {
             </>
           )}
 
-          {/* II login for admin — shown only if no email session */}
+          {/* II login for admin: shown only if no email session */}
           {!isLoggedIn && iiLoggedIn && (
             <Button
               variant="outline"

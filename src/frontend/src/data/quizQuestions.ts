@@ -6,7 +6,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     text: "A conflict erupts in your friend group. What's your instinct?",
     options: [
       {
-        text: "Step in and take charge — someone needs to resolve this.",
+        text: "Step in and take charge: someone needs to resolve this.",
         weights: { Lion: 3, Shepherd: 2, Bear: 1 },
       },
       {
@@ -40,7 +40,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
         weights: { Beaver: 3, Owl: 3 },
       },
       {
-        text: "Following the group's plan — you don't want to impose.",
+        text: "Following the group's plan: you don't want to impose.",
         weights: { Sheep: 3 },
       },
     ],
@@ -50,7 +50,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     text: "Someone asks for your honest opinion on their work. It needs improvement. You:",
     options: [
       {
-        text: "Tell them clearly — they need the truth.",
+        text: "Tell them clearly: they need the truth.",
         weights: { Lion: 2, Beaver: 2, Owl: 1 },
       },
       {
@@ -94,7 +94,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     text: "A close friend lets you down in a significant way. What do you do?",
     options: [
       {
-        text: "Confront them directly — you expect the same honesty back.",
+        text: "Confront them directly: you expect the same honesty back.",
         weights: { Lion: 3, Shepherd: 1 },
       },
       {
@@ -138,7 +138,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     text: "How do you feel about being alone for an extended period?",
     options: [
       {
-        text: "Restless — you need people to feel alive.",
+        text: "Restless: you need people to feel alive.",
         weights: { Lion: 2, Otter: 2, Dolphin: 3 },
       },
       {
@@ -146,7 +146,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
         weights: { Beaver: 3, Owl: 3 },
       },
       {
-        text: "Anxious — you need someone around.",
+        text: "Anxious: you need someone around.",
         weights: { Sheep: 3 },
       },
       {
@@ -201,7 +201,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     text: "You've just met someone new. What's your first instinct?",
     options: [
       {
-        text: "Size them up — are they a rival or an ally?",
+        text: "Size them up: are they a rival or an ally?",
         weights: { Lion: 2, Wolf: 2, Fox: 2 },
       },
       {
@@ -245,7 +245,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     text: "When you sense someone is not being genuine with you, you:",
     options: [
       {
-        text: "Call it out directly — you don't tolerate games.",
+        text: "Call it out directly: you don't tolerate games.",
         weights: { Lion: 3, Bear: 1 },
       },
       {
@@ -253,7 +253,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
         weights: { Wolf: 3, Beaver: 1, Fox: 3 },
       },
       {
-        text: "Give them the benefit of the doubt — maybe you misread.",
+        text: "Give them the benefit of the doubt: maybe you misread.",
         weights: { GoldenRetriever: 3, Sheep: 1, Elephant: 1 },
       },
       {
@@ -267,7 +267,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     text: "What does loyalty mean to you?",
     options: [
       {
-        text: "Standing by someone's side no matter what — unconditionally.",
+        text: "Standing by someone's side no matter what: unconditionally.",
         weights: { GoldenRetriever: 3, Elephant: 3, Bear: 2 },
       },
       {
@@ -275,7 +275,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
         weights: { Shepherd: 3, Beaver: 1, Owl: 1 },
       },
       {
-        text: "A mutual exchange — you give when they give.",
+        text: "A mutual exchange: you give when they give.",
         weights: { Wolf: 2, Lion: 2, Fox: 2 },
       },
       {
@@ -289,19 +289,19 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     text: "You're given unstructured free time with no obligations. You feel:",
     options: [
       {
-        text: "Energized — finally room for spontaneous adventure.",
+        text: "Energized: finally room for spontaneous adventure.",
         weights: { Otter: 3, Fox: 2 },
       },
       {
-        text: "Productive — time to work on that passion project.",
+        text: "Productive: time to work on that passion project.",
         weights: { Beaver: 3, Lion: 1, Owl: 2 },
       },
       {
-        text: "Reflective — you use it to think deeply about your path.",
+        text: "Reflective: you use it to think deeply about your path.",
         weights: { Wolf: 2, Shepherd: 2, Owl: 2, Bear: 1 },
       },
       {
-        text: "Restless — without purpose or people, it feels uncomfortable.",
+        text: "Restless: without purpose or people, it feels uncomfortable.",
         weights: { Sheep: 2, GoldenRetriever: 2, Dolphin: 2, Elephant: 1 },
       },
     ],
@@ -323,7 +323,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
         weights: { GoldenRetriever: 3, Elephant: 2, Bear: 2 },
       },
       {
-        text: "Complete silence — just you and your thoughts.",
+        text: "Complete silence: just you and your thoughts.",
         weights: { Wolf: 2, Shepherd: 2, Fox: 1, Owl: 2 },
       },
     ],

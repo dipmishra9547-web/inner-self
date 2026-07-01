@@ -132,7 +132,7 @@ export const ARCHETYPES: Record<AnimalType, ArchetypeProfile> = {
     emoji: "🐺",
     tagline: "Strategic | Independent | Intense | Perceptive | Complex",
     description:
-      "You operate on a different frequency than most. Your perception cuts through social masks to see what others miss. You are a force of nature — unpredictable and fascinating.",
+      "You operate on a different frequency than most. Your perception cuts through social masks to see what others miss. You are a force of nature: unpredictable and fascinating.",
     strengths: [
       "Razor-sharp perception",
       "Strategic thinking",
@@ -244,7 +244,7 @@ export const ARCHETYPES: Record<AnimalType, ArchetypeProfile> = {
       micro:
         "Selective and guarded in close relationships. Opens up slowly once trust is thoroughly earned.",
       isolation:
-        "Manageable but dull — Foxes need puzzles and people to stay sharp. Too much solitude breeds restlessness.",
+        "Manageable but dull: Foxes need puzzles and people to stay sharp. Too much solitude breeds restlessness.",
     },
     color: "oklch(0.70 0.18 38)",
   },
@@ -307,7 +307,7 @@ export const ARCHETYPES: Record<AnimalType, ArchetypeProfile> = {
       micro:
         "Incredibly devoted. Treats close relationships with lifelong commitment and fierce protectiveness.",
       isolation:
-        "Difficult over time. Elephants need their herd — prolonged isolation dulls their spirit.",
+        "Difficult over time. Elephants need their herd: prolonged isolation dulls their spirit.",
     },
     color: "oklch(0.62 0.09 220)",
   },
@@ -338,7 +338,7 @@ export const ARCHETYPES: Record<AnimalType, ArchetypeProfile> = {
       micro:
         "Intensely connected but needs reciprocation. Emotional depth is their love language.",
       isolation:
-        "Very challenging. Dolphins need emotional connection to feel whole — isolation is depleting.",
+        "Very challenging. Dolphins need emotional connection to feel whole: isolation is depleting.",
     },
     color: "oklch(0.68 0.15 205)",
   },
@@ -349,7 +349,7 @@ export const ARCHETYPES: Record<AnimalType, ArchetypeProfile> = {
     emoji: "🐻",
     tagline: "Protective | Independent | Resilient | Grounded | Calm",
     description:
-      "You are the mountain that others shelter behind. Quiet strength is your signature — you don't need to announce your power for it to be felt. Those you protect know they are safe.",
+      "You are the mountain that others shelter behind. Quiet strength is your signature: you don't need to announce your power for it to be felt. Those you protect know they are safe.",
     strengths: [
       "Immovable resilience under pressure",
       "Natural protector of those in their inner circle",

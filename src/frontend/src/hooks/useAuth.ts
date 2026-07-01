@@ -190,7 +190,7 @@ export function useAuthActions() {
   return { loginMutation, logoutMutation, signupMutation };
 }
 
-// ─── useAuthActionsWithSecurityQuestion — security question recovery ─────────
+// ─── useAuthActionsWithSecurityQuestion: security question recovery ─────────
 
 export function useAuthActionsWithSecurityQuestion() {
   const { actor } = useActor(createActor);
