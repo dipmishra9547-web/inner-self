@@ -3,159 +3,20 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useActor } from "@caffeineai/core-infrastructure";
 import { useNavigate } from "@tanstack/react-router";
-import {
-  CheckCircle2,
-  Copy,
-  Facebook,
-  Loader2,
-  Share2,
-  Sparkles,
-  Twitter,
-} from "lucide-react";
+import { CheckCircle2, Loader2, Sparkles } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import { SiWhatsapp } from "react-icons/si";
 import { createActor } from "../backend";
 import type { AnimalType } from "../backend.d";
 import { ProgressBar } from "../components/ProgressBar";
+import { ShareSection } from "../components/ShareSection";
 import { ARCHETYPES } from "../data/archetypes";
 import { useAuth } from "../hooks/useAuth";
 import { useSaveProfile } from "../hooks/useProfile";
 import { useQuiz } from "../hooks/useQuiz";
 
 const APP_URL = window.location.origin;
-const SHARE_MESSAGE = `Discover your personality with Inner-Self! 🧠 Find your Animal Archetype, Emotion Profile, and Dark Side. Take the quiz now: ${APP_URL}`;
-
-function ShareSection() {
-  const [copied, setCopied] = useState(false);
-
-  const handleNativeShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: "Inner-Self",
-          text: SHARE_MESSAGE,
-          url: APP_URL,
-        });
-        return;
-      } catch {
-        // fall through to social links
-      }
-    }
-    // Fallback: open WhatsApp
-    window.open(
-      `https://wa.me/?text=${encodeURIComponent(SHARE_MESSAGE)}`,
-      "_blank",
-    );
-  };
-
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(APP_URL);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch {
-      /* ignore */
-    }
-  };
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.3, duration: 0.4 }}
-      className="mt-8"
-      data-ocid="quiz.share_section"
-    >
-      <div className="bg-card border border-border/60 rounded-2xl p-5 shadow-card">
-        <div className="flex items-center gap-2 mb-3">
-          <Share2 className="w-4 h-4 text-primary" />
-          <p className="text-sm font-semibold text-foreground font-body">
-            Share Inner-Self
-          </p>
-        </div>
-        <p className="text-xs text-muted-foreground font-body leading-relaxed mb-4">
-          Know someone who'd love to discover their archetype? Share the app!
-        </p>
-
-        <div className="flex flex-wrap gap-2">
-          {/* WhatsApp */}
-          <a
-            href={`https://wa.me/?text=${encodeURIComponent(SHARE_MESSAGE)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Share on WhatsApp"
-            className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-body font-medium transition-smooth hover:opacity-90 active:scale-95"
-            style={{ background: "#25D366", color: "#fff" }}
-            data-ocid="quiz.share_whatsapp"
-          >
-            <SiWhatsapp className="w-3.5 h-3.5" />
-            WhatsApp
-          </a>
-
-          {/* Facebook */}
-          <a
-            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(APP_URL)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Share on Facebook"
-            className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-body font-medium transition-smooth hover:opacity-90 active:scale-95"
-            style={{ background: "#1877F2", color: "#fff" }}
-            data-ocid="quiz.share_facebook"
-          >
-            <Facebook className="w-3.5 h-3.5" />
-            Facebook
-          </a>
-
-          {/* Twitter/X */}
-          <a
-            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(SHARE_MESSAGE)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Share on Twitter"
-            className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-body font-medium transition-smooth hover:opacity-90 active:scale-95"
-            style={{ background: "#0f1419", color: "#fff" }}
-            data-ocid="quiz.share_twitter"
-          >
-            <Twitter className="w-3.5 h-3.5" />X
-          </a>
-
-          {/* Copy link */}
-          <button
-            type="button"
-            onClick={handleCopy}
-            aria-label="Copy link"
-            className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-body font-medium transition-smooth hover:opacity-90 active:scale-95 border border-border bg-muted/50 text-foreground"
-            data-ocid="quiz.share_copy_link"
-          >
-            {copied ? (
-              <>
-                <CheckCircle2 className="w-3.5 h-3.5 text-accent" />
-                Copied!
-              </>
-            ) : (
-              <>
-                <Copy className="w-3.5 h-3.5" />
-                Copy Link
-              </>
-            )}
-          </button>
-        </div>
-
-        {/* Mobile native share */}
-        <button
-          type="button"
-          onClick={handleNativeShare}
-          className="mt-3 w-full flex items-center justify-center gap-2 py-2 rounded-lg text-xs font-body text-muted-foreground border border-border/50 hover:border-primary/40 hover:text-primary transition-smooth sm:hidden"
-          data-ocid="quiz.share_native"
-        >
-          <Share2 className="w-3.5 h-3.5" />
-          Share via…
-        </button>
-      </div>
-    </motion.div>
-  );
-}
+const SHARE_MESSAGE = `Discover your personality with Inner-Self! Find your Animal Archetype, Emotion Profile, and Dark Side. Take the quiz now: ${APP_URL}`;
 
 export function QuizPage() {
   const navigate = useNavigate();
@@ -471,7 +332,7 @@ export function QuizPage() {
         )}
 
         {/* Share section below quiz */}
-        <ShareSection />
+        <ShareSection message={SHARE_MESSAGE} ocidPrefix="quiz" />
       </div>
     </div>
   );

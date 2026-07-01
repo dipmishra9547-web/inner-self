@@ -4,71 +4,87 @@ import {
   BookOpen,
   CheckCircle2,
   ChevronRight,
-  Copy,
-  Facebook,
+  Drama,
+  Flame,
   HelpCircle,
   LayoutDashboard,
   Lock,
+  PawPrint,
   Share2,
+  Skull,
   Sparkles,
-  Twitter,
   User,
   X,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import { SiWhatsapp } from "react-icons/si";
+import { ShareSection } from "../components/ShareSection";
 import { useAuth } from "../hooks/useAuth";
 
 const APP_URL = window.location.origin;
-const SHARE_MESSAGE = `Discover your personality with Inner-Self! 🧠 Find your Animal Archetype, Emotion Profile, and Dark Side. Take the quiz now: ${APP_URL}`;
+const SHARE_MESSAGE = `Discover your personality with Inner-Self! Find your Animal Archetype, Emotion Profile, and Dark Side. Take the quiz now: ${APP_URL}`;
+
+const QUIZ_THEME = {
+  animal: {
+    icon: PawPrint,
+    color: "oklch(var(--chart-5))",
+    muted: "oklch(var(--chart-5) / 0.12)",
+    border: "oklch(var(--chart-5) / 0.35)",
+  },
+  emotion: {
+    icon: Drama,
+    color: "oklch(var(--chart-2))",
+    muted: "oklch(var(--chart-2) / 0.12)",
+    border: "oklch(var(--chart-2) / 0.35)",
+  },
+  darkSide: {
+    icon: Skull,
+    color: "oklch(var(--chart-3))",
+    muted: "oklch(var(--chart-3) / 0.12)",
+    border: "oklch(var(--chart-3) / 0.35)",
+  },
+  sevenSins: {
+    icon: Flame,
+    color: "oklch(var(--chart-4))",
+    muted: "oklch(var(--chart-4) / 0.12)",
+    border: "oklch(var(--chart-4) / 0.35)",
+  },
+} as const;
 
 const QUIZZES = [
   {
-    emoji: "🦁",
+    theme: QUIZ_THEME.animal,
     title: "Animal Archetype Quiz",
     description:
       "Discover which of 7 animal archetypes best represents your personality. Are you a bold Lion, a playful Otter, a loyal Golden Retriever, an organized Beaver, a wise Wolf, a gentle Sheep, or a guiding Shepherd? 15 questions to reveal your inner animal.",
     href: "/animal-quiz",
-    accentColor: "oklch(0.72 0.18 65)", // warm amber/gold
-    accentMuted: "oklch(0.72 0.18 65 / 0.12)",
-    accentBorder: "oklch(0.72 0.18 65 / 0.35)",
     badgeLabel: "15 Questions",
     ocid: "home.animal_quiz",
   },
   {
-    emoji: "🎭",
+    theme: QUIZ_THEME.emotion,
     title: "Emotion Quiz",
     description:
-      "Uncover your emotional landscape across 10 core emotions — Fear, Anger, Happiness, Sadness, Love, Anxiety, Desire, Guilt, Awe, and Peace. See your top emotions in a pie chart alongside philosophical insights from Stoic, Existentialist, and Eastern wisdom.",
+      "Uncover your emotional landscape across 10 core emotions: Fear, Anger, Happiness, Sadness, Love, Anxiety, Desire, Guilt, Awe, and Peace. See your top emotions in a pie chart alongside philosophical insights from Stoic, Existentialist, and Eastern wisdom.",
     href: "/emotion-quiz",
-    accentColor: "oklch(0.72 0.18 185)", // neon teal
-    accentMuted: "oklch(0.72 0.18 185 / 0.12)",
-    accentBorder: "oklch(0.72 0.18 185 / 0.35)",
     badgeLabel: "10 Questions",
     ocid: "home.emotion_quiz",
   },
   {
-    emoji: "🌑",
+    theme: QUIZ_THEME.darkSide,
     title: "Know Your Dark Side",
     description:
-      "Explore the darker dimensions of your personality through criminological psychology. Discover if you're a Lone Planner, Mastermind, Quiet Idealist, or Social Flame — and whether you carry traits of the Manipulator, Psychopath, or Sociopath. Results shown as a detailed pie chart with strengths and weaknesses.",
+      "Explore the darker dimensions of your personality through criminological psychology. Discover if you're a Lone Planner, Mastermind, Quiet Idealist, or Social Flame, and whether you carry traits of the Manipulator, Psychopath, or Sociopath. Results shown as a detailed pie chart with strengths and weaknesses.",
     href: "/dark-side-quiz",
-    accentColor: "oklch(0.62 0.28 300)", // vivid violet
-    accentMuted: "oklch(0.62 0.28 300 / 0.12)",
-    accentBorder: "oklch(0.62 0.28 300 / 0.35)",
     badgeLabel: "15 Questions",
     ocid: "home.darkside_quiz",
   },
   {
-    emoji: "😈",
+    theme: QUIZ_THEME.sevenSins,
     title: "Seven Deadly Sins",
     description:
-      "Uncover which of the 7 deadly sins secretly drives your behavior and personality — Pride, Greed, Wrath, Envy, Gluttony, Lust, or Sloth. 15 confessional scenario questions reveal your hidden sin profile with percentage breakdowns.",
+      "Uncover which of the 7 deadly sins secretly drives your behavior and personality: Pride, Greed, Wrath, Envy, Gluttony, Lust, or Sloth. 15 confessional scenario questions reveal your hidden sin profile with percentage breakdowns.",
     href: "/seven-sins-quiz",
-    accentColor: "oklch(0.62 0.22 10)", // rose ember
-    accentMuted: "oklch(0.62 0.22 10 / 0.12)",
-    accentBorder: "oklch(0.62 0.22 10 / 0.35)",
     badgeLabel: "15 Questions",
     ocid: "home.seven_sins_quiz",
   },
@@ -81,12 +97,12 @@ const GUIDE_SECTIONS = [
     id: "welcome",
     icon: Sparkles,
     heading: "Welcome to Inner-Self",
-    accentColor: "oklch(0.72 0.18 65)",
+    accentColor: "oklch(var(--primary))",
     content: (
       <p className="text-sm text-muted-foreground font-body leading-relaxed">
         Inner-Self is a personal exploration app that helps you discover who you
         really are through psychological quizzes. Each quiz looks at a different
-        dimension of your personality — your instincts, emotions, shadow side,
+        dimension of your personality: your instincts, emotions, shadow side,
         and deepest tendencies.{" "}
         <span className="text-foreground font-medium">
           There are no right or wrong answers
@@ -99,7 +115,7 @@ const GUIDE_SECTIONS = [
     id: "start",
     icon: ChevronRight,
     heading: "How to Get Started",
-    accentColor: "oklch(0.72 0.18 185)",
+    accentColor: "oklch(var(--accent))",
     content: (
       <ol className="space-y-3">
         {(
@@ -125,15 +141,15 @@ const GUIDE_SECTIONS = [
             <span
               className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold font-display"
               style={{
-                background: "oklch(0.72 0.18 185 / 0.18)",
-                color: "oklch(0.72 0.18 185)",
+                background: "oklch(var(--accent) / 0.18)",
+                color: "oklch(var(--accent))",
               }}
             >
               {step}
             </span>
             <div>
               <span className="text-sm font-semibold text-foreground font-body">
-                {label} —{" "}
+                {label}:{" "}
               </span>
               <span className="text-sm text-muted-foreground font-body">
                 {desc}
@@ -148,60 +164,28 @@ const GUIDE_SECTIONS = [
     id: "quizzes",
     icon: BookOpen,
     heading: "The Four Quizzes",
-    accentColor: "oklch(0.72 0.18 65)",
+    accentColor: "oklch(var(--chart-5))",
     content: (
       <div className="space-y-3">
-        {(
-          [
-            {
-              emoji: "🦁",
-              title: "Animal Archetype Quiz",
-              color: "oklch(0.72 0.18 65)",
-              bg: "oklch(0.72 0.18 65 / 0.10)",
-              border: "oklch(0.72 0.18 65 / 0.25)",
-              desc: "Answer 15 questions to discover which of 12 animal personalities matches your nature — from Lion to Dolphin. You'll get a detailed archetype card with your strengths, challenges, and group dynamics.",
-            },
-            {
-              emoji: "🎭",
-              title: "Emotion Quiz",
-              color: "oklch(0.72 0.18 185)",
-              bg: "oklch(0.72 0.18 185 / 0.10)",
-              border: "oklch(0.72 0.18 185 / 0.25)",
-              desc: "Find out which of 10 core emotions (Fear, Anger, Happiness, Love, etc.) drives you most. Your top 3 emotions are shown as a pie chart with philosophical insights and real-life guidance.",
-            },
-            {
-              emoji: "🌑",
-              title: "Know Your Dark Side",
-              color: "oklch(0.62 0.28 300)",
-              bg: "oklch(0.62 0.28 300 / 0.10)",
-              border: "oklch(0.62 0.28 300 / 0.25)",
-              desc: "Uncover your psychological shadow — a blend of MBTI-criminological types and Dark Triad profiles (Lone Planner, Mastermind, Manipulator, Psychopath, and more). Includes strengths, weaknesses, and a visual breakdown.",
-            },
-            {
-              emoji: "😈",
-              title: "Seven Deadly Sins",
-              color: "oklch(0.62 0.22 10)",
-              bg: "oklch(0.62 0.22 10 / 0.10)",
-              border: "oklch(0.62 0.22 10 / 0.25)",
-              desc: "15 real-life scenario questions reveal which of the 7 sins is most dominant in your behavior. Results appear as beautiful gothic tarot cards — each with your percentage score and the sin's deeper meaning, inner power, and antidote.",
-            },
-          ] as const
-        ).map(({ emoji, title, color, bg, border, desc }) => (
+        {QUIZZES.map(({ theme, title, description }) => (
           <div
             key={title}
             className="flex gap-3 items-start rounded-xl p-3 border"
-            style={{ borderColor: border, background: bg }}
+            style={{ borderColor: theme.border, background: theme.muted }}
           >
-            <span className="text-2xl flex-shrink-0 mt-0.5">{emoji}</span>
+            <theme.icon
+              className="w-5 h-5 flex-shrink-0 mt-0.5"
+              style={{ color: theme.color }}
+            />
             <div>
               <p
                 className="text-sm font-semibold font-body mb-0.5"
-                style={{ color }}
+                style={{ color: theme.color }}
               >
                 {title}
               </p>
               <p className="text-xs text-muted-foreground font-body leading-relaxed">
-                {desc}
+                {description}
               </p>
             </div>
           </div>
@@ -213,7 +197,7 @@ const GUIDE_SECTIONS = [
     id: "dashboard",
     icon: LayoutDashboard,
     heading: "Your Dashboard",
-    accentColor: "oklch(0.72 0.18 185)",
+    accentColor: "oklch(var(--accent))",
     content: (
       <div>
         <p className="text-sm text-muted-foreground font-body leading-relaxed mb-3">
@@ -233,7 +217,7 @@ const GUIDE_SECTIONS = [
             <li key={item} className="flex gap-2 items-start">
               <CheckCircle2
                 className="w-4 h-4 flex-shrink-0 mt-0.5"
-                style={{ color: "oklch(0.72 0.18 185)" }}
+                style={{ color: "oklch(var(--accent))" }}
               />
               <span className="text-sm text-muted-foreground font-body">
                 {item}
@@ -248,7 +232,7 @@ const GUIDE_SECTIONS = [
     id: "profile",
     icon: User,
     heading: "Your Profile",
-    accentColor: "oklch(0.72 0.18 65)",
+    accentColor: "oklch(var(--chart-5))",
     content: (
       <div>
         <p className="text-sm text-muted-foreground font-body leading-relaxed mb-3">
@@ -266,7 +250,7 @@ const GUIDE_SECTIONS = [
             <li key={item} className="flex gap-2 items-start">
               <CheckCircle2
                 className="w-4 h-4 flex-shrink-0 mt-0.5"
-                style={{ color: "oklch(0.72 0.18 65)" }}
+                style={{ color: "oklch(var(--chart-5))" }}
               />
               <span className="text-sm text-muted-foreground font-body">
                 {item}
@@ -281,7 +265,7 @@ const GUIDE_SECTIONS = [
     id: "sharing",
     icon: Share2,
     heading: "Sharing",
-    accentColor: "oklch(0.62 0.22 10)",
+    accentColor: "oklch(var(--chart-4))",
     content: (
       <p className="text-sm text-muted-foreground font-body leading-relaxed">
         After completing any quiz, tap{" "}
@@ -296,13 +280,13 @@ const GUIDE_SECTIONS = [
     id: "password",
     icon: Lock,
     heading: "Forgot Your Password?",
-    accentColor: "oklch(0.62 0.28 300)",
+    accentColor: "oklch(var(--chart-3))",
     content: (
       <p className="text-sm text-muted-foreground font-body leading-relaxed">
         On the login page, tap{" "}
-        <span className="text-foreground font-medium">"Forgot Password?"</span>{" "}
-        — enter your email, answer your security question (and use your hint if
-        you set one), and you'll be able to set a new password instantly.
+        <span className="text-foreground font-medium">"Forgot Password?"</span>,
+        enter your email, answer your security question (using your hint if you
+        set one), and you'll be able to set a new password instantly.
       </p>
     ),
   },
@@ -345,11 +329,10 @@ function UserGuideModal({
           data-ocid="home.user_guide.dialog"
         >
           <motion.div
-            className="relative w-full max-w-lg max-h-[88vh] flex flex-col rounded-2xl border border-border/60 overflow-hidden"
+            className="relative w-full max-w-lg max-h-[88vh] flex flex-col rounded-2xl border border-border overflow-hidden bg-popover"
             style={{
-              background: "oklch(0.10 0.02 270)",
               boxShadow:
-                "0 32px 80px rgba(0,0,0,0.72), 0 0 0 1px oklch(0.72 0.18 65 / 0.2)",
+                "0 32px 80px rgba(0,0,0,0.72), 0 0 0 1px oklch(var(--primary) / 0.2)",
             }}
             initial={{ opacity: 0, scale: 0.94, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -357,19 +340,10 @@ function UserGuideModal({
             transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
           >
             {/* Header */}
-            <div
-              className="flex items-center justify-between px-6 py-4 border-b border-border/40 flex-shrink-0"
-              style={{ background: "oklch(0.12 0.03 270)" }}
-            >
+            <div className="flex items-center justify-between px-6 py-4 border-b border-border flex-shrink-0 bg-card">
               <div className="flex items-center gap-2.5">
-                <div
-                  className="w-8 h-8 rounded-lg flex items-center justify-center"
-                  style={{ background: "oklch(0.72 0.18 65 / 0.15)" }}
-                >
-                  <HelpCircle
-                    className="w-4 h-4"
-                    style={{ color: "oklch(0.72 0.18 65)" }}
-                  />
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-primary/15">
+                  <HelpCircle className="w-4 h-4 text-primary" />
                 </div>
                 <div>
                   <h2 className="font-display text-base font-bold text-foreground leading-none mb-0.5">
@@ -426,26 +400,21 @@ function UserGuideModal({
                     </div>
                     {content}
                     {idx < GUIDE_SECTIONS.length - 1 && (
-                      <div className="mt-6 border-t border-border/25" />
+                      <div className="mt-6 border-t border-border" />
                     )}
                   </motion.section>
                 ),
               )}
 
               {/* Blockchain note */}
-              <div
-                className="rounded-xl p-4 text-center"
-                style={{
-                  background: "oklch(0.72 0.18 65 / 0.07)",
-                  border: "1px solid oklch(0.72 0.18 65 / 0.18)",
-                }}
-              >
-                <p className="text-xs text-muted-foreground font-body">
-                  ✨ All data is stored securely on the{" "}
+              <div className="rounded-xl p-4 text-center bg-primary/[0.07] border border-primary/20">
+                <p className="text-xs text-muted-foreground font-body flex items-center justify-center gap-1.5 flex-wrap">
+                  <Sparkles className="w-3.5 h-3.5 text-primary shrink-0" />
+                  All data is stored securely on the{" "}
                   <span className="text-foreground font-medium">
                     Internet Computer blockchain
-                  </span>{" "}
-                  — only you can see your results.
+                  </span>
+                  . Only you can see your results.
                 </p>
               </div>
             </div>
@@ -456,133 +425,13 @@ function UserGuideModal({
   );
 }
 
-function ShareSection() {
-  const [copied, setCopied] = useState(false);
-
-  const handleNativeShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: "Inner-Self",
-          text: SHARE_MESSAGE,
-          url: APP_URL,
-        });
-        return;
-      } catch {
-        /* fall through */
-      }
-    }
-    window.open(
-      `https://wa.me/?text=${encodeURIComponent(SHARE_MESSAGE)}`,
-      "_blank",
-    );
-  };
-
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(APP_URL);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch {
-      /* ignore */
-    }
-  };
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.5, duration: 0.4 }}
-      className="mt-8"
-      data-ocid="home.share_section"
-    >
-      <div className="bg-card border border-border/60 rounded-2xl p-5 shadow-card">
-        <div className="flex items-center gap-2 mb-2">
-          <Share2 className="w-4 h-4 text-primary" />
-          <p className="text-sm font-semibold text-foreground font-body">
-            Share Inner-Self
-          </p>
-        </div>
-        <p className="text-xs text-muted-foreground font-body leading-relaxed mb-4">
-          Know someone who'd love to discover their archetype? Share the app!
-        </p>
-        <div className="flex flex-wrap gap-2">
-          <a
-            href={`https://wa.me/?text=${encodeURIComponent(SHARE_MESSAGE)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Share on WhatsApp"
-            className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-body font-medium transition-smooth hover:opacity-90 active:scale-95"
-            style={{ background: "#25D366", color: "#fff" }}
-            data-ocid="home.share_whatsapp"
-          >
-            <SiWhatsapp className="w-3.5 h-3.5" />
-            WhatsApp
-          </a>
-          <a
-            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(APP_URL)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Share on Facebook"
-            className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-body font-medium transition-smooth hover:opacity-90 active:scale-95"
-            style={{ background: "#1877F2", color: "#fff" }}
-            data-ocid="home.share_facebook"
-          >
-            <Facebook className="w-3.5 h-3.5" />
-            Facebook
-          </a>
-          <a
-            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(SHARE_MESSAGE)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Share on Twitter"
-            className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-body font-medium transition-smooth hover:opacity-90 active:scale-95"
-            style={{ background: "#0f1419", color: "#fff" }}
-            data-ocid="home.share_twitter"
-          >
-            <Twitter className="w-3.5 h-3.5" />X
-          </a>
-          <button
-            type="button"
-            onClick={handleCopy}
-            aria-label="Copy link"
-            className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-body font-medium transition-smooth hover:opacity-90 active:scale-95 border border-border bg-muted/50 text-foreground"
-            data-ocid="home.share_copy_link"
-          >
-            {copied ? (
-              <>
-                <CheckCircle2 className="w-3.5 h-3.5 text-accent" />
-                Copied!
-              </>
-            ) : (
-              <>
-                <Copy className="w-3.5 h-3.5" />
-                Copy Link
-              </>
-            )}
-          </button>
-        </div>
-        <button
-          type="button"
-          onClick={handleNativeShare}
-          className="mt-3 w-full flex items-center justify-center gap-2 py-2 rounded-lg text-xs font-body text-muted-foreground border border-border/50 hover:border-primary/40 hover:text-primary transition-smooth sm:hidden"
-          data-ocid="home.share_native"
-        >
-          <Share2 className="w-3.5 h-3.5" />
-          Share via…
-        </button>
-      </div>
-    </motion.div>
-  );
-}
-
 export function HomePage() {
   const navigate = useNavigate();
   const { name } = useAuth();
   const [guideOpen, setGuideOpen] = useState(false);
 
   return (
-    <div className="flex-1 flex flex-col px-4 py-10 max-w-3xl mx-auto w-full">
+    <div className="flex-1 flex flex-col container-page py-10 sm:py-14 max-w-3xl">
       {/* User Guide Modal */}
       <UserGuideModal open={guideOpen} onClose={() => setGuideOpen(false)} />
 
@@ -591,12 +440,12 @@ export function HomePage() {
         initial={{ opacity: 0, y: -16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="text-center mb-6"
+        className="relative text-center mb-6"
         data-ocid="home.welcome_section"
       >
         <div
-          className="absolute left-1/2 -translate-x-1/2 w-[500px] h-[200px] rounded-full blur-3xl opacity-15 pointer-events-none -mt-8"
-          style={{ background: "oklch(0.48 0.18 30)" }}
+          className="absolute left-1/2 top-0 -translate-x-1/2 w-[500px] h-[200px] rounded-full blur-3xl opacity-15 pointer-events-none -mt-8"
+          style={{ background: "oklch(var(--primary))" }}
         />
         <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground font-body mb-3">
           Your Journey Inward
@@ -611,9 +460,8 @@ export function HomePage() {
           )}
         </h1>
         <p className="text-sm text-muted-foreground font-body leading-relaxed max-w-md mx-auto mb-5">
-          Explore three psychological quizzes designed to reveal your
-          archetypes, emotional patterns, and the hidden dimensions of your
-          personality.
+          Explore four psychological quizzes designed to reveal your archetypes,
+          emotional patterns, and the hidden dimensions of your personality.
         </p>
 
         {/* Guide pill button */}
@@ -625,12 +473,7 @@ export function HomePage() {
           <button
             type="button"
             onClick={() => setGuideOpen(true)}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border font-body text-sm font-medium transition-smooth hover:opacity-90 active:scale-95"
-            style={{
-              borderColor: "oklch(0.72 0.18 65 / 0.5)",
-              background: "oklch(0.72 0.18 65 / 0.09)",
-              color: "oklch(0.72 0.18 65)",
-            }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/50 bg-primary/[0.09] text-primary font-body text-sm font-medium transition-smooth hover:opacity-90 active:scale-95"
             data-ocid="home.user_guide_open_modal_button"
           >
             <HelpCircle className="w-4 h-4" />
@@ -659,12 +502,12 @@ export function HomePage() {
             <div
               className="group relative flex flex-col h-full rounded-2xl border bg-card overflow-hidden transition-smooth hover:shadow-elevated"
               style={{
-                borderColor: quiz.accentBorder,
+                borderColor: quiz.theme.border,
                 boxShadow: "0 8px 24px rgba(0,0,0,0.3)",
               }}
               onMouseEnter={(e) => {
                 (e.currentTarget as HTMLDivElement).style.boxShadow =
-                  `0 16px 40px rgba(0,0,0,0.45), 0 0 0 1px ${quiz.accentBorder}`;
+                  `0 16px 40px rgba(0,0,0,0.45), 0 0 0 1px ${quiz.theme.border}`;
               }}
               onMouseLeave={(e) => {
                 (e.currentTarget as HTMLDivElement).style.boxShadow =
@@ -674,39 +517,36 @@ export function HomePage() {
               {/* Accent top bar */}
               <div
                 className="h-1 w-full"
-                style={{ background: quiz.accentColor }}
+                style={{ background: quiz.theme.color }}
               />
 
               {/* Glow blob */}
               <div
                 className="absolute top-0 right-0 w-24 h-24 rounded-full blur-2xl opacity-30 pointer-events-none"
                 style={{
-                  background: quiz.accentMuted,
+                  background: quiz.theme.muted,
                   transform: "translate(30%, -30%)",
                 }}
               />
 
               <div className="flex flex-col flex-1 p-5 relative z-10">
-                {/* Emoji + badge */}
+                {/* Icon + badge */}
                 <div className="flex items-start justify-between mb-3">
-                  <motion.span
-                    className="text-4xl drop-shadow-lg"
-                    animate={{ scale: [1, 1.04, 1] }}
-                    transition={{
-                      duration: 3.5,
-                      repeat: Number.POSITIVE_INFINITY,
-                      ease: "easeInOut",
-                      delay: index * 0.6,
-                    }}
+                  <div
+                    className="w-12 h-12 rounded-xl flex items-center justify-center"
+                    style={{ background: quiz.theme.muted }}
                   >
-                    {quiz.emoji}
-                  </motion.span>
+                    <quiz.theme.icon
+                      className="w-6 h-6"
+                      style={{ color: quiz.theme.color }}
+                    />
+                  </div>
                   <span
                     className="text-[10px] font-body font-semibold px-2 py-0.5 rounded-full border"
                     style={{
-                      color: quiz.accentColor,
-                      borderColor: quiz.accentBorder,
-                      background: quiz.accentMuted,
+                      color: quiz.theme.color,
+                      borderColor: quiz.theme.border,
+                      background: quiz.theme.muted,
                     }}
                   >
                     {quiz.badgeLabel}
@@ -728,8 +568,8 @@ export function HomePage() {
                   size="sm"
                   className="w-full font-body font-semibold text-sm transition-smooth"
                   style={{
-                    background: quiz.accentColor,
-                    color: "oklch(0.12 0.01 50)",
+                    background: quiz.theme.color,
+                    color: "oklch(0.14 0.012 235)",
                     border: "none",
                   }}
                   onClick={(e) => {
@@ -747,7 +587,7 @@ export function HomePage() {
       </div>
 
       {/* Share section */}
-      <ShareSection />
+      <ShareSection message={SHARE_MESSAGE} ocidPrefix="home" />
     </div>
   );
 }

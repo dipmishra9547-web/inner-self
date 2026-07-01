@@ -39,9 +39,9 @@
     --warning: 0.78 0.14 80;
     --warning-foreground: 0.16 0.02 80;
 
-    /* Borders: low-opacity whites, applied via alpha in tailwind.config.js */
-    --border: 1 0 0;
-    --input: 1 0 0;
+    /* Borders: solid, low-chroma near-white so opacity modifiers (border-border/40 etc.) scale predictably */
+    --border: 0.34 0.012 235;
+    --input: 0.36 0.014 235;
     --ring: 0.72 0.135 172;
 
     --chart-1: 0.72 0.135 172;
@@ -62,7 +62,7 @@
     --sidebar-primary-foreground: 0.15 0.02 172;
     --sidebar-accent: 0.8 0.09 195;
     --sidebar-accent-foreground: 0.88 0.006 235;
-    --sidebar-border: 1 0 0;
+    --sidebar-border: 0.34 0.012 235;
     --sidebar-ring: 0.72 0.135 172;
 
     --color-vivid-violet: 0.68 0.16 300;
@@ -100,8 +100,8 @@
     --warning: 0.78 0.14 80;
     --warning-foreground: 0.16 0.02 80;
 
-    --border: 1 0 0;
-    --input: 1 0 0;
+    --border: 0.34 0.012 235;
+    --input: 0.36 0.014 235;
     --ring: 0.72 0.135 172;
 
     --chart-1: 0.72 0.135 172;
@@ -122,7 +122,7 @@
     --sidebar-primary-foreground: 0.15 0.02 172;
     --sidebar-accent: 0.8 0.09 195;
     --sidebar-accent-foreground: 0.88 0.006 235;
-    --sidebar-border: 1 0 0;
+    --sidebar-border: 0.34 0.012 235;
     --sidebar-ring: 0.72 0.135 172;
 
     --color-vivid-violet: 0.68 0.16 300;

@@ -19,12 +19,8 @@ export default {
         content: "1280px",
       },
       colors: {
-        border: {
-          DEFAULT: "oklch(var(--border) / 10%)",
-          subtle: "oklch(var(--border) / 6%)",
-          strong: "oklch(var(--border) / 18%)",
-        },
-        input: "oklch(var(--input) / 14%)",
+        border: "oklch(var(--border))",
+        input: "oklch(var(--input))",
         ring: "oklch(var(--ring) / <alpha-value>)",
         background: "oklch(var(--background))",
         foreground: "oklch(var(--foreground))",
@@ -90,7 +86,7 @@ export default {
           "primary-foreground": "oklch(var(--sidebar-primary-foreground))",
           accent: "oklch(var(--sidebar-accent))",
           "accent-foreground": "oklch(var(--sidebar-accent-foreground))",
-          border: "oklch(var(--sidebar-border) / 10%)",
+          border: "oklch(var(--sidebar-border))",
           ring: "oklch(var(--sidebar-ring))",
         },
       },
