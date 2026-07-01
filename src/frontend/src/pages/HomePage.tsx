@@ -440,11 +440,11 @@ export function HomePage() {
         initial={{ opacity: 0, y: -16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="relative text-center mb-6"
+        className="relative text-center mb-6 overflow-hidden"
         data-ocid="home.welcome_section"
       >
         <div
-          className="absolute left-1/2 top-0 -translate-x-1/2 w-[500px] h-[200px] rounded-full blur-3xl opacity-15 pointer-events-none -mt-8"
+          className="absolute left-1/2 top-0 -translate-x-1/2 w-[300px] sm:w-[500px] max-w-[90vw] h-[200px] rounded-full blur-3xl opacity-15 pointer-events-none -mt-8"
           style={{ background: "oklch(var(--primary))" }}
         />
         <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground font-body mb-3">

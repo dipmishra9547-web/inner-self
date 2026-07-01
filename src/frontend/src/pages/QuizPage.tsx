@@ -121,7 +121,7 @@ export function QuizPage() {
               repeat: Number.POSITIVE_INFINITY,
               ease: "easeInOut",
             }}
-            className="text-7xl mb-5 drop-shadow-lg"
+            className="text-6xl sm:text-7xl mb-5 drop-shadow-lg"
           >
             {archetype.emoji}
           </motion.div>

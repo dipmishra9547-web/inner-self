@@ -68,7 +68,7 @@ export function Header() {
 
           {/* Desktop Nav */}
           <nav
-            className="hidden md:flex items-center gap-1"
+            className="hidden lg:flex items-center gap-1"
             aria-label="Main navigation"
           >
             {navItems.map((item) => (
@@ -246,7 +246,7 @@ export function Header() {
             {/* Mobile menu toggle */}
             <button
               type="button"
-              className="md:hidden p-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
+              className="lg:hidden p-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               data-ocid="header.mobile_menu_button"
@@ -262,7 +262,7 @@ export function Header() {
 
         {/* Mobile nav drawer */}
         {mobileOpen && (
-          <div className="pointer-events-auto md:hidden absolute top-full left-0 right-0 mt-2 rounded-xl bg-card border border-white/[0.14] ring-1 ring-white/[0.05] shadow-[0_4px_32px_rgba(0,0,0,0.45),0_1px_0_rgba(255,255,255,0.08)_inset] px-4 py-3 flex flex-col gap-1 max-h-[calc(100vh-6rem)] overflow-y-auto">
+          <div className="pointer-events-auto lg:hidden absolute top-full left-0 right-0 mt-2 rounded-xl bg-card border border-white/[0.14] ring-1 ring-white/[0.05] shadow-[0_4px_32px_rgba(0,0,0,0.45),0_1px_0_rgba(255,255,255,0.08)_inset] px-4 py-3 flex flex-col gap-1 max-h-[calc(100vh-6rem)] overflow-y-auto">
             {navItems.map((item) => (
               <a
                 key={item.href}

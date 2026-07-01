@@ -294,7 +294,7 @@ export function ResultPage() {
                     stiffness: 180,
                     damping: 14,
                   }}
-                  className="text-7xl mb-4 select-none"
+                  className="text-6xl sm:text-7xl mb-4 select-none"
                   data-ocid="result.archetype_emoji"
                 >
                   {archetype.emoji}

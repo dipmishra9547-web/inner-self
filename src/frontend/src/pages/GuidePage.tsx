@@ -393,16 +393,18 @@ export function GuidePage() {
               <table className="w-full text-sm font-body">
                 <thead>
                   <tr className="bg-muted/40 text-muted-foreground text-xs uppercase tracking-wide">
-                    <th className="text-left px-4 py-3 font-semibold">
+                    <th className="text-left px-2 sm:px-4 py-3 font-semibold">
                       Emotion
                     </th>
-                    <th className="text-left px-4 py-3 font-semibold">
+                    <th className="text-left px-2 sm:px-4 py-3 font-semibold">
                       Philosopher
                     </th>
                     <th className="text-left px-4 py-3 font-semibold hidden sm:table-cell">
                       Quote
                     </th>
-                    <th className="text-left px-4 py-3 font-semibold">Rule</th>
+                    <th className="text-left px-2 sm:px-4 py-3 font-semibold">
+                      Rule
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -416,10 +418,10 @@ export function GuidePage() {
                         key={emotion}
                         className="border-t border-border hover:bg-muted/20 transition-colors"
                       >
-                        <td className="px-4 py-3">
+                        <td className="px-2 sm:px-4 py-3">
                           <span className="flex items-center gap-2 font-semibold text-foreground">
                             <Icon
-                              className="w-4 h-4"
+                              className="w-4 h-4 shrink-0"
                               style={{ color: emotionColor(emotion) }}
                             />
                             <span style={{ color: emotionColor(emotion) }}>
@@ -427,15 +429,15 @@ export function GuidePage() {
                             </span>
                           </span>
                         </td>
-                        <td className="px-4 py-3 text-muted-foreground">
+                        <td className="px-2 sm:px-4 py-3 text-muted-foreground">
                           {p.philosopher}
                         </td>
                         <td className="px-4 py-3 text-muted-foreground italic text-xs hidden sm:table-cell max-w-xs truncate">
                           "{p.quote}"
                         </td>
-                        <td className="px-4 py-3">
+                        <td className="px-2 sm:px-4 py-3">
                           <span
-                            className="text-xs px-2 py-0.5 rounded-full whitespace-nowrap"
+                            className="text-xs px-2 py-0.5 rounded-full inline-block leading-snug"
                             style={emotionBadgeStyle(rule.emotions[0])}
                           >
                             {rule.number} {rule.title}

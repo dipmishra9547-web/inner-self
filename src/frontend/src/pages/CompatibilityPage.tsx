@@ -284,7 +284,7 @@ export function CompatibilityPage() {
                 initial={{ scale: 0.7, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ type: "spring", stiffness: 200, delay: 0.1 }}
-                className="text-5xl shrink-0"
+                className="text-4xl sm:text-5xl shrink-0"
                 data-ocid="compatibility.my_archetype_emoji"
               >
                 {archetype.emoji}
