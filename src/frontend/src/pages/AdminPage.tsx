@@ -4,15 +4,19 @@ import { useActor, useInternetIdentity } from "@caffeineai/core-infrastructure";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   BarChart3,
+  Brain,
   Download,
   ExternalLink,
+  Flame,
   LogIn,
   MessageSquare,
+  PawPrint,
   RefreshCw,
   Settings,
   Shield,
   Skull,
   Trash2,
+  TriangleAlert,
   Users,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -22,6 +26,8 @@ import type {
   FeedbackEntry,
   UserAccountAdmin,
 } from "../backend.d";
+import { ARCHETYPES } from "../data/archetypes";
+import { SIN_ICONS } from "../data/sevenSinsData";
 import {
   useAdminAllAnimalResults,
   useAdminAllEmotionResults,
@@ -29,12 +35,16 @@ import {
   useAdminSevenSinsResults,
   useAuth,
 } from "../hooks/useAuth";
+import type { AnimalType } from "../types/animals";
 import type { SevenSinsResultEntry } from "../types/auth";
 import {
   DARK_SIDE_CHART_COLORS,
+  DARK_SIDE_ICONS,
   DARK_SIDE_PROFILES,
   type DarkSideType,
 } from "../types/darkSide";
+import { EMOTION_ICONS, type EmotionType } from "../types/emotion";
+import type { SinType } from "../types/sevenSins";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -104,13 +114,13 @@ function InlinePieChart({
         cy={cy}
         r={r}
         fill="none"
-        stroke="var(--color-border)"
+        stroke="oklch(var(--border))"
         strokeWidth={1}
       />
       {paths.map((p) => (
         <path key={p.label} d={p.path} fill={p.color} opacity={0.85} />
       ))}
-      <circle cx={cx} cy={cy} r={r * 0.45} fill="var(--color-background)" />
+      <circle cx={cx} cy={cy} r={r * 0.45} fill="oklch(var(--background))" />
     </svg>
   );
 }
@@ -255,7 +265,7 @@ function Forbidden() {
           <Shield className="w-8 h-8 text-destructive" />
         </div>
         <h1 className="font-display text-2xl font-bold text-foreground mb-2">
-          403 — Access Denied
+          403: Access Denied
         </h1>
         <p className="text-muted-foreground font-body text-sm leading-relaxed">
           Your Internet Identity is not the platform admin. Only the owner can
@@ -283,17 +293,17 @@ const TABS: { id: AdminTab; label: string; icon: React.ReactNode }[] = [
   {
     id: "sevensins" as const,
     label: "Seven Sins",
-    icon: <span className="text-sm">😈</span>,
+    icon: <Flame className="w-4 h-4" />,
   },
   {
     id: "emotion" as const,
     label: "Emotion Quiz",
-    icon: <span className="text-sm">🧠</span>,
+    icon: <Brain className="w-4 h-4" />,
   },
   {
     id: "animal" as const,
     label: "Animal Quiz",
-    icon: <span className="text-sm">🦁</span>,
+    icon: <PawPrint className="w-4 h-4" />,
   },
   {
     id: "settings" as const,
@@ -317,21 +327,6 @@ const ANIMAL_COLORS: Record<string, string> = {
   Elephant: "oklch(0.55 0.1 270)",
   Dolphin: "oklch(0.62 0.16 215)",
   Bear: "oklch(0.48 0.12 30)",
-};
-
-const ANIMAL_EMOJI: Record<string, string> = {
-  Lion: "🦁",
-  Otter: "🦦",
-  GoldenRetriever: "🐕",
-  Beaver: "🦫",
-  Wolf: "🐺",
-  Sheep: "🐑",
-  Shepherd: "🐕‍🦺",
-  Fox: "🦊",
-  Owl: "🦉",
-  Elephant: "🐘",
-  Dolphin: "🐬",
-  Bear: "🐻",
 };
 
 const SEVEN_SINS_COLORS: Record<string, string> = {
@@ -406,7 +401,7 @@ function OverviewTab({
     }));
   const emotionTotal = emotionSlices.reduce((s, sl) => s + sl.value, 0);
 
-  // Build dark side distribution from users — use dominant (first) type per user
+  // Build dark side distribution from users: use dominant (first) type per user
   const darkSideCounts: Record<string, number> = {};
   for (const u of users) {
     const dominant = u.darkSideResult?.topTypes?.[0]?.darkType;
@@ -419,7 +414,7 @@ function OverviewTab({
     .map(([typeKey, value]) => {
       const profile = DARK_SIDE_PROFILES[typeKey as DarkSideType];
       return {
-        label: profile ? `${profile.emoji} ${profile.archLabel}` : typeKey,
+        label: profile ? profile.archLabel : typeKey,
         value,
         color: DARK_SIDE_CHART_COLORS[typeKey as DarkSideType] ?? "#64748b",
       };
@@ -458,25 +453,25 @@ function OverviewTab({
         <StatCard
           icon={<Users className="w-4 h-4" />}
           label="Total Users"
-          value={totalUsers?.toString() ?? "—"}
+          value={totalUsers?.toString() ?? "-"}
         />
         <StatCard
           icon={<BarChart3 className="w-4 h-4" />}
           label="Animal Results"
-          value={animalResultsCount?.toString() ?? "—"}
+          value={animalResultsCount?.toString() ?? "-"}
         />
         <StatCard
           icon={<BarChart3 className="w-4 h-4" />}
           label="Emotion Results"
-          value={emotionResultsCount?.toString() ?? "—"}
+          value={emotionResultsCount?.toString() ?? "-"}
         />
         <StatCard
           icon={<Skull className="w-4 h-4" />}
           label="Dark Side Results"
-          value={darkSideResultsCount?.toString() ?? "—"}
+          value={darkSideResultsCount?.toString() ?? "-"}
         />
         <StatCard
-          icon={<span className="text-sm">😈</span>}
+          icon={<Flame className="w-4 h-4" />}
           label="Seven Sins Results"
           value={sevenSinsResults.length.toString()}
         />
@@ -550,7 +545,7 @@ function OverviewTab({
               className="flex flex-col items-center justify-center py-8 gap-2"
               data-ocid="admin.seven_sins_chart.empty_state"
             >
-              <span className="text-3xl opacity-30">😈</span>
+              <Flame className="w-8 h-8 text-muted-foreground opacity-30" />
               <p className="text-xs text-muted-foreground font-body text-center">
                 No seven sins data yet
               </p>
@@ -707,7 +702,7 @@ function UsersTab({
                           </Badge>
                         ) : (
                           <span className="text-muted-foreground text-xs">
-                            —
+                            -
                           </span>
                         )}
                       </td>
@@ -724,7 +719,7 @@ function UsersTab({
                           </Badge>
                         ) : (
                           <span className="text-muted-foreground text-xs">
-                            —
+                            -
                           </span>
                         )}
                       </td>
@@ -732,13 +727,18 @@ function UsersTab({
                         {topDarkSide ? (
                           <Badge
                             variant="outline"
-                            className="text-xs whitespace-nowrap border-primary/40 text-primary"
+                            className="text-xs whitespace-nowrap border-primary/40 text-primary gap-1"
                           >
+                            {(() => {
+                              const Icon =
+                                DARK_SIDE_ICONS[topDarkSide as DarkSideType];
+                              return Icon ? <Icon className="w-3 h-3" /> : null;
+                            })()}
                             {topDarkSide}
                           </Badge>
                         ) : (
                           <span className="text-muted-foreground text-xs">
-                            —
+                            -
                           </span>
                         )}
                       </td>
@@ -917,16 +917,6 @@ const ADMIN_ALL_SINS = [
 ] as const;
 type AdminSinKey = (typeof ADMIN_ALL_SINS)[number];
 
-const SIN_LABELS: Record<AdminSinKey, string> = {
-  pride: "👑 Pride",
-  greed: "💰 Greed",
-  wrath: "🔥 Wrath",
-  envy: "🐍 Envy",
-  gluttony: "🍔 Gluttony",
-  lust: "❤️ Lust",
-  sloth: "🛌 Sloth",
-};
-
 function SevenSinsTab({
   results,
   isLoading,
@@ -966,7 +956,7 @@ function SevenSinsTab({
           className="bg-card border border-border rounded-xl py-12 text-center"
           data-ocid="admin.seven_sins_empty_state"
         >
-          <span className="text-4xl opacity-30">😈</span>
+          <Flame className="w-10 h-10 text-muted-foreground opacity-30 mx-auto" />
           <p className="text-sm text-muted-foreground font-body mt-3">
             No Seven Deadly Sins results yet.
           </p>
@@ -1031,19 +1021,25 @@ function SevenSinsTab({
                         >
                           <td colSpan={4} className="px-4 py-3">
                             <div className="grid grid-cols-4 gap-2">
-                              {ADMIN_ALL_SINS.map((sin: AdminSinKey) => (
-                                <div
-                                  key={sin}
-                                  className="bg-card border border-border/50 rounded-lg px-3 py-2"
-                                >
-                                  <p className="text-xs text-muted-foreground font-body">
-                                    {SIN_LABELS[sin]}
-                                  </p>
-                                  <p className="font-display text-sm font-bold text-foreground">
-                                    {Math.round(r[sin])}%
-                                  </p>
-                                </div>
-                              ))}
+                              {ADMIN_ALL_SINS.map((sin: AdminSinKey) => {
+                                const Icon = SIN_ICONS[sin as SinType];
+                                return (
+                                  <div
+                                    key={sin}
+                                    className="bg-card border border-border/50 rounded-lg px-3 py-2"
+                                  >
+                                    <p className="text-xs text-muted-foreground font-body capitalize flex items-center gap-1.5">
+                                      {Icon ? (
+                                        <Icon className="w-3 h-3" />
+                                      ) : null}
+                                      {sin}
+                                    </p>
+                                    <p className="font-display text-sm font-bold text-foreground">
+                                      {Math.round(r[sin])}%
+                                    </p>
+                                  </div>
+                                );
+                              })}
                             </div>
                           </td>
                         </tr>
@@ -1096,7 +1092,7 @@ function AnimalResultsTab() {
 
       {/* Stat card */}
       <div className="bg-card border border-border rounded-xl p-4 shadow-admin flex items-center gap-3 mb-6">
-        <span className="text-2xl">🦁</span>
+        <PawPrint className="w-6 h-6 text-primary" />
         <div>
           <p className="text-xs text-muted-foreground font-body">
             Total Animal Results
@@ -1135,7 +1131,7 @@ function AnimalResultsTab() {
           className="bg-card border border-border rounded-xl py-12 text-center"
           data-ocid="admin.animal_empty_state"
         >
-          <span className="text-4xl opacity-30">🦁</span>
+          <PawPrint className="w-10 h-10 text-muted-foreground opacity-30 mx-auto" />
           <p className="text-sm text-muted-foreground font-body mt-3">
             No Animal Quiz results yet.
           </p>
@@ -1177,7 +1173,7 @@ function AnimalResultsTab() {
                             ANIMAL_COLORS[String(r.animalType)] ?? undefined,
                         }}
                       >
-                        {ANIMAL_EMOJI[String(r.animalType)] ?? ""}{" "}
+                        {ARCHETYPES[r.animalType as AnimalType]?.emoji ?? ""}{" "}
                         {String(r.animalType)}
                       </Badge>
                     </td>
@@ -1198,19 +1194,6 @@ function AnimalResultsTab() {
 }
 
 // ─── Emotion Quiz Tab (dedicated results endpoint) ────────────────────────────
-
-const EMOTION_EMOJI: Record<string, string> = {
-  Fear: "😨",
-  Anger: "😠",
-  Happiness: "😊",
-  Sadness: "😢",
-  Love: "😍",
-  Anxiety: "😟",
-  Desire: "😤",
-  Guilt: "😔",
-  Awe: "😮",
-  Peace: "🧘",
-};
 
 function EmotionResultsTab() {
   const { data: results = [], isLoading } = useAdminAllEmotionResults();
@@ -1246,7 +1229,7 @@ function EmotionResultsTab() {
 
       {/* Stat card */}
       <div className="bg-card border border-border rounded-xl p-4 shadow-admin flex items-center gap-3 mb-6">
-        <span className="text-2xl">🧠</span>
+        <Brain className="w-6 h-6 text-primary" />
         <div>
           <p className="text-xs text-muted-foreground font-body">
             Total Emotion Results
@@ -1285,7 +1268,7 @@ function EmotionResultsTab() {
           className="bg-card border border-border rounded-xl py-12 text-center"
           data-ocid="admin.emotion_empty_state"
         >
-          <span className="text-4xl opacity-30">🧠</span>
+          <Brain className="w-10 h-10 text-muted-foreground opacity-30 mx-auto" />
           <p className="text-sm text-muted-foreground font-body mt-3">
             No Emotion Quiz results yet.
           </p>
@@ -1319,14 +1302,19 @@ function EmotionResultsTab() {
                     <td className="px-4 py-3">
                       <Badge
                         variant="outline"
-                        className="text-xs whitespace-nowrap"
+                        className="text-xs whitespace-nowrap gap-1"
                         style={{
                           borderColor:
                             EMOTION_COLORS[r.emotionType] ?? undefined,
                           color: EMOTION_COLORS[r.emotionType] ?? undefined,
                         }}
                       >
-                        {EMOTION_EMOJI[r.emotionType] ?? ""} {r.emotionType}
+                        {(() => {
+                          const Icon =
+                            EMOTION_ICONS[r.emotionType as EmotionType];
+                          return Icon ? <Icon className="w-3 h-3" /> : null;
+                        })()}
+                        {r.emotionType}
                       </Badge>
                     </td>
                     <td className="px-4 py-3 text-foreground font-mono text-xs">
@@ -1530,11 +1518,12 @@ export function AdminPage() {
       {/* Draft mode banner */}
       {config?.isDraftMode && (
         <div
-          className="bg-warning/20 border-b border-warning/40 px-4 py-2 text-center"
+          className="bg-warning/20 border-b border-warning/40 px-4 py-2 text-center flex items-center justify-center gap-1.5"
           data-ocid="admin.draft_banner"
         >
+          <TriangleAlert className="w-3.5 h-3.5 text-warning-foreground" />
           <span className="text-xs font-semibold font-body text-warning-foreground tracking-widest uppercase">
-            ⚠ Draft Mode — App is not publicly visible
+            Draft Mode: App is not publicly visible
           </span>
         </div>
       )}

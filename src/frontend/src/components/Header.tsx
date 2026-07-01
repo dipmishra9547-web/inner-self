@@ -59,7 +59,7 @@ export function Header() {
           className="flex items-center shrink-0 transition-smooth hover:opacity-80"
         >
           <img
-            src="/assets/images/inner-self-logo.png"
+            src="/assets/images/Innerself_logo.svg"
             alt="Inner-Self"
             className="h-10 w-auto object-contain"
           />
