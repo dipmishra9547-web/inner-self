@@ -209,6 +209,7 @@ export function Header() {
                 size="sm"
                 onClick={() => router.navigate({ to: "/login" })}
                 className="gap-1.5 text-sm font-body transition-smooth"
+                aria-label="Sign in"
                 data-ocid="header.login_button"
               >
                 <LogIn className="w-3.5 h-3.5" />
