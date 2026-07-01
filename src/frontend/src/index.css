@@ -7,138 +7,150 @@
     --font-display: "Lora";
     --font-body: "Satoshi";
     --font-mono: "JetBrainsMono";
-    --radius: 0.5rem;
+    --radius: 0.625rem;
 
-    --background: 0.14 0.015 50;
-    --foreground: 0.92 0.01 60;
-    --card: 0.18 0.018 50;
-    --card-foreground: 0.92 0.01 60;
-    --popover: 0.18 0.018 50;
-    --popover-foreground: 0.92 0.01 60;
+    /* Surfaces: cool near-black base + 2 elevated levels */
+    --background: 0.14 0.012 235;
+    --foreground: 0.95 0.006 235;
+    --card: 0.18 0.014 235;
+    --card-foreground: 0.95 0.006 235;
+    --popover: 0.22 0.016 235;
+    --popover-foreground: 0.95 0.006 235;
 
-    --primary: 0.48 0.18 30;
-    --primary-foreground: 0.14 0.015 30;
+    /* Primary: teal/emerald accent */
+    --primary: 0.72 0.135 172;
+    --primary-foreground: 0.15 0.02 172;
 
-    --secondary: 0.22 0.02 50;
-    --secondary-foreground: 0.82 0.01 60;
-    --muted: 0.22 0.02 50;
-    --muted-foreground: 0.52 0.012 55;
+    --secondary: 0.26 0.014 235;
+    --secondary-foreground: 0.88 0.006 235;
+    --muted: 0.24 0.014 235;
+    --muted-foreground: 0.66 0.014 235;
 
-    --accent: 0.78 0.16 82;
-    --accent-foreground: 0.14 0.015 70;
+    /* Secondary accent: lighter cyan pop for highlights/badges */
+    --accent: 0.8 0.09 195;
+    --accent-foreground: 0.16 0.02 195;
 
-    --destructive: 0.55 0.22 25;
-    --destructive-foreground: 0.92 0.01 25;
+    --destructive: 0.58 0.2 25;
+    --destructive-foreground: 0.97 0.01 25;
 
-    --success: 0.65 0.16 140;
-    --success-foreground: 0.14 0.015 140;
+    --success: 0.7 0.15 155;
+    --success-foreground: 0.15 0.02 155;
 
-    --warning: 0.62 0.18 65;
-    --warning-foreground: 0.14 0.015 65;
+    --warning: 0.78 0.14 80;
+    --warning-foreground: 0.16 0.02 80;
 
-    --border: 0.28 0.02 50;
-    --input: 0.28 0.02 50;
-    --ring: 0.48 0.18 30;
+    /* Borders: low-opacity whites, applied via alpha in tailwind.config.js */
+    --border: 1 0 0;
+    --input: 1 0 0;
+    --ring: 0.72 0.135 172;
 
-    --chart-1: 0.78 0.16 82;
-    --chart-2: 0.72 0.18 185;
-    --chart-3: 0.62 0.22 10;
-    --chart-4: 0.62 0.28 300;
-    --chart-5: 0.38 0.2 285;
+    --chart-1: 0.72 0.135 172;
+    --chart-2: 0.7 0.15 230;
+    --chart-3: 0.68 0.16 300;
+    --chart-4: 0.68 0.18 20;
+    --chart-5: 0.78 0.14 80;
 
-    --emotion-fear: 0.45 0.2 25;
-    --emotion-anger: 0.55 0.22 20;
-    --emotion-happiness: 0.72 0.17 70;
-    --emotion-sadness: 0.35 0.12 260;
-    --emotion-love: 0.58 0.18 10;
+    --emotion-fear: 0.55 0.16 280;
+    --emotion-anger: 0.58 0.2 25;
+    --emotion-happiness: 0.78 0.14 80;
+    --emotion-sadness: 0.55 0.13 250;
+    --emotion-love: 0.6 0.17 350;
 
-    --sidebar: 0.18 0.018 50;
-    --sidebar-foreground: 0.92 0.01 60;
-    --sidebar-primary: 0.48 0.18 30;
-    --sidebar-primary-foreground: 0.14 0.015 30;
-    --sidebar-accent: 0.62 0.28 300;
-    --sidebar-accent-foreground: 0.82 0.01 60;
-    --sidebar-border: 0.28 0.02 50;
-    --sidebar-ring: 0.48 0.18 30;
+    --sidebar: 0.18 0.014 235;
+    --sidebar-foreground: 0.95 0.006 235;
+    --sidebar-primary: 0.72 0.135 172;
+    --sidebar-primary-foreground: 0.15 0.02 172;
+    --sidebar-accent: 0.8 0.09 195;
+    --sidebar-accent-foreground: 0.88 0.006 235;
+    --sidebar-border: 1 0 0;
+    --sidebar-ring: 0.72 0.135 172;
 
-    --color-vivid-violet: 0.62 0.28 300;
-    --color-neon-teal: 0.72 0.18 185;
-    --color-rose-ember: 0.62 0.22 10;
-    --color-gold-foil: 0.78 0.16 82;
-    --color-midnight-iris: 0.38 0.2 285;
+    --color-vivid-violet: 0.68 0.16 300;
+    --color-neon-teal: 0.72 0.135 172;
+    --color-rose-ember: 0.6 0.17 350;
+    --color-gold-foil: 0.78 0.14 80;
+    --color-midnight-iris: 0.4 0.1 260;
   }
 
   .dark {
-    --background: 0.14 0.015 50;
-    --foreground: 0.92 0.01 60;
-    --card: 0.18 0.018 50;
-    --card-foreground: 0.92 0.01 60;
-    --popover: 0.18 0.018 50;
-    --popover-foreground: 0.92 0.01 60;
+    --background: 0.14 0.012 235;
+    --foreground: 0.95 0.006 235;
+    --card: 0.18 0.014 235;
+    --card-foreground: 0.95 0.006 235;
+    --popover: 0.22 0.016 235;
+    --popover-foreground: 0.95 0.006 235;
 
-    --primary: 0.48 0.18 30;
-    --primary-foreground: 0.14 0.015 30;
+    --primary: 0.72 0.135 172;
+    --primary-foreground: 0.15 0.02 172;
 
-    --secondary: 0.22 0.02 50;
-    --secondary-foreground: 0.82 0.01 60;
-    --muted: 0.22 0.02 50;
-    --muted-foreground: 0.52 0.012 55;
+    --secondary: 0.26 0.014 235;
+    --secondary-foreground: 0.88 0.006 235;
+    --muted: 0.24 0.014 235;
+    --muted-foreground: 0.66 0.014 235;
 
-    --accent: 0.78 0.16 82;
-    --accent-foreground: 0.14 0.015 70;
+    --accent: 0.8 0.09 195;
+    --accent-foreground: 0.16 0.02 195;
 
-    --destructive: 0.55 0.22 25;
-    --destructive-foreground: 0.92 0.01 25;
+    --destructive: 0.58 0.2 25;
+    --destructive-foreground: 0.97 0.01 25;
 
-    --success: 0.65 0.16 140;
-    --success-foreground: 0.14 0.015 140;
+    --success: 0.7 0.15 155;
+    --success-foreground: 0.15 0.02 155;
 
-    --warning: 0.62 0.18 65;
-    --warning-foreground: 0.14 0.015 65;
+    --warning: 0.78 0.14 80;
+    --warning-foreground: 0.16 0.02 80;
 
-    --border: 0.28 0.02 50;
-    --input: 0.28 0.02 50;
-    --ring: 0.48 0.18 30;
+    --border: 1 0 0;
+    --input: 1 0 0;
+    --ring: 0.72 0.135 172;
 
-    --chart-1: 0.78 0.16 82;
-    --chart-2: 0.72 0.18 185;
-    --chart-3: 0.62 0.22 10;
-    --chart-4: 0.62 0.28 300;
-    --chart-5: 0.38 0.2 285;
+    --chart-1: 0.72 0.135 172;
+    --chart-2: 0.7 0.15 230;
+    --chart-3: 0.68 0.16 300;
+    --chart-4: 0.68 0.18 20;
+    --chart-5: 0.78 0.14 80;
 
-    --emotion-fear: 0.45 0.2 25;
-    --emotion-anger: 0.55 0.22 20;
-    --emotion-happiness: 0.72 0.17 70;
-    --emotion-sadness: 0.35 0.12 260;
-    --emotion-love: 0.58 0.18 10;
+    --emotion-fear: 0.55 0.16 280;
+    --emotion-anger: 0.58 0.2 25;
+    --emotion-happiness: 0.78 0.14 80;
+    --emotion-sadness: 0.55 0.13 250;
+    --emotion-love: 0.6 0.17 350;
 
-    --sidebar: 0.18 0.018 50;
-    --sidebar-foreground: 0.92 0.01 60;
-    --sidebar-primary: 0.48 0.18 30;
-    --sidebar-primary-foreground: 0.14 0.015 30;
-    --sidebar-accent: 0.62 0.28 300;
-    --sidebar-accent-foreground: 0.82 0.01 60;
-    --sidebar-border: 0.28 0.02 50;
-    --sidebar-ring: 0.48 0.18 30;
+    --sidebar: 0.18 0.014 235;
+    --sidebar-foreground: 0.95 0.006 235;
+    --sidebar-primary: 0.72 0.135 172;
+    --sidebar-primary-foreground: 0.15 0.02 172;
+    --sidebar-accent: 0.8 0.09 195;
+    --sidebar-accent-foreground: 0.88 0.006 235;
+    --sidebar-border: 1 0 0;
+    --sidebar-ring: 0.72 0.135 172;
 
-    --color-vivid-violet: 0.62 0.28 300;
-    --color-neon-teal: 0.72 0.18 185;
-    --color-rose-ember: 0.62 0.22 10;
-    --color-gold-foil: 0.78 0.16 82;
-    --color-midnight-iris: 0.38 0.2 285;
+    --color-vivid-violet: 0.68 0.16 300;
+    --color-neon-teal: 0.72 0.135 172;
+    --color-rose-ember: 0.6 0.17 350;
+    --color-gold-foil: 0.78 0.14 80;
+    --color-midnight-iris: 0.4 0.1 260;
   }
 
   * {
     @apply border-border;
   }
+
   body {
     @apply text-foreground font-body antialiased;
-    background-color: oklch(0.14 0.015 50);
-    background-image: url("/assets/images/wallpaper.svg");
-    background-size: cover;
+    background-color: oklch(0.14 0.012 235);
+    background-image: radial-gradient(
+        ellipse 80% 60% at 50% -10%,
+        oklch(0.72 0.135 172 / 0.08) 0%,
+        transparent 60%
+      ),
+      radial-gradient(
+        ellipse 60% 50% at 100% 100%,
+        oklch(0.8 0.09 195 / 0.05) 0%,
+        transparent 60%
+      );
     background-attachment: fixed;
     background-repeat: no-repeat;
-    background-position: center center;
   }
 }
 
@@ -212,5 +224,42 @@
       oklch(var(--color-vivid-violet)) 0%,
       oklch(var(--color-neon-teal)) 100%
     );
+  }
+
+  /* Section vertical rhythm: 64/96/128/160px across breakpoints */
+  .section-y {
+    @apply py-16 md:py-24 lg:py-32 xl:py-40;
+  }
+
+  /* Shared page content container: 1280px max, consistent gutters */
+  .container-page {
+    @apply max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Scroll-reveal: fade + small translate, disabled under reduced motion */
+  .reveal {
+    animation: reveal-in 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+
+  @keyframes reveal-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }

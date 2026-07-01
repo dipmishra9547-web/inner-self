@@ -11,13 +11,20 @@ export default {
       center: true,
       padding: "2rem",
       screens: {
-        "2xl": "1400px",
+        "2xl": "1280px",
       },
     },
     extend: {
+      maxWidth: {
+        content: "1280px",
+      },
       colors: {
-        border: "oklch(var(--border))",
-        input: "oklch(var(--input))",
+        border: {
+          DEFAULT: "oklch(var(--border) / 10%)",
+          subtle: "oklch(var(--border) / 6%)",
+          strong: "oklch(var(--border) / 18%)",
+        },
+        input: "oklch(var(--input) / 14%)",
         ring: "oklch(var(--ring) / <alpha-value>)",
         background: "oklch(var(--background))",
         foreground: "oklch(var(--foreground))",
@@ -83,7 +90,7 @@ export default {
           "primary-foreground": "oklch(var(--sidebar-primary-foreground))",
           accent: "oklch(var(--sidebar-accent))",
           "accent-foreground": "oklch(var(--sidebar-accent-foreground))",
-          border: "oklch(var(--sidebar-border))",
+          border: "oklch(var(--sidebar-border) / 10%)",
           ring: "oklch(var(--sidebar-ring))",
         },
       },
@@ -91,6 +98,18 @@ export default {
         display: ["var(--font-display)", "serif"],
         body: ["var(--font-body)", "sans-serif"],
         mono: ["var(--font-mono)", "monospace"],
+      },
+      fontSize: {
+        xs: ["0.75rem", { lineHeight: "1.5" }],
+        sm: ["0.875rem", { lineHeight: "1.5" }],
+        base: ["1rem", { lineHeight: "1.6" }],
+        lg: ["1.125rem", { lineHeight: "1.6" }],
+        xl: ["1.25rem", { lineHeight: "1.5", letterSpacing: "-0.005em" }],
+        "2xl": ["1.5rem", { lineHeight: "1.35", letterSpacing: "-0.01em" }],
+        "3xl": ["2rem", { lineHeight: "1.25", letterSpacing: "-0.015em" }],
+        "4xl": ["2.5rem", { lineHeight: "1.2", letterSpacing: "-0.02em" }],
+        "5xl": ["3rem", { lineHeight: "1.15", letterSpacing: "-0.02em" }],
+        "6xl": ["4rem", { lineHeight: "1.1", letterSpacing: "-0.025em" }],
       },
       borderRadius: {
         lg: "var(--radius)",
