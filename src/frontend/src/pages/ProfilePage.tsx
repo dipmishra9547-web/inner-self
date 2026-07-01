@@ -16,6 +16,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
 import {
   ArrowLeft,
+  ArrowRight,
   Brain,
   Calendar,
   CheckCircle2,
@@ -23,10 +24,12 @@ import {
   ChevronUp,
   ClipboardList,
   Edit3,
+  Handshake,
   Lightbulb,
   LogOut,
   Mail,
   MessageSquare,
+  PawPrint,
   Save,
   Send,
   ShieldCheck,
@@ -37,9 +40,15 @@ import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { createActor } from "../backend";
+import { ARCHETYPES } from "../data/archetypes";
 import { useAuth, useAuthActionsWithSecurityQuestion } from "../hooks/useAuth";
+import type { AnimalType } from "../types/animals";
 import type { EmotionScore } from "../types/auth";
-import { EmotionType } from "../types/emotion";
+import {
+  EMOTION_ICONS,
+  EMOTION_PHILOSOPHY,
+  type EmotionType,
+} from "../types/emotion";
 import { SECURITY_QUESTIONS } from "./SignupPage";
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -52,57 +61,8 @@ function formatDate(ts: bigint) {
   });
 }
 
-const ANIMAL_EMOJIS: Record<string, string> = {
-  Lion: "🦁",
-  Otter: "🦦",
-  GoldenRetriever: "🐕",
-  Beaver: "🦫",
-  Wolf: "🐺",
-  Sheep: "🐑",
-  Shepherd: "🧑‍🌾",
-};
-
 const ANIMAL_LABELS: Record<string, string> = {
   GoldenRetriever: "Golden Retriever",
-};
-
-const EMOTION_EMOJIS: Record<string, string> = {
-  [EmotionType.Fear]: "😨",
-  [EmotionType.Anger]: "😠",
-  [EmotionType.Happiness]: "😊",
-  [EmotionType.Sadness]: "😢",
-  [EmotionType.Love]: "😍",
-  [EmotionType.Anxiety]: "😟",
-  [EmotionType.Desire]: "😤",
-  [EmotionType.Guilt]: "😔",
-  [EmotionType.Awe]: "😮",
-  [EmotionType.Peace]: "🧘",
-};
-
-const EMOTION_INSIGHTS: Record<string, string> = {
-  [EmotionType.Fear]: "Fear is often your interpretation, not reality.",
-  [EmotionType.Anger]: "You lose control before you realize it.",
-  [EmotionType.Happiness]: "It's built internally, not externally.",
-  [EmotionType.Sadness]: "Sadness is part of the human condition.",
-  [EmotionType.Love]: "Love transforms perception and meaning.",
-  [EmotionType.Anxiety]: "Anxiety comes from too many possibilities.",
-  [EmotionType.Desire]: "Desire is endless — control it or it controls you.",
-  [EmotionType.Guilt]: "Guilt reflects responsibility.",
-  [EmotionType.Awe]: "Awe connects you to something bigger than yourself.",
-  [EmotionType.Peace]: "Control your mind = control your life.",
-};
-
-const EMOTION_PHILOSOPHERS: Record<string, string> = {
-  [EmotionType.Fear]: "Epictetus",
-  [EmotionType.Anger]: "Seneca",
-  [EmotionType.Happiness]: "Aristotle",
-  [EmotionType.Sadness]: "Schopenhauer",
-  [EmotionType.Love]: "Plato",
-  [EmotionType.Anxiety]: "Kierkegaard",
-  [EmotionType.Desire]: "Thomas Hobbes",
-  [EmotionType.Guilt]: "Jean-Paul Sartre",
-  [EmotionType.Awe]: "Immanuel Kant",
-  [EmotionType.Peace]: "Marcus Aurelius",
 };
 
 // ─── Emotion Pie Chart ───────────────────────────────────────────────────────
@@ -155,23 +115,27 @@ function EmotionPieChart({ emotions }: { emotions: EmotionScore[] }) {
         <circle cx="50" cy="50" r="20" fill="oklch(var(--card))" />
       </svg>
       <div className="space-y-2 min-w-0">
-        {top3.map((e, i) => (
-          <div
-            key={e.emotion}
-            className="flex items-center gap-2 font-body text-sm"
-          >
-            <span
-              className="w-2.5 h-2.5 rounded-full shrink-0"
-              style={{ background: colors[i] }}
-            />
-            <span className="text-foreground font-medium">
-              {EMOTION_EMOJIS[e.emotion]} {e.emotion}
-            </span>
-            <span className="text-muted-foreground ml-auto">
-              {Math.round(e.percentage)}%
-            </span>
-          </div>
-        ))}
+        {top3.map((e, i) => {
+          const Icon = EMOTION_ICONS[e.emotion as EmotionType];
+          return (
+            <div
+              key={e.emotion}
+              className="flex items-center gap-2 font-body text-sm"
+            >
+              <span
+                className="w-2.5 h-2.5 rounded-full shrink-0"
+                style={{ background: colors[i] }}
+              />
+              <span className="text-foreground font-medium flex items-center gap-1.5">
+                <Icon className="w-3.5 h-3.5" />
+                {e.emotion}
+              </span>
+              <span className="text-muted-foreground ml-auto">
+                {Math.round(e.percentage)}%
+              </span>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
@@ -749,7 +713,7 @@ function UpdateSecurityQuestionSection({
                 data-ocid="profile.security_answer_input"
                 type="text"
                 autoComplete="off"
-                placeholder="Your answer (2–100 characters)"
+                placeholder="Your answer (2-100 characters)"
                 value={newAnswer}
                 onChange={(e) => setNewAnswer(e.target.value)}
                 className="font-body bg-background border-border focus-visible:ring-primary/20"
@@ -800,7 +764,7 @@ function UpdateSecurityQuestionSection({
                 className="font-body text-sm bg-background border-border focus-visible:ring-primary/20 placeholder:text-muted-foreground/50"
               />
               <p className="text-xs text-muted-foreground/70 font-body">
-                Not a secret — just a reminder to yourself.
+                Not a secret: just a reminder to yourself.
               </p>
             </div>
 
@@ -906,7 +870,7 @@ export function ProfilePage() {
     ? (ANIMAL_LABELS[account.animalArchetype] ?? account.animalArchetype)
     : null;
   const archetypeEmoji = account.animalArchetype
-    ? (ANIMAL_EMOJIS[account.animalArchetype] ?? "🐾")
+    ? (ARCHETYPES[account.animalArchetype as AnimalType]?.emoji ?? "🐾")
     : null;
   const topEmotion = account.emotionResult?.topEmotions?.[0];
 
@@ -1050,7 +1014,7 @@ export function ProfilePage() {
         data-ocid="profile.archetype_card"
       >
         <div className="flex items-center gap-2 mb-4">
-          <span className="text-lg">🐾</span>
+          <PawPrint className="w-4 h-4 text-primary" />
           <h3 className="font-display text-base font-semibold text-foreground">
             Animal Archetype
           </h3>
@@ -1091,7 +1055,8 @@ export function ProfilePage() {
               className="self-start gap-1.5 font-body"
               data-ocid="profile.take_animal_quiz_button"
             >
-              🐾 Take the Animal Quiz
+              <PawPrint className="w-4 h-4" />
+              Take the Animal Quiz
             </Button>
           </div>
         )}
@@ -1122,22 +1087,30 @@ export function ProfilePage() {
 
             <EmotionPieChart emotions={account.emotionResult.topEmotions} />
 
-            {topEmotion && (
-              <div className="bg-muted/20 border border-border/60 rounded-xl p-4 space-y-1.5">
-                <p className="text-xs text-muted-foreground font-body uppercase tracking-wide">
-                  Dominant emotion insight
-                </p>
-                <p className="font-display text-sm font-semibold text-foreground">
-                  {EMOTION_EMOJIS[topEmotion.emotion]} {topEmotion.emotion}
-                </p>
-                <p className="text-sm text-muted-foreground font-body italic">
-                  "{EMOTION_INSIGHTS[topEmotion.emotion]}"
-                </p>
-                <p className="text-xs text-muted-foreground font-body">
-                  — {EMOTION_PHILOSOPHERS[topEmotion.emotion]}
-                </p>
-              </div>
-            )}
+            {topEmotion &&
+              (() => {
+                const TopEmotionIcon =
+                  EMOTION_ICONS[topEmotion.emotion as EmotionType];
+                const phil =
+                  EMOTION_PHILOSOPHY[topEmotion.emotion as EmotionType];
+                return (
+                  <div className="bg-muted/20 border border-border/60 rounded-xl p-4 space-y-1.5">
+                    <p className="text-xs text-muted-foreground font-body uppercase tracking-wide">
+                      Dominant emotion insight
+                    </p>
+                    <p className="font-display text-sm font-semibold text-foreground flex items-center gap-1.5">
+                      <TopEmotionIcon className="w-4 h-4 text-primary" />
+                      {topEmotion.emotion}
+                    </p>
+                    <p className="text-sm text-muted-foreground font-body italic">
+                      "{phil.insight}"
+                    </p>
+                    <p className="text-xs text-muted-foreground font-body">
+                      {phil.philosopher}
+                    </p>
+                  </div>
+                );
+              })()}
 
             <Button
               size="sm"
@@ -1146,7 +1119,8 @@ export function ProfilePage() {
               className="gap-1.5 font-body text-muted-foreground hover:text-foreground -ml-1"
               data-ocid="profile.retake_emotion_quiz_button"
             >
-              Retake emotion quiz →
+              Retake emotion quiz
+              <ArrowRight className="w-3.5 h-3.5" />
             </Button>
           </div>
         ) : (
@@ -1164,7 +1138,8 @@ export function ProfilePage() {
               className="self-start gap-1.5 font-body"
               data-ocid="profile.take_emotion_quiz_button"
             >
-              🧠 Take the Emotion Quiz
+              <Brain className="w-4 h-4" />
+              Take the Emotion Quiz
             </Button>
           </div>
         )}
@@ -1206,7 +1181,8 @@ export function ProfilePage() {
           className="font-body text-muted-foreground hover:text-foreground gap-1.5"
           data-ocid="profile.animal_quiz_link"
         >
-          🦁 Animal Quiz
+          <PawPrint className="w-3.5 h-3.5" />
+          Animal Quiz
         </Button>
         <Button
           variant="ghost"
@@ -1215,7 +1191,8 @@ export function ProfilePage() {
           className="font-body text-muted-foreground hover:text-foreground gap-1.5"
           data-ocid="profile.emotion_quiz_link"
         >
-          🧠 Emotion Quiz
+          <Brain className="w-3.5 h-3.5" />
+          Emotion Quiz
         </Button>
         <Button
           variant="ghost"
@@ -1224,7 +1201,8 @@ export function ProfilePage() {
           className="font-body text-muted-foreground hover:text-foreground gap-1.5"
           data-ocid="profile.compatibility_link"
         >
-          🤝 Compatibility
+          <Handshake className="w-3.5 h-3.5" />
+          Compatibility
         </Button>
       </motion.div>
     </div>
