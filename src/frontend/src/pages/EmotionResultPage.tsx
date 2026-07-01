@@ -3,35 +3,51 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useRouter } from "@tanstack/react-router";
-import { CheckCircle2, Copy, Facebook, Share2, Twitter } from "lucide-react";
+import {
+  ArrowLeft,
+  CheckCircle2,
+  Copy,
+  Eye,
+  Facebook,
+  Lightbulb,
+  RotateCcw,
+  Scale,
+  Share2,
+  Sparkles,
+  Twitter,
+  Wind,
+} from "lucide-react";
 import { motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { SiWhatsapp } from "react-icons/si";
+import { BRAND_COLORS } from "../components/ShareSection";
 import { useAuth } from "../hooks/useAuth";
-import { EMOTION_PHILOSOPHY } from "../types/emotion";
+import { EMOTION_ICONS, EMOTION_PHILOSOPHY } from "../types/emotion";
 import type { EmotionScore, EmotionType } from "../types/emotion";
 
-const SLICE_COLORS = [
-  "var(--color-primary)",
-  "var(--color-accent)",
-  "var(--color-chart-2, var(--color-secondary))",
-];
+const SLICE_COLOR_VARS = ["--primary", "--accent", "--chart-2"];
+
+function oklchColor(varName: string, alpha?: number): string {
+  return alpha != null
+    ? `oklch(var(${varName}) / ${alpha})`
+    : `oklch(var(${varName}))`;
+}
 
 const PHIL_RULES = [
   {
-    icon: "👁️",
+    icon: Eye,
     title: "Perception shapes emotion",
     school: "Stoics",
-    desc: "Your interpretation of events — not events themselves — determines how you feel.",
+    desc: "Your interpretation of events, not events themselves, determines how you feel.",
   },
   {
-    icon: "⚖️",
+    icon: Scale,
     title: "Responsibility shapes meaning",
     school: "Existentialists",
     desc: "Owning your choices transforms raw emotion into purpose and direction.",
   },
   {
-    icon: "🧘",
+    icon: Wind,
     title: "Detachment creates peace",
     school: "Eastern Philosophy",
     desc: "Releasing attachment to outcomes quiets the noise of desire and fear.",
@@ -58,10 +74,9 @@ function EmotionPieChart({ scores }: { scores: EmotionScore[] }) {
   type SliceDatum = {
     startAngle: number;
     endAngle: number;
-    color: string;
+    colorVar: string;
     emotion: string;
     percentage: number;
-    emoji: string;
   };
 
   function pol(angle: number, r: number) {
@@ -91,101 +106,91 @@ function EmotionPieChart({ scores }: { scores: EmotionScore[] }) {
     const slice = {
       startAngle: cursor,
       endAngle: cursor + angle,
-      color: SLICE_COLORS[i],
+      colorVar: SLICE_COLOR_VARS[i],
       emotion: s.emotion,
       percentage: s.percentage,
-      emoji: EMOTION_PHILOSOPHY[s.emotion as EmotionType]?.emoji ?? "✨",
     };
     cursor += angle;
     return slice;
   });
 
+  const PrimaryIcon =
+    EMOTION_ICONS[top3[0]?.emotion as EmotionType] ?? Sparkles;
+
   return (
-    <div className="flex flex-col items-center gap-4">
-      <svg
-        width={SIZE}
-        height={SIZE}
-        viewBox={`0 0 ${SIZE} ${SIZE}`}
-        role="img"
-        aria-label="Top 3 emotion pie chart"
-      >
-        <title>Top 3 emotion pie chart</title>
-        {slices.map((slice, i) => {
-          const midA = (slice.startAngle + slice.endAngle) / 2;
-          const labelPt = pol(midA, OUTER_R + 16);
-          const isHov = hovered === i;
-          return (
-            <g key={slice.emotion}>
-              <path
-                d={arcPath(slice.startAngle, slice.endAngle)}
-                fill={slice.color}
-                opacity={hovered === null || isHov ? 0.9 : 0.45}
-                style={{
-                  transform: isHov ? "scale(1.05)" : "scale(1)",
-                  transformOrigin: `${CX}px ${CY}px`,
-                  transition: "all 0.18s ease",
-                  cursor: "pointer",
-                }}
-                onMouseEnter={() => setHovered(i)}
-                onMouseLeave={() => setHovered(null)}
-              />
-              <text
-                x={labelPt.x}
-                y={labelPt.y}
-                textAnchor="middle"
-                dominantBaseline="middle"
-                fontSize="9.5"
-                fontWeight="700"
-                fill={slice.color}
-                style={{ pointerEvents: "none" }}
-              >
-                {slice.percentage}%
-              </text>
-            </g>
-          );
-        })}
-        <text
-          x={CX}
-          y={CY - 9}
-          textAnchor="middle"
-          dominantBaseline="middle"
-          fontSize="24"
+    <div className="relative flex flex-col items-center gap-4">
+      <div className="relative">
+        <svg
+          width={SIZE}
+          height={SIZE}
+          viewBox={`0 0 ${SIZE} ${SIZE}`}
+          role="img"
+          aria-label="Top 3 emotion pie chart"
         >
-          {slices[0]?.emoji}
-        </text>
-        <text
-          x={CX}
-          y={CY + 14}
-          textAnchor="middle"
-          dominantBaseline="middle"
-          fontSize="8.5"
-          fill="var(--color-muted-foreground)"
-          fontFamily="var(--font-body)"
-          fontWeight="600"
-          letterSpacing="0.06em"
-        >
-          PRIMARY
-        </text>
-      </svg>
+          <title>Top 3 emotion pie chart</title>
+          {slices.map((slice, i) => {
+            const midA = (slice.startAngle + slice.endAngle) / 2;
+            const labelPt = pol(midA, OUTER_R + 16);
+            const isHov = hovered === i;
+            const color = oklchColor(slice.colorVar);
+            return (
+              <g key={slice.emotion}>
+                <path
+                  d={arcPath(slice.startAngle, slice.endAngle)}
+                  fill={color}
+                  opacity={hovered === null || isHov ? 0.9 : 0.45}
+                  style={{
+                    transform: isHov ? "scale(1.05)" : "scale(1)",
+                    transformOrigin: `${CX}px ${CY}px`,
+                    transition: "all 0.18s ease",
+                    cursor: "pointer",
+                  }}
+                  onMouseEnter={() => setHovered(i)}
+                  onMouseLeave={() => setHovered(null)}
+                />
+                <text
+                  x={labelPt.x}
+                  y={labelPt.y}
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  fontSize="9.5"
+                  fontWeight="700"
+                  fill={color}
+                  style={{ pointerEvents: "none" }}
+                >
+                  {slice.percentage}%
+                </text>
+              </g>
+            );
+          })}
+        </svg>
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 pointer-events-none">
+          <PrimaryIcon className="w-6 h-6 text-foreground" />
+          <span className="text-[8.5px] font-body font-semibold text-muted-foreground tracking-wider">
+            PRIMARY
+          </span>
+        </div>
+      </div>
 
       <div className="flex flex-wrap gap-2 justify-center">
-        {slices.map((s) => (
-          <span
-            key={s.emotion}
-            className="inline-flex items-center gap-1.5 text-xs font-body px-2.5 py-1 rounded-full"
-            style={{
-              border: `1.5px solid ${s.color}`,
-              color: s.color,
-              background: `${s.color}18`,
-            }}
-          >
+        {slices.map((s) => {
+          const Icon = EMOTION_ICONS[s.emotion as EmotionType] ?? Sparkles;
+          const color = oklchColor(s.colorVar);
+          return (
             <span
-              className="w-2 h-2 rounded-full"
-              style={{ background: s.color }}
-            />
-            {s.emoji} {s.emotion}
-          </span>
-        ))}
+              key={s.emotion}
+              className="inline-flex items-center gap-1.5 text-xs font-body px-2.5 py-1 rounded-full"
+              style={{
+                border: `1.5px solid ${color}`,
+                color,
+                background: oklchColor(s.colorVar, 0.12),
+              }}
+            >
+              <Icon className="w-3 h-3" />
+              {s.emotion}
+            </span>
+          );
+        })}
       </div>
     </div>
   );
@@ -250,7 +255,7 @@ function ShareEmotionResult({ topEmotion }: { topEmotion: string }) {
             rel="noopener noreferrer"
             aria-label="Share on WhatsApp"
             className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-body font-medium transition-smooth hover:opacity-90 active:scale-95"
-            style={{ background: "#25D366", color: "#fff" }}
+            style={{ background: BRAND_COLORS.whatsapp, color: "#fff" }}
             data-ocid="emotion_result.share_whatsapp"
           >
             <SiWhatsapp className="w-3.5 h-3.5" />
@@ -262,7 +267,7 @@ function ShareEmotionResult({ topEmotion }: { topEmotion: string }) {
             rel="noopener noreferrer"
             aria-label="Share on Facebook"
             className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-body font-medium transition-smooth hover:opacity-90 active:scale-95"
-            style={{ background: "#1877F2", color: "#fff" }}
+            style={{ background: BRAND_COLORS.facebook, color: "#fff" }}
             data-ocid="emotion_result.share_facebook"
           >
             <Facebook className="w-3.5 h-3.5" />
@@ -274,7 +279,7 @@ function ShareEmotionResult({ topEmotion }: { topEmotion: string }) {
             rel="noopener noreferrer"
             aria-label="Share on Twitter"
             className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-body font-medium transition-smooth hover:opacity-90 active:scale-95"
-            style={{ background: "#0f1419", color: "#fff" }}
+            style={{ background: BRAND_COLORS.twitter, color: "#fff" }}
             data-ocid="emotion_result.share_twitter"
           >
             <Twitter className="w-3.5 h-3.5" />X
@@ -406,7 +411,8 @@ export function EmotionResultPage() {
         {top3.map((score, idx) => {
           const phil = EMOTION_PHILOSOPHY[score.emotion as EmotionType];
           if (!phil) return null;
-          const color = SLICE_COLORS[idx];
+          const Icon = EMOTION_ICONS[score.emotion as EmotionType] ?? Sparkles;
+          const color = oklchColor(SLICE_COLOR_VARS[idx]);
           return (
             <motion.div
               key={score.emotion}
@@ -421,9 +427,14 @@ export function EmotionResultPage() {
                 <div className="h-1" style={{ background: color }} />
                 <CardContent className="p-5">
                   <div className="flex items-start gap-4">
-                    <span className="text-4xl leading-none flex-shrink-0 mt-0.5">
-                      {phil.emoji}
-                    </span>
+                    <div
+                      className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
+                      style={{
+                        background: oklchColor(SLICE_COLOR_VARS[idx], 0.12),
+                      }}
+                    >
+                      <Icon className="w-5 h-5" style={{ color }} />
+                    </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1.5 flex-wrap">
                         <h3
@@ -435,7 +446,10 @@ export function EmotionResultPage() {
                         <Badge
                           variant="outline"
                           className="text-[10px] font-body"
-                          style={{ borderColor: `${color}80`, color }}
+                          style={{
+                            borderColor: oklchColor(SLICE_COLOR_VARS[idx], 0.5),
+                            color,
+                          }}
                         >
                           #{idx + 1} dominant · {score.percentage}%
                         </Badge>
@@ -444,17 +458,18 @@ export function EmotionResultPage() {
                         "{phil.quote}"
                       </blockquote>
                       <p className="text-xs text-muted-foreground font-body">
-                        — {phil.philosopher},{" "}
+                        {phil.philosopher},{" "}
                         <span className="italic">{phil.source}</span>
                       </p>
                       <div
-                        className="mt-2.5 px-3 py-2 rounded-lg text-xs font-body text-foreground/85 leading-relaxed"
+                        className="mt-2.5 px-3 py-2 rounded-lg text-xs font-body text-foreground/85 leading-relaxed flex items-start gap-2"
                         style={{
-                          border: `1px solid ${color}44`,
-                          background: `${color}12`,
+                          border: `1px solid ${oklchColor(SLICE_COLOR_VARS[idx], 0.27)}`,
+                          background: oklchColor(SLICE_COLOR_VARS[idx], 0.12),
                         }}
                       >
-                        💡 {phil.insight}
+                        <Lightbulb className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+                        {phil.insight}
                       </div>
                     </div>
                   </div>
@@ -480,16 +495,15 @@ export function EmotionResultPage() {
               </p>
               <div className="space-y-2.5">
                 {result.topEmotions.map((score, i) => {
-                  const phil = EMOTION_PHILOSOPHY[score.emotion as EmotionType];
+                  const Icon =
+                    EMOTION_ICONS[score.emotion as EmotionType] ?? Sparkles;
                   return (
                     <div
                       key={score.emotion}
                       className="flex items-center gap-3"
                       data-ocid={`emotion_result.breakdown_item.${i + 1}`}
                     >
-                      <span className="w-5 text-center text-sm flex-shrink-0">
-                        {phil?.emoji}
-                      </span>
+                      <Icon className="w-4 h-4 text-muted-foreground flex-shrink-0" />
                       <span className="text-xs font-body text-foreground/80 w-20 flex-shrink-0">
                         {score.emotion}
                       </span>
@@ -499,8 +513,8 @@ export function EmotionResultPage() {
                           style={{
                             background:
                               i < 3
-                                ? SLICE_COLORS[i]
-                                : "var(--color-muted-foreground)",
+                                ? oklchColor(SLICE_COLOR_VARS[i])
+                                : "oklch(var(--muted-foreground))",
                           }}
                           initial={{ width: 0 }}
                           animate={{ width: `${score.percentage}%` }}
@@ -532,7 +546,7 @@ export function EmotionResultPage() {
           data-ocid="emotion_result.rules_section"
         >
           <p className="text-xs uppercase tracking-widest text-muted-foreground font-body mb-3 text-center">
-            ⚡ The 3 Universal Philosophical Rules
+            The 3 Universal Philosophical Rules
           </p>
           <div className="space-y-3">
             {PHIL_RULES.map((rule, i) => (
@@ -544,7 +558,7 @@ export function EmotionResultPage() {
                 className="flex items-start gap-3 bg-muted/30 rounded-lg p-3.5 border border-border/50"
                 data-ocid={`emotion_result.rule.${i + 1}`}
               >
-                <span className="text-xl flex-shrink-0">{rule.icon}</span>
+                <rule.icon className="w-5 h-5 text-primary flex-shrink-0" />
                 <div>
                   <p className="text-sm font-semibold text-foreground font-body">
                     {rule.title}{" "}
@@ -581,19 +595,21 @@ export function EmotionResultPage() {
           <div className="grid grid-cols-2 gap-3">
             <Button
               variant="outline"
-              className="font-body transition-smooth"
+              className="gap-1.5 font-body transition-smooth"
               onClick={() => router.navigate({ to: "/emotion-quiz" })}
               data-ocid="emotion_result.retake_button"
             >
-              🔁 Retake Quiz
+              <RotateCcw className="w-4 h-4" />
+              Retake Quiz
             </Button>
             <Button
               variant="ghost"
-              className="font-body text-muted-foreground transition-smooth"
+              className="gap-1.5 font-body text-muted-foreground transition-smooth"
               onClick={() => router.navigate({ to: "/" })}
               data-ocid="emotion_result.home_button"
             >
-              ← Animal Quiz
+              <ArrowLeft className="w-4 h-4" />
+              Animal Quiz
             </Button>
           </div>
         </motion.div>

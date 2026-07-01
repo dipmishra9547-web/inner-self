@@ -1,159 +1,85 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { EMOTION_PHILOSOPHY, EmotionType } from "@/types/emotion";
-import { useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, BookOpen, Printer } from "lucide-react";
-
-// ─── Emotion accent colors ────────────────────────────────────────────────────
-const EMOTION_META: Record<
+import {
+  EMOTION_ICONS,
+  EMOTION_PHILOSOPHY,
   EmotionType,
-  {
-    color: string;
-    badgeStyle: React.CSSProperties;
-    situations: string[];
-  }
-> = {
-  [EmotionType.Fear]: {
-    color: "oklch(0.58 0.2 25)",
-    badgeStyle: {
-      background: "oklch(0.35 0.18 25 / 0.22)",
-      color: "oklch(0.85 0.12 25)",
-      border: "1px solid oklch(0.58 0.2 25 / 0.35)",
-    },
-    situations: [
-      "Exam season & job interviews",
-      "Starting a new relationship",
-      "Financial risk & investments",
-      "Public speaking & presentations",
-    ],
-  },
-  [EmotionType.Anger]: {
-    color: "oklch(0.58 0.22 20)",
-    badgeStyle: {
-      background: "oklch(0.35 0.2 20 / 0.22)",
-      color: "oklch(0.85 0.14 20)",
-      border: "1px solid oklch(0.58 0.22 20 / 0.35)",
-    },
-    situations: [
-      "Betrayal by a trusted person",
-      "Injustice at work or in systems",
-      "Family conflict & disagreements",
-      "Unmet expectations & disappointment",
-    ],
-  },
-  [EmotionType.Happiness]: {
-    color: "oklch(0.72 0.17 70)",
-    badgeStyle: {
-      background: "oklch(0.5 0.15 70 / 0.22)",
-      color: "oklch(0.9 0.12 70)",
-      border: "1px solid oklch(0.72 0.17 70 / 0.35)",
-    },
-    situations: [
-      "Achieving a long-term goal",
-      "Deep connection with loved ones",
-      "Small daily wins & routines",
-      "Personal growth milestones",
-    ],
-  },
-  [EmotionType.Sadness]: {
-    color: "oklch(0.55 0.14 260)",
-    badgeStyle: {
-      background: "oklch(0.35 0.12 260 / 0.22)",
-      color: "oklch(0.8 0.08 260)",
-      border: "1px solid oklch(0.55 0.14 260 / 0.35)",
-    },
-    situations: [
-      "Loss, grief & bereavement",
-      "Broken relationships & endings",
-      "Failure after sustained effort",
-      "Longing for what once was",
-    ],
-  },
-  [EmotionType.Love]: {
-    color: "oklch(0.62 0.2 10)",
-    badgeStyle: {
-      background: "oklch(0.4 0.18 10 / 0.22)",
-      color: "oklch(0.87 0.12 10)",
-      border: "1px solid oklch(0.62 0.2 10 / 0.35)",
-    },
-    situations: [
-      "Romantic pursuit & attraction",
-      "Deep, lasting friendship",
-      "Creative passion & craft",
-      "Spiritual connection & devotion",
-    ],
-  },
-  [EmotionType.Anxiety]: {
-    color: "oklch(0.62 0.16 55)",
-    badgeStyle: {
-      background: "oklch(0.4 0.14 55 / 0.22)",
-      color: "oklch(0.88 0.1 55)",
-      border: "1px solid oklch(0.62 0.16 55 / 0.35)",
-    },
-    situations: [
-      "Career decisions & transitions",
-      "Uncertain or unknown futures",
-      "Social situations & acceptance",
-      "Health scares & medical unknowns",
-    ],
-  },
-  [EmotionType.Desire]: {
-    color: "oklch(0.6 0.2 45)",
-    badgeStyle: {
-      background: "oklch(0.38 0.18 45 / 0.22)",
-      color: "oklch(0.88 0.12 45)",
-      border: "1px solid oklch(0.6 0.2 45 / 0.35)",
-    },
-    situations: [
-      "Career ambition & advancement",
-      "Financial goals & wealth building",
-      "Romantic longing & pursuit",
-      "Power, recognition & legacy",
-    ],
-  },
-  [EmotionType.Guilt]: {
-    color: "oklch(0.54 0.14 220)",
-    badgeStyle: {
-      background: "oklch(0.35 0.12 220 / 0.22)",
-      color: "oklch(0.82 0.08 220)",
-      border: "1px solid oklch(0.54 0.14 220 / 0.35)",
-    },
-    situations: [
-      "Breaking promises you made",
-      "Moral failures & lapses in integrity",
-      "Neglecting important relationships",
-      "Lingering past regrets",
-    ],
-  },
-  [EmotionType.Awe]: {
-    color: "oklch(0.65 0.18 280)",
-    badgeStyle: {
-      background: "oklch(0.4 0.16 280 / 0.22)",
-      color: "oklch(0.86 0.1 280)",
-      border: "1px solid oklch(0.65 0.18 280 / 0.35)",
-    },
-    situations: [
-      "Encounters with vast nature",
-      "Great art, music, or architecture",
-      "Witnessing historical moments",
-      "Scientific or cosmic discoveries",
-    ],
-  },
-  [EmotionType.Peace]: {
-    color: "oklch(0.65 0.16 155)",
-    badgeStyle: {
-      background: "oklch(0.42 0.14 155 / 0.22)",
-      color: "oklch(0.87 0.1 155)",
-      border: "1px solid oklch(0.65 0.16 155 / 0.35)",
-    },
-    situations: [
-      "Deep meditation & stillness",
-      "Nature walks & natural settings",
-      "Acceptance of what cannot change",
-      "Purposeful simplicity & minimalism",
-    ],
-  },
+  emotionColor,
+} from "@/types/emotion";
+import { useNavigate } from "@tanstack/react-router";
+import { ArrowLeft, BookOpen, Brain, ListChecks, Printer } from "lucide-react";
+
+function emotionBadgeStyle(emotion: EmotionType): React.CSSProperties {
+  return {
+    background: emotionColor(emotion, 0.18),
+    color: emotionColor(emotion),
+    border: `1px solid ${emotionColor(emotion, 0.4)}`,
+  };
+}
+
+// ─── Real-life situations per emotion ─────────────────────────────────────────
+const EMOTION_SITUATIONS: Record<EmotionType, string[]> = {
+  [EmotionType.Fear]: [
+    "Exam season and job interviews",
+    "Starting a new relationship",
+    "Financial risk and investments",
+    "Public speaking and presentations",
+  ],
+  [EmotionType.Anger]: [
+    "Betrayal by a trusted person",
+    "Injustice at work or in systems",
+    "Family conflict and disagreements",
+    "Unmet expectations and disappointment",
+  ],
+  [EmotionType.Happiness]: [
+    "Achieving a long-term goal",
+    "Deep connection with loved ones",
+    "Small daily wins and routines",
+    "Personal growth milestones",
+  ],
+  [EmotionType.Sadness]: [
+    "Loss, grief and bereavement",
+    "Broken relationships and endings",
+    "Failure after sustained effort",
+    "Longing for what once was",
+  ],
+  [EmotionType.Love]: [
+    "Romantic pursuit and attraction",
+    "Deep, lasting friendship",
+    "Creative passion and craft",
+    "Spiritual connection and devotion",
+  ],
+  [EmotionType.Anxiety]: [
+    "Career decisions and transitions",
+    "Uncertain or unknown futures",
+    "Social situations and acceptance",
+    "Health scares and medical unknowns",
+  ],
+  [EmotionType.Desire]: [
+    "Career ambition and advancement",
+    "Financial goals and wealth building",
+    "Romantic longing and pursuit",
+    "Power, recognition and legacy",
+  ],
+  [EmotionType.Guilt]: [
+    "Breaking promises you made",
+    "Moral failures and lapses in integrity",
+    "Neglecting important relationships",
+    "Lingering past regrets",
+  ],
+  [EmotionType.Awe]: [
+    "Encounters with vast nature",
+    "Great art, music, or architecture",
+    "Witnessing historical moments",
+    "Scientific or cosmic discoveries",
+  ],
+  [EmotionType.Peace]: [
+    "Deep meditation and stillness",
+    "Nature walks and natural settings",
+    "Acceptance of what cannot change",
+    "Purposeful simplicity and minimalism",
+  ],
 };
 
 const PHILOSOPHICAL_RULES = [
@@ -163,13 +89,7 @@ const PHILOSOPHICAL_RULES = [
     school: "Stoic Philosophy",
     thinkers: "Epictetus · Marcus Aurelius · Seneca",
     application:
-      "Before reacting emotionally, ask: 'Is this the event itself, or my interpretation of it?' You cannot control what happens — only how you frame it.",
-    color: "oklch(0.58 0.2 25)",
-    badgeStyle: {
-      background: "oklch(0.35 0.18 25 / 0.22)",
-      color: "oklch(0.85 0.12 25)",
-      border: "1px solid oklch(0.58 0.2 25 / 0.35)",
-    },
+      "Before reacting emotionally, ask: 'Is this the event itself, or my interpretation of it?' You cannot control what happens, only how you frame it.",
     emotions: [EmotionType.Fear, EmotionType.Anger, EmotionType.Anxiety],
   },
   {
@@ -178,13 +98,7 @@ const PHILOSOPHICAL_RULES = [
     school: "Existentialist Philosophy",
     thinkers: "Jean-Paul Sartre · Søren Kierkegaard",
     application:
-      "Your emotions signal where you feel responsible. Guilt, desire, and anxiety point to choices you own. Own them fully — that is where your power lives.",
-    color: "oklch(0.55 0.14 260)",
-    badgeStyle: {
-      background: "oklch(0.35 0.12 260 / 0.22)",
-      color: "oklch(0.8 0.08 260)",
-      border: "1px solid oklch(0.55 0.14 260 / 0.35)",
-    },
+      "Your emotions signal where you feel responsible. Guilt, desire, and anxiety point to choices you own. Own them fully: that is where your power lives.",
     emotions: [EmotionType.Guilt, EmotionType.Desire, EmotionType.Anxiety],
   },
   {
@@ -194,12 +108,6 @@ const PHILOSOPHICAL_RULES = [
     thinkers: "Marcus Aurelius · Buddha · Lao Tzu",
     application:
       "Happiness and peace are found not in acquiring more, but in releasing attachment to outcomes. Witness the emotion; you are not the emotion.",
-    color: "oklch(0.65 0.16 155)",
-    badgeStyle: {
-      background: "oklch(0.42 0.14 155 / 0.22)",
-      color: "oklch(0.87 0.1 155)",
-      border: "1px solid oklch(0.65 0.16 155 / 0.35)",
-    },
     emotions: [EmotionType.Peace, EmotionType.Awe, EmotionType.Happiness],
   },
 ];
@@ -235,25 +143,31 @@ function EmotionCard({
   emotion,
   index,
 }: { emotion: EmotionType; index: number }) {
-  const meta = EMOTION_META[emotion];
   const phil = EMOTION_PHILOSOPHY[emotion];
+  const Icon = EMOTION_ICONS[emotion];
+  const color = emotionColor(emotion);
 
   return (
     <div
       data-ocid={`guide.emotion_card.${index + 1}`}
       className="rounded-xl border border-border bg-card flex flex-col overflow-hidden"
       style={{
-        borderLeftColor: meta.color,
+        borderLeftColor: color,
         borderLeftWidth: "4px",
         pageBreakInside: "avoid",
       }}
     >
       <div className="px-5 pt-5 pb-3">
         <div className="flex items-start justify-between gap-3 mb-3">
-          <span className="text-3xl leading-none">{phil.emoji}</span>
+          <div
+            className="w-10 h-10 rounded-lg flex items-center justify-center"
+            style={{ background: emotionColor(emotion, 0.15) }}
+          >
+            <Icon className="w-5 h-5" style={{ color }} />
+          </div>
           <span
             className="text-xs font-medium px-2.5 py-1 rounded-full font-body"
-            style={meta.badgeStyle}
+            style={emotionBadgeStyle(emotion)}
           >
             {phil.philosopher}
           </span>
@@ -271,15 +185,12 @@ function EmotionCard({
       <div className="px-5 py-4">
         <blockquote
           className="font-display text-sm leading-relaxed text-foreground/90 italic border-l-2 pl-3"
-          style={{ borderColor: meta.color }}
+          style={{ borderColor: color }}
         >
           "{phil.quote}"
         </blockquote>
         <p className="mt-2 text-xs font-body text-muted-foreground">
-          <span
-            className="font-semibold not-italic"
-            style={{ color: meta.color }}
-          >
+          <span className="font-semibold not-italic" style={{ color }}>
             Insight:{" "}
           </span>
           {phil.insight}
@@ -293,14 +204,14 @@ function EmotionCard({
           Real-life situations
         </p>
         <ul className="space-y-1.5">
-          {meta.situations.map((s) => (
+          {EMOTION_SITUATIONS[emotion].map((s) => (
             <li
               key={s}
               className="flex items-start gap-2 text-sm font-body text-foreground/80"
             >
               <span
                 className="mt-1.5 shrink-0 w-1.5 h-1.5 rounded-full"
-                style={{ background: meta.color }}
+                style={{ background: color }}
               />
               {s}
             </li>
@@ -316,12 +227,14 @@ function RuleCard({
   rule,
   index,
 }: { rule: (typeof PHILOSOPHICAL_RULES)[0]; index: number }) {
+  const color = emotionColor(rule.emotions[0]);
+
   return (
     <div
       data-ocid={`guide.rule_card.${index + 1}`}
       className="rounded-xl border border-border bg-card p-6 flex flex-col gap-3"
       style={{
-        borderTopColor: rule.color,
+        borderTopColor: color,
         borderTopWidth: "3px",
         pageBreakInside: "avoid",
       }}
@@ -329,7 +242,7 @@ function RuleCard({
       <div className="flex items-center gap-3">
         <span
           className="font-display text-4xl font-bold opacity-25"
-          style={{ color: rule.color }}
+          style={{ color }}
         >
           {rule.number}
         </span>
@@ -350,15 +263,19 @@ function RuleCard({
         {rule.application}
       </p>
       <div className="flex flex-wrap gap-1.5 mt-1">
-        {rule.emotions.map((e) => (
-          <span
-            key={e}
-            className="text-xs px-2 py-0.5 rounded-full font-body"
-            style={EMOTION_META[e].badgeStyle}
-          >
-            {EMOTION_PHILOSOPHY[e].emoji} {e}
-          </span>
-        ))}
+        {rule.emotions.map((e) => {
+          const EmotionIcon = EMOTION_ICONS[e];
+          return (
+            <span
+              key={e}
+              className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full font-body"
+              style={emotionBadgeStyle(e)}
+            >
+              <EmotionIcon className="w-3 h-3" />
+              {e}
+            </span>
+          );
+        })}
       </div>
     </div>
   );
@@ -421,7 +338,7 @@ export function GuidePage() {
             </p>
             <p className="text-sm text-muted-foreground font-body max-w-2xl mx-auto leading-relaxed">
               Each emotion mapped to its philosopher, core insight, and
-              real-life situations — so you understand why you feel what you
+              real-life situations, so you understand why you feel what you
               feel, and what to do about it.
             </p>
           </div>
@@ -429,7 +346,7 @@ export function GuidePage() {
           {/* Emotions grid */}
           <section data-ocid="guide.emotions_section" className="mb-14">
             <h2 className="font-display text-lg font-semibold text-foreground mb-6 flex items-center gap-2">
-              <span className="text-xl">🧠</span> The 10 Core Emotions
+              <Brain className="w-5 h-5 text-primary" /> The 10 Core Emotions
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 guide-grid">
               {ORDERED_EMOTIONS.map((emotion, index) => (
@@ -444,11 +361,11 @@ export function GuidePage() {
           <section data-ocid="guide.rules_section" className="mb-12">
             <div className="text-center mb-8">
               <h2 className="font-display text-2xl font-bold text-foreground mb-2">
-                ⚡ The 3 Master Rules
+                The 3 Master Rules
               </h2>
               <p className="text-sm text-muted-foreground font-body max-w-xl mx-auto">
                 All 10 emotions reduce to three timeless philosophical
-                principles. Memorise these — they apply in every situation.
+                principles. Memorise these: they apply in every situation.
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5 guide-rules-grid">
@@ -464,8 +381,9 @@ export function GuidePage() {
             className="mb-12 rounded-xl border border-border bg-card overflow-hidden"
           >
             <div className="px-6 py-4 border-b border-border">
-              <h2 className="font-display text-lg font-semibold text-foreground">
-                📋 Quick-Reference Table
+              <h2 className="font-display text-lg font-semibold text-foreground flex items-center gap-2">
+                <ListChecks className="w-4 h-4 text-primary" />
+                Quick-Reference Table
               </h2>
               <p className="text-xs text-muted-foreground font-body mt-0.5">
                 Emotion → Philosopher → Key rule
@@ -490,7 +408,7 @@ export function GuidePage() {
                 <tbody>
                   {ORDERED_EMOTIONS.map((emotion) => {
                     const p = EMOTION_PHILOSOPHY[emotion];
-                    const m = EMOTION_META[emotion];
+                    const Icon = EMOTION_ICONS[emotion];
                     const ruleIdx = RULE_MAP[emotion];
                     const rule = PHILOSOPHICAL_RULES[ruleIdx];
                     return (
@@ -500,8 +418,13 @@ export function GuidePage() {
                       >
                         <td className="px-4 py-3">
                           <span className="flex items-center gap-2 font-semibold text-foreground">
-                            <span>{p.emoji}</span>
-                            <span style={{ color: m.color }}>{emotion}</span>
+                            <Icon
+                              className="w-4 h-4"
+                              style={{ color: emotionColor(emotion) }}
+                            />
+                            <span style={{ color: emotionColor(emotion) }}>
+                              {emotion}
+                            </span>
                           </span>
                         </td>
                         <td className="px-4 py-3 text-muted-foreground">
@@ -513,7 +436,7 @@ export function GuidePage() {
                         <td className="px-4 py-3">
                           <span
                             className="text-xs px-2 py-0.5 rounded-full whitespace-nowrap"
-                            style={rule.badgeStyle}
+                            style={emotionBadgeStyle(rule.emotions[0])}
                           >
                             {rule.number} {rule.title}
                           </span>

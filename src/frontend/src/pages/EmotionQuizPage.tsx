@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useActor } from "@caffeineai/core-infrastructure";
 import { useRouter } from "@tanstack/react-router";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useState } from "react";
 import { createActor } from "../backend";
@@ -236,10 +237,11 @@ export function EmotionQuizPage() {
                   variant="outline"
                   onClick={handleBack}
                   disabled={currentQ === 0}
-                  className="font-body transition-smooth"
+                  className="gap-1.5 font-body transition-smooth"
                   data-ocid="emotion_quiz.back_button"
                 >
-                  ← Back
+                  <ArrowLeft className="w-4 h-4" />
+                  Back
                 </Button>
                 <Button
                   onClick={handleNext}
@@ -253,9 +255,15 @@ export function EmotionQuizPage() {
                       Saving…
                     </>
                   ) : isLast ? (
-                    "See Results →"
+                    <>
+                      See Results
+                      <ArrowRight className="w-4 h-4" />
+                    </>
                   ) : (
-                    "Next →"
+                    <>
+                      Next
+                      <ArrowRight className="w-4 h-4" />
+                    </>
                   )}
                 </Button>
               </div>
@@ -264,7 +272,7 @@ export function EmotionQuizPage() {
         </AnimatePresence>
 
         <p className="text-center text-xs text-muted-foreground font-body mt-2">
-          There are no right or wrong answers — trust your instinct.
+          There are no right or wrong answers, trust your instinct.
         </p>
       </div>
     </div>

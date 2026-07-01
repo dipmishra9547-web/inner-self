@@ -50,11 +50,16 @@
     --chart-4: 0.68 0.18 20;
     --chart-5: 0.78 0.14 80;
 
-    --emotion-fear: 0.55 0.16 280;
-    --emotion-anger: 0.58 0.2 25;
-    --emotion-happiness: 0.78 0.14 80;
-    --emotion-sadness: 0.55 0.13 250;
-    --emotion-love: 0.6 0.17 350;
+    --emotion-fear: 0.58 0.2 25;
+    --emotion-anger: 0.58 0.22 20;
+    --emotion-happiness: 0.72 0.17 70;
+    --emotion-sadness: 0.55 0.14 260;
+    --emotion-love: 0.62 0.2 10;
+    --emotion-anxiety: 0.62 0.16 55;
+    --emotion-desire: 0.6 0.2 45;
+    --emotion-guilt: 0.54 0.14 220;
+    --emotion-awe: 0.65 0.18 280;
+    --emotion-peace: 0.65 0.16 155;
 
     --sidebar: 0.18 0.014 235;
     --sidebar-foreground: 0.95 0.006 235;
@@ -110,11 +115,16 @@
     --chart-4: 0.68 0.18 20;
     --chart-5: 0.78 0.14 80;
 
-    --emotion-fear: 0.55 0.16 280;
-    --emotion-anger: 0.58 0.2 25;
-    --emotion-happiness: 0.78 0.14 80;
-    --emotion-sadness: 0.55 0.13 250;
-    --emotion-love: 0.6 0.17 350;
+    --emotion-fear: 0.58 0.2 25;
+    --emotion-anger: 0.58 0.22 20;
+    --emotion-happiness: 0.72 0.17 70;
+    --emotion-sadness: 0.55 0.14 260;
+    --emotion-love: 0.62 0.2 10;
+    --emotion-anxiety: 0.62 0.16 55;
+    --emotion-desire: 0.6 0.2 45;
+    --emotion-guilt: 0.54 0.14 220;
+    --emotion-awe: 0.65 0.18 280;
+    --emotion-peace: 0.65 0.16 155;
 
     --sidebar: 0.18 0.014 235;
     --sidebar-foreground: 0.95 0.006 235;
