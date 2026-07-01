@@ -5,7 +5,7 @@ import { SiWhatsapp } from "react-icons/si";
 
 const APP_URL = window.location.origin;
 
-const BRAND_COLORS = {
+export const BRAND_COLORS = {
   whatsapp: "#25D366",
   facebook: "#1877F2",
   twitter: "#0f1419",

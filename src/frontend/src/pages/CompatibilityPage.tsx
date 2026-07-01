@@ -3,7 +3,18 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useNavigate, useSearch } from "@tanstack/react-router";
-import { ArrowLeft, Compass } from "lucide-react";
+import {
+  ArrowLeft,
+  CircleCheck,
+  Compass,
+  Handshake,
+  Heart,
+  Moon,
+  Sparkles,
+  TriangleAlert,
+  Users,
+  UsersRound,
+} from "lucide-react";
 import { motion } from "motion/react";
 import { ARCHETYPES } from "../data/archetypes";
 import { COMPATIBILITY_MAP } from "../data/compatibility";
@@ -13,10 +24,19 @@ import type { AnimalType } from "../types/animals";
 
 // ── Compatibility indicator ──────────────────────────────────────────────────
 
-function compatEmoji(score: number): string {
-  if (score >= 4) return "✅";
-  if (score >= 3) return "🤝";
-  return "⚠️";
+function CompatIcon({
+  score,
+  className,
+}: {
+  score: number;
+  className?: string;
+}) {
+  const label = compatLabel(score);
+  if (score >= 4)
+    return <CircleCheck className={className} role="img" aria-label={label} />;
+  if (score >= 3)
+    return <Handshake className={className} role="img" aria-label={label} />;
+  return <TriangleAlert className={className} role="img" aria-label={label} />;
 }
 
 function compatLabel(score: number): string {
@@ -63,13 +83,13 @@ const SELF_ENTRY = {
 
 const GROUP_CTX_LABELS: {
   key: "large" | "small" | "micro" | "isolation";
-  emoji: string;
+  icon: typeof UsersRound;
   label: string;
 }[] = [
-  { key: "large", emoji: "🌍", label: "Large Group" },
-  { key: "small", emoji: "👥", label: "Small Group" },
-  { key: "micro", emoji: "🫂", label: "Micro Group" },
-  { key: "isolation", emoji: "🧘", label: "Isolation" },
+  { key: "large", icon: UsersRound, label: "Large Group" },
+  { key: "small", icon: Users, label: "Small Group" },
+  { key: "micro", icon: Heart, label: "Micro Group" },
+  { key: "isolation", icon: Moon, label: "Isolation" },
 ];
 
 // ── CompatibilityCard ────────────────────────────────────────────────────────
@@ -96,7 +116,7 @@ function CompatibilityCard({
   const score = isSelf ? SELF_ENTRY.levelScore : (entry?.levelScore ?? 3);
   const connectionType = isSelf
     ? SELF_ENTRY.connectionType
-    : (entry?.connectionType ?? "—");
+    : (entry?.connectionType ?? "-");
   const description = isSelf
     ? SELF_ENTRY.description
     : (entry?.description ?? "");
@@ -155,9 +175,10 @@ function CompatibilityCard({
 
             {/* Indicator badge */}
             <div className="flex flex-col items-end gap-1 shrink-0">
-              <span className="text-xl" aria-label={compatLabel(score)}>
-                {compatEmoji(score)}
-              </span>
+              <CompatIcon
+                score={score}
+                className={`w-5 h-5 ${levelTextClass(score)}`}
+              />
               <Badge
                 variant="outline"
                 className={`text-xs font-body border-0 px-0 ${levelTextClass(score)}`}
@@ -189,7 +210,7 @@ function CompatibilityCard({
           <p className="text-xs uppercase tracking-widest text-muted-foreground font-body mb-2">
             Pairing Context
           </p>
-          {GROUP_CTX_LABELS.map(({ key, emoji, label }) => {
+          {GROUP_CTX_LABELS.map(({ key, icon: Icon, label }) => {
             const text = isSelf
               ? dynamics![key]
               : `${myDynamics![key].split(".")[0]}. ${otherDynamics![key].split(".")[0]}.`;
@@ -199,7 +220,7 @@ function CompatibilityCard({
                 className="flex items-start gap-2"
                 data-ocid={`compatibility.card.${index + 1}.${key}`}
               >
-                <span className="text-sm shrink-0 mt-0.5">{emoji}</span>
+                <Icon className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" />
                 <div className="min-w-0 flex-1">
                   <span className="text-xs font-semibold font-body text-foreground">
                     {label}:{" "}
@@ -301,15 +322,22 @@ export function CompatibilityPage() {
             </p>
             <div className="flex flex-wrap gap-3">
               {[
-                { emoji: "✅", label: "Highly Compatible / Strong Bond" },
-                { emoji: "🤝", label: "Balanced" },
-                { emoji: "⚠️", label: "Potential Conflict / High Risk" },
-              ].map(({ emoji, label }) => (
+                {
+                  icon: CircleCheck,
+                  label: "Highly Compatible / Strong Bond",
+                },
+                { icon: Handshake, label: "Balanced" },
+                {
+                  icon: TriangleAlert,
+                  label: "Potential Conflict / High Risk",
+                },
+              ].map(({ icon: Icon, label }) => (
                 <span
-                  key={emoji}
-                  className="flex items-center gap-1 text-xs text-muted-foreground font-body"
+                  key={label}
+                  className="flex items-center gap-1.5 text-xs text-muted-foreground font-body"
                 >
-                  {emoji} {label}
+                  <Icon className="w-3.5 h-3.5 shrink-0" />
+                  {label}
                 </span>
               ))}
             </div>
@@ -329,12 +357,14 @@ export function CompatibilityPage() {
               data-ocid="compatibility.empty_state"
             >
               <Card className="bg-card border-border p-8 text-center mb-8">
-                <div className="text-5xl mb-4">🔮</div>
+                <div className="w-14 h-14 rounded-2xl bg-primary/15 border border-primary/30 flex items-center justify-center mx-auto mb-4">
+                  <Sparkles className="w-7 h-7 text-primary" />
+                </div>
                 <h2 className="font-display text-xl font-bold text-foreground mb-2">
                   Discover Your Archetype First
                 </h2>
                 <p className="text-sm text-muted-foreground font-body mb-6 max-w-xs mx-auto leading-relaxed">
-                  Take the quiz to reveal your animal type — then come back here
+                  Take the quiz to reveal your animal type, then come back here
                   to see your personal compatibility map.
                 </p>
                 <Button
@@ -368,7 +398,7 @@ export function CompatibilityPage() {
               className="mb-5"
             >
               <p className="text-xs uppercase tracking-widest text-muted-foreground font-body">
-                All 7 Pairings — {archetype?.name} Edition
+                All 7 Pairings: {archetype?.name} Edition
               </p>
             </motion.div>
           )}

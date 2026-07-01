@@ -7,18 +7,23 @@ import { useInternetIdentity } from "@caffeineai/core-infrastructure";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import {
   AlertTriangle,
+  Check,
   CheckCircle2,
   Compass,
   Copy,
   Facebook,
+  Heart,
+  Moon,
   RefreshCw,
   Share2,
   Twitter,
   Users,
+  UsersRound,
 } from "lucide-react";
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { SiWhatsapp } from "react-icons/si";
+import { BRAND_COLORS } from "../components/ShareSection";
 import { ARCHETYPES } from "../data/archetypes";
 import { COMPATIBILITY_MAP } from "../data/compatibility";
 import { QUIZ_QUESTIONS } from "../data/quizQuestions";
@@ -35,12 +40,12 @@ function formatDate(date: Date): string {
 
 const GROUP_LABELS: Record<
   keyof NonNullable<(typeof ARCHETYPES)["Lion"]["groupDynamics"]>,
-  { label: string; icon: string }
+  { label: string; icon: typeof UsersRound }
 > = {
-  large: { label: "Large Group", icon: "🏟️" },
-  small: { label: "Small Group", icon: "👥" },
-  micro: { label: "Close Bond", icon: "🤝" },
-  isolation: { label: "Alone Time", icon: "🌙" },
+  large: { label: "Large Group", icon: UsersRound },
+  small: { label: "Small Group", icon: Users },
+  micro: { label: "Close Bond", icon: Heart },
+  isolation: { label: "Alone Time", icon: Moon },
 };
 
 // ── Share Result Component ────────────────────────────────────────────────────
@@ -110,7 +115,7 @@ function ShareResult({ animalType }: ShareResultProps) {
             rel="noopener noreferrer"
             aria-label="Share on WhatsApp"
             className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-body font-medium transition-smooth hover:opacity-90 active:scale-95"
-            style={{ background: "#25D366", color: "#fff" }}
+            style={{ background: BRAND_COLORS.whatsapp, color: "#fff" }}
             data-ocid="result.share_whatsapp"
           >
             <SiWhatsapp className="w-3.5 h-3.5" />
@@ -122,7 +127,7 @@ function ShareResult({ animalType }: ShareResultProps) {
             rel="noopener noreferrer"
             aria-label="Share on Facebook"
             className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-body font-medium transition-smooth hover:opacity-90 active:scale-95"
-            style={{ background: "#1877F2", color: "#fff" }}
+            style={{ background: BRAND_COLORS.facebook, color: "#fff" }}
             data-ocid="result.share_facebook"
           >
             <Facebook className="w-3.5 h-3.5" />
@@ -134,7 +139,7 @@ function ShareResult({ animalType }: ShareResultProps) {
             rel="noopener noreferrer"
             aria-label="Share on Twitter"
             className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-body font-medium transition-smooth hover:opacity-90 active:scale-95"
-            style={{ background: "#0f1419", color: "#fff" }}
+            style={{ background: BRAND_COLORS.twitter, color: "#fff" }}
             data-ocid="result.share_twitter"
           >
             <Twitter className="w-3.5 h-3.5" />X
@@ -337,7 +342,7 @@ export function ResultPage() {
                         className="flex items-start gap-2 text-sm font-body text-muted-foreground"
                         data-ocid={`result.strength.${i + 1}`}
                       >
-                        <span className="text-accent mt-0.5 shrink-0">✓</span>
+                        <Check className="w-3.5 h-3.5 text-accent mt-0.5 shrink-0" />
                         {s}
                       </motion.li>
                     ))}
@@ -346,7 +351,7 @@ export function ResultPage() {
 
                 <div data-ocid="result.challenges">
                   <div className="flex items-center gap-2 mb-2">
-                    <AlertTriangle className="w-3.5 h-3.5 text-[oklch(0.72_0.17_50)] shrink-0" />
+                    <AlertTriangle className="w-3.5 h-3.5 text-warning shrink-0" />
                     <span className="text-xs font-semibold text-foreground uppercase tracking-wider font-body">
                       Growth Areas
                     </span>
@@ -361,9 +366,7 @@ export function ResultPage() {
                         className="flex items-start gap-2 text-sm font-body text-muted-foreground"
                         data-ocid={`result.challenge.${i + 1}`}
                       >
-                        <span className="text-[oklch(0.72_0.17_50)] mt-0.5 shrink-0">
-                          ⚠
-                        </span>
+                        <AlertTriangle className="w-3.5 h-3.5 text-warning mt-0.5 shrink-0" />
                         {c}
                       </motion.li>
                     ))}
@@ -390,7 +393,7 @@ export function ResultPage() {
                 {(
                   Object.entries(GROUP_LABELS) as [
                     keyof typeof GROUP_LABELS,
-                    { label: string; icon: string },
+                    (typeof GROUP_LABELS)[keyof typeof GROUP_LABELS],
                   ][]
                 ).map(([key, meta], i) => (
                   <motion.div
@@ -402,7 +405,7 @@ export function ResultPage() {
                     data-ocid={`result.group_dynamics.${key}`}
                   >
                     <div className="flex items-center gap-2 mb-1.5">
-                      <span className="text-sm">{meta.icon}</span>
+                      <meta.icon className="w-3.5 h-3.5 text-primary shrink-0" />
                       <span className="text-xs font-semibold text-foreground uppercase tracking-wider font-body">
                         {meta.label}
                       </span>
