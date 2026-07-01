@@ -3,15 +3,27 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useInternetIdentity } from "@caffeineai/core-infrastructure";
 import { useParams, useRouter } from "@tanstack/react-router";
-import { ArrowLeft, ChevronDown, ChevronUp, Shield, User } from "lucide-react";
+import {
+  ArrowLeft,
+  Brain,
+  ChevronDown,
+  ChevronUp,
+  PawPrint,
+  Shield,
+  Skull,
+  User,
+} from "lucide-react";
 import { useState } from "react";
+import { ARCHETYPES } from "../data/archetypes";
 import { useAdminUserResults } from "../hooks/useAuth";
 import { useAuth } from "../hooks/useAuth";
+import type { AnimalType } from "../types/animals";
 import type {
   AnimalResultEntry,
   DarkSideResultEntry,
   EmotionResultEntry,
 } from "../types/auth";
+import { EMOTION_ICONS, type EmotionType } from "../types/emotion";
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -60,16 +72,6 @@ function Forbidden() {
 
 // ─── Animal Results ───────────────────────────────────────────────────────────
 
-const ANIMAL_EMOJIS: Record<string, string> = {
-  Lion: "🦁",
-  Otter: "🦦",
-  GoldenRetriever: "🐕",
-  Beaver: "🦫",
-  Wolf: "🐺",
-  Sheep: "🐑",
-  Shepherd: "🧑‍🌾",
-};
-
 function AnimalTable({ results }: { results: AnimalResultEntry[] }) {
   if (results.length === 0) {
     return (
@@ -104,7 +106,8 @@ function AnimalTable({ results }: { results: AnimalResultEntry[] }) {
             data-ocid={`admin_user_detail.animal_item.${idx + 1}`}
           >
             <td className="py-3 px-3 text-foreground font-medium">
-              {ANIMAL_EMOJIS[r.animalType] ?? "🐾"} {r.animalType}
+              {ARCHETYPES[r.animalType as AnimalType]?.emoji ?? "🐾"}{" "}
+              {r.animalType}
             </td>
             <td className="py-3 px-3 text-right text-muted-foreground font-mono">
               {r.score.toString()}
@@ -120,19 +123,6 @@ function AnimalTable({ results }: { results: AnimalResultEntry[] }) {
 }
 
 // ─── Emotion Results ──────────────────────────────────────────────────────────
-
-const EMOTION_EMOJIS: Record<string, string> = {
-  Fear: "😨",
-  Anger: "😠",
-  Happiness: "😊",
-  Sadness: "😢",
-  Love: "😍",
-  Anxiety: "😟",
-  Desire: "😤",
-  Guilt: "😔",
-  Awe: "😮",
-  Peace: "🧘",
-};
 
 function EmotionTable({ results }: { results: EmotionResultEntry[] }) {
   if (results.length === 0) {
@@ -167,8 +157,12 @@ function EmotionTable({ results }: { results: EmotionResultEntry[] }) {
             className="border-b border-border/30 hover:bg-muted/20 transition-colors"
             data-ocid={`admin_user_detail.emotion_item.${idx + 1}`}
           >
-            <td className="py-3 px-3 text-foreground font-medium">
-              {EMOTION_EMOJIS[r.emotionType] ?? "🧠"} {r.emotionType}
+            <td className="py-3 px-3 text-foreground font-medium flex items-center gap-2">
+              {(() => {
+                const Icon = EMOTION_ICONS[r.emotionType as EmotionType];
+                return Icon ? <Icon className="w-4 h-4" /> : null;
+              })()}
+              {r.emotionType}
             </td>
             <td className="py-3 px-3 text-right text-muted-foreground font-mono">
               {Math.round(r.score)}%
@@ -200,8 +194,9 @@ function DarkSideRow({ r, idx }: { r: DarkSideResultEntry; idx: number }) {
         className="border-b border-border/30 hover:bg-muted/20 transition-colors"
         data-ocid={`admin_user_detail.darkside_item.${idx + 1}`}
       >
-        <td className="py-3 px-3 text-foreground font-medium">
-          💀 {r.personalityType}
+        <td className="py-3 px-3 text-foreground font-medium flex items-center gap-2">
+          <Skull className="w-4 h-4 text-muted-foreground" />
+          {r.personalityType}
         </td>
         <td className="py-3 px-3 text-right text-muted-foreground font-mono">
           {Math.round(r.dominantPercentage)}%
@@ -388,14 +383,17 @@ export function AdminUserDetailPage() {
             {email ?? "Unknown user"}
           </p>
           <div className="flex gap-2 mt-2">
-            <Badge variant="secondary" className="font-body text-xs">
-              🐾 {animalResults.length} animal
+            <Badge variant="secondary" className="font-body text-xs gap-1">
+              <PawPrint className="w-3 h-3" />
+              {animalResults.length} animal
             </Badge>
-            <Badge variant="secondary" className="font-body text-xs">
-              🧠 {emotionResults.length} emotion
+            <Badge variant="secondary" className="font-body text-xs gap-1">
+              <Brain className="w-3 h-3" />
+              {emotionResults.length} emotion
             </Badge>
-            <Badge variant="secondary" className="font-body text-xs">
-              💀 {darkSideResults.length} dark side
+            <Badge variant="secondary" className="font-body text-xs gap-1">
+              <Skull className="w-3 h-3" />
+              {darkSideResults.length} dark side
             </Badge>
           </div>
         </div>
@@ -412,7 +410,7 @@ export function AdminUserDetailPage() {
           {/* Animal Results */}
           <SectionCard
             title="Animal Quiz Attempts"
-            icon={<span className="text-lg">🐾</span>}
+            icon={<PawPrint className="w-4 h-4" />}
             badge={`${animalResults.length} attempt${animalResults.length !== 1 ? "s" : ""}`}
             ocid="admin_user_detail.animal_section"
           >
@@ -422,7 +420,7 @@ export function AdminUserDetailPage() {
           {/* Emotion Results */}
           <SectionCard
             title="Emotion Quiz Attempts"
-            icon={<span className="text-lg">🧠</span>}
+            icon={<Brain className="w-4 h-4" />}
             badge={`${emotionResults.length} attempt${emotionResults.length !== 1 ? "s" : ""}`}
             ocid="admin_user_detail.emotion_section"
           >
@@ -432,7 +430,7 @@ export function AdminUserDetailPage() {
           {/* Dark Side Results */}
           <SectionCard
             title="Dark Side Quiz Attempts"
-            icon={<span className="text-lg">💀</span>}
+            icon={<Skull className="w-4 h-4" />}
             badge={`${darkSideResults.length} attempt${darkSideResults.length !== 1 ? "s" : ""}`}
             ocid="admin_user_detail.darkside_section"
           >
