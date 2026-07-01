@@ -3,12 +3,29 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useRouter } from "@tanstack/react-router";
-import { CheckCircle2, Copy, Facebook, Share2, Twitter } from "lucide-react";
+import {
+  ArrowLeft,
+  BookOpen,
+  CheckCircle2,
+  Copy,
+  Facebook,
+  Lightbulb,
+  RotateCcw,
+  Share2,
+  Sparkles,
+  TriangleAlert,
+  Twitter,
+} from "lucide-react";
 import { motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { SiWhatsapp } from "react-icons/si";
+import { BRAND_COLORS } from "../components/ShareSection";
 import { useAuth } from "../hooks/useAuth";
-import { DARK_SIDE_CHART_COLORS, DARK_SIDE_PROFILES } from "../types/darkSide";
+import {
+  DARK_SIDE_CHART_COLORS,
+  DARK_SIDE_ICONS,
+  DARK_SIDE_PROFILES,
+} from "../types/darkSide";
 import type {
   DarkSideResultSummary,
   DarkSideScore,
@@ -32,7 +49,6 @@ function DarkSideDonutChart({ scores }: { scores: DarkSideScore[] }) {
     color: string;
     darkType: DarkSideType;
     percentage: number;
-    emoji: string;
     name: string;
   };
 
@@ -73,122 +89,117 @@ function DarkSideDonutChart({ scores }: { scores: DarkSideScore[] }) {
       color: DARK_SIDE_CHART_COLORS[s.darkType as DarkSideType],
       darkType: s.darkType as DarkSideType,
       percentage: s.percentage,
-      emoji: profile?.emoji ?? "•",
       name: profile?.name ?? s.darkType,
     };
     cursor += angle;
     return slice;
   });
 
-  const dominant = slices[0];
   const dominantProfile =
     DARK_SIDE_PROFILES[scores[0]?.darkType as DarkSideType];
+  const DominantIcon = scores[0]
+    ? DARK_SIDE_ICONS[scores[0].darkType as DarkSideType]
+    : Sparkles;
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <svg
-        width={SIZE}
-        height={SIZE}
-        viewBox={`0 0 ${SIZE} ${SIZE}`}
-        role="img"
-        aria-label="Dark side personality type donut chart"
-      >
-        <title>Dark side personality type distribution</title>
-        {slices.map((slice, i) => {
-          const isHov = hovered === i;
-          const isDominant = i === 0 && totalCount > 0;
-          return (
-            <g key={slice.darkType}>
-              <path
-                d={arcPath(slice.startAngle, slice.endAngle)}
-                fill={slice.color}
-                opacity={
-                  hovered === null || isHov ? (isDominant ? 1 : 0.75) : 0.35
-                }
-                style={{
-                  transform: isHov || isDominant ? "scale(1.04)" : "scale(1)",
-                  transformOrigin: `${CX}px ${CY}px`,
-                  transition: "all 0.18s ease",
-                  cursor: "pointer",
-                }}
-                onMouseEnter={() => setHovered(i)}
-                onMouseLeave={() => setHovered(null)}
+      <div className="relative">
+        <svg
+          width={SIZE}
+          height={SIZE}
+          viewBox={`0 0 ${SIZE} ${SIZE}`}
+          role="img"
+          aria-label="Dark side personality type donut chart"
+        >
+          <title>Dark side personality type distribution</title>
+          {slices.map((slice, i) => {
+            const isHov = hovered === i;
+            const isDominant = i === 0 && totalCount > 0;
+            return (
+              <g key={slice.darkType}>
+                <path
+                  d={arcPath(slice.startAngle, slice.endAngle)}
+                  fill={slice.color}
+                  opacity={
+                    hovered === null || isHov ? (isDominant ? 1 : 0.75) : 0.35
+                  }
+                  style={{
+                    transform: isHov || isDominant ? "scale(1.04)" : "scale(1)",
+                    transformOrigin: `${CX}px ${CY}px`,
+                    transition: "all 0.18s ease",
+                    cursor: "pointer",
+                  }}
+                  onMouseEnter={() => setHovered(i)}
+                  onMouseLeave={() => setHovered(null)}
+                />
+              </g>
+            );
+          })}
+          {hovered !== null && (
+            <>
+              <rect
+                x={CX - 26}
+                y={CY + 26}
+                width="52"
+                height="18"
+                rx="4"
+                fill="oklch(var(--card))"
+                stroke={slices[hovered]?.color ?? "transparent"}
+                strokeWidth="1"
+                opacity="0.95"
               />
-            </g>
-          );
-        })}
-        <text
-          x={CX}
-          y={CY - 12}
-          textAnchor="middle"
-          dominantBaseline="middle"
-          fontSize="26"
-        >
-          {dominant?.emoji}
-        </text>
-        <text
-          x={CX}
-          y={CY + 12}
-          textAnchor="middle"
-          dominantBaseline="middle"
-          fontSize="8"
-          fill="var(--color-muted-foreground)"
-          fontFamily="var(--font-body)"
-          fontWeight="700"
-          letterSpacing="0.07em"
-        >
-          DOMINANT
-        </text>
-        {hovered !== null && (
-          <>
-            <rect
-              x={CX - 38}
-              y={CY + 26}
-              width="76"
-              height="18"
-              rx="4"
-              fill="var(--color-card)"
-              stroke={slices[hovered]?.color ?? "transparent"}
-              strokeWidth="1"
-              opacity="0.95"
-            />
-            <text
-              x={CX}
-              y={CY + 35}
-              textAnchor="middle"
-              dominantBaseline="middle"
-              fontSize="7.5"
-              fontFamily="var(--font-body)"
-              fontWeight="600"
-              fill={slices[hovered]?.color ?? "var(--color-foreground)"}
-            >
-              {slices[hovered]?.percentage}% {slices[hovered]?.emoji}
-            </text>
-          </>
-        )}
-      </svg>
+              <text
+                x={CX}
+                y={CY + 35}
+                textAnchor="middle"
+                dominantBaseline="middle"
+                fontSize="7.5"
+                fontFamily="var(--font-body)"
+                fontWeight="600"
+                fill={slices[hovered]?.color ?? "oklch(var(--foreground))"}
+              >
+                {slices[hovered]?.percentage}%
+              </text>
+            </>
+          )}
+        </svg>
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 pointer-events-none -translate-y-2">
+          <DominantIcon
+            className="w-6 h-6"
+            style={{
+              color:
+                DARK_SIDE_CHART_COLORS[scores[0]?.darkType as DarkSideType],
+            }}
+          />
+          <span className="text-[8px] font-body font-bold text-muted-foreground tracking-wider">
+            DOMINANT
+          </span>
+        </div>
+      </div>
 
       <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 w-full max-w-xs">
-        {slices.map((s, i) => (
-          <div
-            key={s.darkType}
-            className="flex items-center gap-1.5 text-xs font-body"
-            style={{ opacity: scores[i]?.count > 0 ? 1 : 0.45 }}
-          >
-            <span
-              className="w-2.5 h-2.5 rounded-full flex-shrink-0"
-              style={{ background: s.color }}
-            />
-            <span className="truncate text-foreground/80">
-              {s.emoji}{" "}
-              {dominantProfile && s.darkType === scores[0]?.darkType ? (
-                <strong>{DARK_SIDE_PROFILES[s.darkType]?.archLabel}</strong>
-              ) : (
-                DARK_SIDE_PROFILES[s.darkType]?.archLabel
-              )}
-            </span>
-          </div>
-        ))}
+        {slices.map((s, i) => {
+          const Icon = DARK_SIDE_ICONS[s.darkType];
+          return (
+            <div
+              key={s.darkType}
+              className="flex items-center gap-1.5 text-xs font-body"
+              style={{ opacity: scores[i]?.count > 0 ? 1 : 0.45 }}
+            >
+              <Icon
+                className="w-3 h-3 flex-shrink-0"
+                style={{ color: s.color }}
+              />
+              <span className="truncate text-foreground/80">
+                {dominantProfile && s.darkType === scores[0]?.darkType ? (
+                  <strong>{DARK_SIDE_PROFILES[s.darkType]?.archLabel}</strong>
+                ) : (
+                  DARK_SIDE_PROFILES[s.darkType]?.archLabel
+                )}
+              </span>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
@@ -253,7 +264,7 @@ function ShareDarkSideResult({ dominantType }: { dominantType: string }) {
             rel="noopener noreferrer"
             aria-label="Share on WhatsApp"
             className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-body font-medium transition-smooth hover:opacity-90 active:scale-95"
-            style={{ background: "#25D366", color: "#fff" }}
+            style={{ background: BRAND_COLORS.whatsapp, color: "#fff" }}
             data-ocid="dark_side_result.share_whatsapp"
           >
             <SiWhatsapp className="w-3.5 h-3.5" />
@@ -265,7 +276,7 @@ function ShareDarkSideResult({ dominantType }: { dominantType: string }) {
             rel="noopener noreferrer"
             aria-label="Share on Facebook"
             className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-body font-medium transition-smooth hover:opacity-90 active:scale-95"
-            style={{ background: "#1877F2", color: "#fff" }}
+            style={{ background: BRAND_COLORS.facebook, color: "#fff" }}
             data-ocid="dark_side_result.share_facebook"
           >
             <Facebook className="w-3.5 h-3.5" />
@@ -277,7 +288,7 @@ function ShareDarkSideResult({ dominantType }: { dominantType: string }) {
             rel="noopener noreferrer"
             aria-label="Share on Twitter"
             className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-body font-medium transition-smooth hover:opacity-90 active:scale-95"
-            style={{ background: "#0f1419", color: "#fff" }}
+            style={{ background: BRAND_COLORS.twitter, color: "#fff" }}
             data-ocid="dark_side_result.share_twitter"
           >
             <Twitter className="w-3.5 h-3.5" />X
@@ -351,8 +362,7 @@ export function DarkSideResultPage() {
   const dominantProfile =
     DARK_SIDE_PROFILES[dominant?.darkType as DarkSideType];
   const dominantColor =
-    DARK_SIDE_CHART_COLORS[dominant?.darkType as DarkSideType] ??
-    "var(--color-primary)";
+    DARK_SIDE_CHART_COLORS[dominant?.darkType as DarkSideType] ?? "#94a3b8";
 
   const takenAt = new Date(result.takenAt).toLocaleDateString(undefined, {
     year: "numeric",
@@ -430,9 +440,21 @@ export function DarkSideResultPage() {
               <div className="h-1.5" style={{ background: dominantColor }} />
               <CardContent className="p-6">
                 <div className="flex items-start gap-4">
-                  <span className="text-5xl leading-none flex-shrink-0 mt-0.5">
-                    {dominantProfile.emoji}
-                  </span>
+                  <div
+                    className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0"
+                    style={{ background: `${dominantColor}18` }}
+                  >
+                    {(() => {
+                      const DominantIcon =
+                        DARK_SIDE_ICONS[dominant?.darkType as DarkSideType];
+                      return (
+                        <DominantIcon
+                          className="w-7 h-7"
+                          style={{ color: dominantColor }}
+                        />
+                      );
+                    })()}
+                  </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1 flex-wrap">
                       <h2
@@ -456,7 +478,7 @@ export function DarkSideResultPage() {
                       {dominantProfile.tagline}
                     </p>
                     <p className="text-xs font-body text-muted-foreground">
-                      {dominantProfile.name} — Criminology / Psychology Profile
+                      {dominantProfile.name}: Criminology / Psychology Profile
                     </p>
                   </div>
                 </div>
@@ -471,10 +493,11 @@ export function DarkSideResultPage() {
                     data-ocid="dark_side_result.strengths"
                   >
                     <p
-                      className="text-xs font-semibold uppercase tracking-widest mb-2.5 font-body"
+                      className="text-xs font-semibold uppercase tracking-widest mb-2.5 font-body flex items-center gap-1.5"
                       style={{ color: dominantColor }}
                     >
-                      ✦ Strengths
+                      <Sparkles className="w-3.5 h-3.5" />
+                      Strengths
                     </p>
                     <ul className="space-y-1.5">
                       {dominantProfile.strengths.map((s) => (
@@ -498,8 +521,9 @@ export function DarkSideResultPage() {
                     className="rounded-xl p-4 bg-muted/30 border border-border/50"
                     data-ocid="dark_side_result.weaknesses"
                   >
-                    <p className="text-xs font-semibold uppercase tracking-widest mb-2.5 font-body text-muted-foreground">
-                      ⚠ Watch Points
+                    <p className="text-xs font-semibold uppercase tracking-widest mb-2.5 font-body text-muted-foreground flex items-center gap-1.5">
+                      <TriangleAlert className="w-3.5 h-3.5" />
+                      Watch Points
                     </p>
                     <ul className="space-y-1.5">
                       {dominantProfile.weaknesses.map((w) => (
@@ -518,18 +542,20 @@ export function DarkSideResultPage() {
                 </div>
 
                 <div
-                  className="mt-4 px-4 py-3 rounded-xl text-sm font-body text-foreground/85 leading-relaxed italic"
+                  className="mt-4 px-4 py-3 rounded-xl text-sm font-body text-foreground/85 leading-relaxed italic flex items-start gap-2"
                   style={{
                     border: `1px solid ${dominantColor}44`,
                     background: `${dominantColor}0e`,
                   }}
                   data-ocid="dark_side_result.insight"
                 >
-                  💡{" "}
-                  <strong className="not-italic font-semibold">
-                    Self-awareness:
-                  </strong>{" "}
-                  {dominantProfile.insight}
+                  <Lightbulb className="w-4 h-4 shrink-0 mt-0.5 not-italic" />
+                  <span>
+                    <strong className="not-italic font-semibold">
+                      Self-awareness:
+                    </strong>{" "}
+                    {dominantProfile.insight}
+                  </span>
                 </div>
               </CardContent>
             </Card>
@@ -555,9 +581,15 @@ export function DarkSideResultPage() {
                 <div className="h-1" style={{ background: color }} />
                 <CardContent className="p-5">
                   <div className="flex items-start gap-4">
-                    <span className="text-3xl leading-none flex-shrink-0 mt-0.5">
-                      {profile.emoji}
-                    </span>
+                    <div
+                      className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
+                      style={{ background: `${color}18` }}
+                    >
+                      {(() => {
+                        const Icon = DARK_SIDE_ICONS[score.darkType];
+                        return <Icon className="w-5 h-5" style={{ color }} />;
+                      })()}
+                    </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1 flex-wrap">
                         <h3
@@ -578,13 +610,14 @@ export function DarkSideResultPage() {
                         {profile.tagline}
                       </p>
                       <div
-                        className="px-3 py-2 rounded-lg text-xs font-body text-foreground/85 leading-relaxed"
+                        className="px-3 py-2 rounded-lg text-xs font-body text-foreground/85 leading-relaxed flex items-start gap-2"
                         style={{
                           border: `1px solid ${color}40`,
                           background: `${color}0d`,
                         }}
                       >
-                        💡 {profile.insight}
+                        <Lightbulb className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+                        {profile.insight}
                       </div>
                     </div>
                   </div>
@@ -614,15 +647,14 @@ export function DarkSideResultPage() {
                     DARK_SIDE_PROFILES[score.darkType as DarkSideType];
                   const color =
                     DARK_SIDE_CHART_COLORS[score.darkType as DarkSideType];
+                  const Icon = DARK_SIDE_ICONS[score.darkType as DarkSideType];
                   return (
                     <div
                       key={score.darkType}
                       className="flex items-center gap-3"
                       data-ocid={`dark_side_result.breakdown_item.${i + 1}`}
                     >
-                      <span className="w-5 text-center text-sm flex-shrink-0">
-                        {profile?.emoji}
-                      </span>
+                      <Icon className="w-4 h-4 text-muted-foreground flex-shrink-0" />
                       <span className="text-xs font-body text-foreground/80 w-28 flex-shrink-0 truncate">
                         {profile?.archLabel}
                       </span>
@@ -660,12 +692,13 @@ export function DarkSideResultPage() {
           className="bg-muted/30 border border-border/50 rounded-xl p-4"
           data-ocid="dark_side_result.context_note"
         >
-          <p className="text-xs font-semibold font-body text-foreground/80 mb-1.5 uppercase tracking-wide">
-            📚 Educational Context
+          <p className="text-xs font-semibold font-body text-foreground/80 mb-1.5 uppercase tracking-wide flex items-center gap-1.5">
+            <BookOpen className="w-3.5 h-3.5" />
+            Educational Context
           </p>
           <p className="text-xs font-body text-muted-foreground leading-relaxed">
             These profiles draw from criminology and personality psychology
-            research — including the Big Five, Dark Triad, and
+            research, including the Big Five, Dark Triad, and
             introversion/extraversion frameworks. This is a{" "}
             <strong className="text-foreground/80">self-awareness tool</strong>,
             not a clinical diagnosis. High scores reflect tendencies, not
@@ -698,19 +731,21 @@ export function DarkSideResultPage() {
           <div className="grid grid-cols-2 gap-3">
             <Button
               variant="outline"
-              className="font-body transition-smooth"
+              className="gap-1.5 font-body transition-smooth"
               onClick={() => router.navigate({ to: "/dark-side-quiz" })}
               data-ocid="dark_side_result.retake_button"
             >
-              🔁 Retake Quiz
+              <RotateCcw className="w-4 h-4" />
+              Retake Quiz
             </Button>
             <Button
               variant="ghost"
-              className="font-body text-muted-foreground transition-smooth"
+              className="gap-1.5 font-body text-muted-foreground transition-smooth"
               onClick={() => router.navigate({ to: "/" })}
               data-ocid="dark_side_result.home_button"
             >
-              ← Animal Quiz
+              <ArrowLeft className="w-4 h-4" />
+              Animal Quiz
             </Button>
           </div>
         </motion.div>

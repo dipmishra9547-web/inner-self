@@ -1,3 +1,14 @@
+import {
+  Flame,
+  Globe,
+  type LucideIcon,
+  Search,
+  Shield,
+  Snowflake,
+  Target,
+  Zap,
+} from "lucide-react";
+
 export enum DarkSideType {
   IntrovertedThinker = "IntrovertedThinker",
   ExtravertedThinker = "ExtravertedThinker",
@@ -50,7 +61,7 @@ export const DARK_SIDE_PROFILES: Record<DarkSideType, DarkSideProfile> = {
     strengths: [
       "Exceptional analytical and problem-solving skills",
       "Highly self-reliant and capable of deep independent work",
-      "Strategic patience — thinks before acting",
+      "Strategic patience: thinks before acting",
       "Strong focus and attention to detail in complex tasks",
     ],
     weaknesses: [
@@ -60,7 +71,7 @@ export const DARK_SIDE_PROFILES: Record<DarkSideType, DarkSideProfile> = {
       "Prone to detachment from social feedback",
     ],
     insight:
-      "Your solitary depth is your greatest asset — channel it into focused creation rather than withdrawal.",
+      "Your solitary depth is your greatest asset: channel it into focused creation rather than withdrawal.",
     color: "#6366f1",
   },
   [DarkSideType.ExtravertedThinker]: {
@@ -81,7 +92,7 @@ export const DARK_SIDE_PROFILES: Record<DarkSideType, DarkSideProfile> = {
       "Tendency to measure worth by achievement and status",
     ],
     insight:
-      "Your strategic brilliance shines when guided by empathy — the best leaders build people up, not just systems.",
+      "Your strategic brilliance shines when guided by empathy: the best leaders build people up, not just systems.",
     color: "#0ea5e9",
   },
   [DarkSideType.IntrovertedFeeler]: {
@@ -102,7 +113,7 @@ export const DARK_SIDE_PROFILES: Record<DarkSideType, DarkSideProfile> = {
       "Risk of ideological rigidity when values feel threatened",
     ],
     insight:
-      "Your inner world is extraordinarily rich — learning to express it safely prevents the quiet storm from becoming a sudden one.",
+      "Your inner world is extraordinarily rich: learning to express it safely prevents the quiet storm from becoming a sudden one.",
     color: "#8b5cf6",
   },
   [DarkSideType.ExtravertedFeeler]: {
@@ -123,7 +134,7 @@ export const DARK_SIDE_PROFILES: Record<DarkSideType, DarkSideProfile> = {
       "Reactive under emotional stress in social settings",
     ],
     insight:
-      "Your emotional attunement is a gift — use it to lead with intention, not just to follow the energy of the room.",
+      "Your emotional attunement is a gift: use it to lead with intention, not just to follow the energy of the room.",
     color: "#f59e0b",
   },
   [DarkSideType.Manipulator]: {
@@ -144,7 +155,7 @@ export const DARK_SIDE_PROFILES: Record<DarkSideType, DarkSideProfile> = {
       "Tendency toward cynicism about others' motives",
     ],
     insight:
-      "Your strategic mind is a remarkable tool — true influence is built through genuine trust, not clever calculation alone.",
+      "Your strategic mind is a remarkable tool: true influence is built through genuine trust, not clever calculation alone.",
     color: "#10b981",
   },
   [DarkSideType.Psychopath]: {
@@ -155,7 +166,7 @@ export const DARK_SIDE_PROFILES: Record<DarkSideType, DarkSideProfile> = {
     strengths: [
       "Exceptional composure and calm under high-pressure situations",
       "Ability to make rational, unbiased decisions without emotional interference",
-      "Resilient in crisis — not paralyzed by fear or guilt",
+      "Resilient in crisis: not paralyzed by fear or guilt",
       "Bold, clear-minded, and highly decisive",
     ],
     weaknesses: [
@@ -165,7 +176,7 @@ export const DARK_SIDE_PROFILES: Record<DarkSideType, DarkSideProfile> = {
       "Impulse control can waver despite surface calm",
     ],
     insight:
-      "Your emotional detachment gives you rare clarity under fire — grounding it in ethical commitment transforms it from a liability into a leadership edge.",
+      "Your emotional detachment gives you rare clarity under fire: grounding it in ethical commitment transforms it from a liability into a leadership edge.",
     color: "#64748b",
   },
   [DarkSideType.Sociopath]: {
@@ -186,12 +197,22 @@ export const DARK_SIDE_PROFILES: Record<DarkSideType, DarkSideProfile> = {
       "Difficulty managing long-term consequences of actions",
     ],
     insight:
-      "Your raw intensity is a force of nature — when channeled through self-awareness, it becomes powerful creative and emotional leadership.",
+      "Your raw intensity is a force of nature: when channeled through self-awareness, it becomes powerful creative and emotional leadership.",
     color: "#ef4444",
   },
 };
 
-// Slice colors for the pie chart — matches profile colors
+export const DARK_SIDE_ICONS: Record<DarkSideType, LucideIcon> = {
+  [DarkSideType.IntrovertedThinker]: Search,
+  [DarkSideType.ExtravertedThinker]: Globe,
+  [DarkSideType.IntrovertedFeeler]: Shield,
+  [DarkSideType.ExtravertedFeeler]: Flame,
+  [DarkSideType.Manipulator]: Target,
+  [DarkSideType.Psychopath]: Snowflake,
+  [DarkSideType.Sociopath]: Zap,
+};
+
+// Slice colors for the pie chart: matches profile colors
 export const DARK_SIDE_CHART_COLORS: Record<DarkSideType, string> = {
   [DarkSideType.IntrovertedThinker]: "#6366f1",
   [DarkSideType.ExtravertedThinker]: "#0ea5e9",

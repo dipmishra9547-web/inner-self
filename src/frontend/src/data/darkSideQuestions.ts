@@ -37,7 +37,7 @@ export const DARK_SIDE_QUESTIONS: DarkSideQuestion[] = [
         darkType: DarkSideType.ExtravertedThinker,
       },
       {
-        text: "Speak your truth calmly — your values come first",
+        text: "Speak your truth calmly: your values come first",
         darkType: DarkSideType.IntrovertedFeeler,
       },
       {
@@ -95,7 +95,7 @@ export const DARK_SIDE_QUESTIONS: DarkSideQuestion[] = [
     text: "Your closest friends would say that you…",
     options: [
       {
-        text: "Are intensely loyal — but explosive if you feel betrayed",
+        text: "Are intensely loyal, but explosive if you feel betrayed",
         darkType: DarkSideType.Sociopath,
       },
       {
@@ -117,7 +117,7 @@ export const DARK_SIDE_QUESTIONS: DarkSideQuestion[] = [
     text: "When you feel pressure from the group to do something you're not sure about, you…",
     options: [
       {
-        text: "Go along — keeping group harmony matters more than your hesitation",
+        text: "Go along: keeping group harmony matters more than your hesitation",
         darkType: DarkSideType.ExtravertedFeeler,
       },
       {
@@ -125,11 +125,11 @@ export const DARK_SIDE_QUESTIONS: DarkSideQuestion[] = [
         darkType: DarkSideType.Psychopath,
       },
       {
-        text: "Redirect the group toward a better option — you've already thought it through",
+        text: "Redirect the group toward a better option: you've already thought it through",
         darkType: DarkSideType.ExtravertedThinker,
       },
       {
-        text: "Refuse quietly — your principles don't bend to social pressure",
+        text: "Refuse quietly: your principles don't bend to social pressure",
         darkType: DarkSideType.IntrovertedFeeler,
       },
     ],
@@ -139,7 +139,7 @@ export const DARK_SIDE_QUESTIONS: DarkSideQuestion[] = [
     text: "How do you usually handle people who get in the way of your goals?",
     options: [
       {
-        text: "Find a way around them — no need to make it personal",
+        text: "Find a way around them: no need to make it personal",
         darkType: DarkSideType.IntrovertedThinker,
       },
       {
@@ -147,7 +147,7 @@ export const DARK_SIDE_QUESTIONS: DarkSideQuestion[] = [
         darkType: DarkSideType.Manipulator,
       },
       {
-        text: "Confront them directly — tension doesn't bother you",
+        text: "Confront them directly: tension doesn't bother you",
         darkType: DarkSideType.Psychopath,
       },
       {
@@ -161,7 +161,7 @@ export const DARK_SIDE_QUESTIONS: DarkSideQuestion[] = [
     text: "When making a big life decision, you mostly rely on…",
     options: [
       {
-        text: "Cold logic and evidence — emotions are noise in the data",
+        text: "Cold logic and evidence: emotions are noise in the data",
         darkType: DarkSideType.Psychopath,
       },
       {
@@ -195,7 +195,7 @@ export const DARK_SIDE_QUESTIONS: DarkSideQuestion[] = [
         darkType: DarkSideType.IntrovertedThinker,
       },
       {
-        text: "Charming in a way that's hard to pin down — you seem to know what people want to hear",
+        text: "Charming in a way that's hard to pin down: you seem to know what people want to hear",
         darkType: DarkSideType.Manipulator,
       },
     ],
@@ -213,7 +213,7 @@ export const DARK_SIDE_QUESTIONS: DarkSideQuestion[] = [
         darkType: DarkSideType.IntrovertedFeeler,
       },
       {
-        text: "React immediately — the emotion is too strong to hold in",
+        text: "React immediately: the emotion is too strong to hold in",
         darkType: DarkSideType.Sociopath,
       },
       {
@@ -227,7 +227,7 @@ export const DARK_SIDE_QUESTIONS: DarkSideQuestion[] = [
     text: "When organizing a group project, you naturally…",
     options: [
       {
-        text: "Structure it precisely — assign roles, set timelines, own outcomes",
+        text: "Structure it precisely: assign roles, set timelines, own outcomes",
         darkType: DarkSideType.ExtravertedThinker,
       },
       {
@@ -257,7 +257,7 @@ export const DARK_SIDE_QUESTIONS: DarkSideQuestion[] = [
         darkType: DarkSideType.Sociopath,
       },
       {
-        text: "I notice emotions logically — they're useful data, not things I dwell on",
+        text: "I notice emotions logically: they're useful data, not things I dwell on",
         darkType: DarkSideType.Psychopath,
       },
       {
@@ -279,7 +279,7 @@ export const DARK_SIDE_QUESTIONS: DarkSideQuestion[] = [
         darkType: DarkSideType.Manipulator,
       },
       {
-        text: "Total emotional control — never rattled, always composed",
+        text: "Total emotional control: never rattled, always composed",
         darkType: DarkSideType.Psychopath,
       },
       {
@@ -315,7 +315,7 @@ export const DARK_SIDE_QUESTIONS: DarkSideQuestion[] = [
     text: "Reflecting honestly on your motivations, most of your actions are driven by…",
     options: [
       {
-        text: "A clear internal code — right and wrong guide every choice",
+        text: "A clear internal code: right and wrong guide every choice",
         darkType: DarkSideType.IntrovertedFeeler,
       },
       {
@@ -323,11 +323,11 @@ export const DARK_SIDE_QUESTIONS: DarkSideQuestion[] = [
         darkType: DarkSideType.ExtravertedThinker,
       },
       {
-        text: "Deep-seated emotional needs — belonging, love, or being understood",
+        text: "Deep-seated emotional needs: belonging, love, or being understood",
         darkType: DarkSideType.Sociopath,
       },
       {
-        text: "Outcome-focused thinking — you want the most effective result, nothing more",
+        text: "Outcome-focused thinking: you want the most effective result, nothing more",
         darkType: DarkSideType.Psychopath,
       },
     ],
