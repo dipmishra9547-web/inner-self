@@ -54,7 +54,7 @@ import { SECURITY_QUESTIONS } from "./SignupPage";
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 function formatDate(ts: bigint) {
-  return new Date(Number(ts)).toLocaleDateString("en-US", {
+  return new Date(Number(ts) / 1_000_000).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -991,16 +991,7 @@ export function ProfilePage() {
                 </p>
               </div>
             )}
-            {account.lastLogin !== undefined && (
-              <div className="bg-muted/30 rounded-xl px-4 py-3 border border-border/50">
-                <p className="text-xs text-muted-foreground mb-0.5 uppercase tracking-wide">
-                  Last login
-                </p>
-                <p className="text-foreground font-semibold">
-                  {formatDate(account.lastLogin)}
-                </p>
-              </div>
-            )}
+
           </div>
         )}
       </motion.div>

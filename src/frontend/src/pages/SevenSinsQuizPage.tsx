@@ -1,7 +1,9 @@
+import { Card } from "@/components/ui/card";
+import { ProgressBar } from "../components/ProgressBar";
 import { Button } from "@/components/ui/button";
 import { useActor } from "@caffeineai/core-infrastructure";
 import { useRouter } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, ScrollText } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import type React from "react";
 import { useCallback, useState } from "react";
@@ -155,33 +157,48 @@ export function SevenSinsQuizPage() {
 
   return (
     <div
-      className="flex-1 flex flex-col items-center px-4 py-10 bg-background"
+      className="flex-1 flex flex-col items-center justify-center px-4 py-8 relative"
       data-ocid="seven_sins_quiz.page"
     >
-      <div className="w-full max-w-xl">
+      <div className="absolute inset-0 pointer-events-none">
+        <div
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full blur-3xl opacity-20"
+          style={{ background: accentColor || "oklch(var(--primary))" }}
+        />
+      </div>
+
+      <div className="relative z-10 w-full max-w-lg">
+        {/* Back to Home Button */}
+        <div className="mb-4 flex justify-start -ml-3">
+          <Button
+            variant="ghost"
+            onClick={() => router.navigate({ to: "/" })}
+            className="gap-2 px-3 text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors font-body text-sm"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Home
+          </Button>
+        </div>
+
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: -16 }}
+          initial={{ opacity: 0, y: -12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45 }}
+          transition={{ duration: 0.4 }}
           className="text-center mb-6"
         >
-          <p className="text-xs uppercase tracking-widest text-muted-foreground font-body mb-1">
+          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground font-body mb-1">
             Psychological Self-Discovery
           </p>
-          <h1 className="font-display text-2xl font-bold text-foreground">
+          <h1 className="font-display text-xl font-bold text-foreground">
             Seven Deadly Sins
           </h1>
-          <p className="text-sm text-muted-foreground font-body mt-1">
-            Choose the answers that feel most honest, even if they're
-            uncomfortable
-          </p>
         </motion.div>
 
         {/* Save error */}
         {saveError && (
           <div
-            className="mb-4 px-4 py-3 rounded-lg bg-destructive/15 border border-destructive/30 text-destructive text-sm font-body"
+            className="mb-4 px-4 py-3 rounded-lg bg-destructive/15 border border-destructive/30 text-destructive text-sm font-body text-center"
             data-ocid="seven_sins_quiz.save_error_state"
           >
             {saveError}
@@ -189,23 +206,12 @@ export function SevenSinsQuizPage() {
         )}
 
         {/* Progress */}
-        <div className="mb-6" data-ocid="seven_sins_quiz.progress">
-          <div className="flex justify-between text-xs text-muted-foreground font-body mb-1.5">
-            <span className="font-semibold text-foreground/70">
-              Question {currentQ + 1} of {totalQ}
-            </span>
-            <span className="font-semibold" style={{ color: accentColor }}>
-              {Math.round(progress)}% complete
-            </span>
-          </div>
-          <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
-            <motion.div
-              className="h-full rounded-full"
-              style={{ background: accentColor }}
-              animate={{ width: `${progress}%` }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-            />
-          </div>
+        <div className="mb-6">
+          <ProgressBar
+            current={currentQ}
+            total={totalQ}
+            data-ocid="seven_sins_quiz.progress_bar"
+          />
         </div>
 
         {/* Question Card */}
@@ -214,145 +220,149 @@ export function SevenSinsQuizPage() {
             key={currentQ}
             initial={{ opacity: 0, x: direction * 40 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: direction * -30 }}
-            transition={{ duration: 0.25, ease: "easeInOut" }}
-            className="bg-card border border-border rounded-2xl shadow-card overflow-hidden mb-4"
-            data-ocid="seven_sins_quiz.question_card"
+            exit={{ opacity: 0, x: direction * -40 }}
+            transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
           >
-            {/* Accent bar */}
-            <motion.div
-              className="h-1.5"
-              animate={{ backgroundColor: accentColor }}
-              transition={{ duration: 0.3 }}
-            />
-
-            <div className="p-6 sm:p-8">
-              {/* Scenario label */}
-              <p className="text-xs uppercase tracking-widest text-muted-foreground font-body mb-3 flex items-center gap-1.5">
-                <ScrollText className="w-3.5 h-3.5" />
-                Confessional Scenario
-              </p>
-              <p className="font-display text-xl font-semibold text-foreground mb-2 leading-relaxed">
-                {question.question}
-              </p>
-              {/* Multi-select hint */}
-              <p className="text-xs text-muted-foreground font-body mb-5 flex items-center gap-1.5">
-                <span className="inline-block w-3.5 h-3.5 rounded border-2 border-muted-foreground/50 flex-shrink-0" />
-                Select all that apply
-              </p>
-
+            <Card
+              className="bg-card border-border p-6 mb-3 relative overflow-hidden"
+              style={{
+                boxShadow:
+                  "0 0 0 1px oklch(var(--border)), 0 8px 32px rgba(0,0,0,0.4)",
+              }}
+              data-ocid="seven_sins_quiz.question_card"
+            >
               <div
-                className="space-y-3"
-                data-ocid="seven_sins_quiz.options_list"
-              >
-                {question.options.map((opt, idx) => {
-                  const isChosen = currentSelections.has(idx);
-                  const sinColor = SIN_PROFILES[opt.sin].color;
-                  return (
-                    <motion.button
-                      type="button"
-                      key={`${question.id}-${idx}`}
-                      whileTap={{ scale: 0.985 }}
-                      onClick={() => toggleOption(idx)}
-                      className={[
-                        "w-full text-left px-4 py-3.5 rounded-xl border-2 transition-smooth font-body text-sm leading-relaxed",
-                        "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1",
-                        isChosen
-                          ? "text-foreground shadow-sm"
-                          : "border-border bg-muted/20 text-muted-foreground hover:text-foreground hover:bg-muted/40",
-                      ].join(" ")}
-                      style={
-                        isChosen
-                          ? ({
-                              borderColor: sinColor,
-                              backgroundColor: `${sinColor}18`,
-                            } as React.CSSProperties)
-                          : undefined
-                      }
-                      data-ocid={`seven_sins_quiz.option.${idx + 1}`}
-                      aria-pressed={isChosen}
-                    >
-                      <span className="flex items-start gap-3">
-                        {/* Checkbox indicator */}
-                        <span
-                          className={[
-                            "mt-0.5 w-5 h-5 rounded border-2 flex-shrink-0 flex items-center justify-center transition-smooth",
-                            isChosen
-                              ? "text-white"
-                              : "border-muted-foreground/60 bg-transparent",
-                          ].join(" ")}
-                          style={
-                            isChosen
-                              ? {
-                                  backgroundColor: sinColor,
-                                  borderColor: sinColor,
-                                }
-                              : undefined
-                          }
-                        >
-                          {isChosen && (
-                            <svg
-                              viewBox="0 0 10 8"
-                              fill="none"
-                              className="w-3 h-2.5"
-                              aria-label="Selected"
-                              role="img"
-                            >
-                              <path
-                                d="M1 4l2.5 2.5L9 1"
-                                stroke="white"
-                                strokeWidth="1.8"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                            </svg>
-                          )}
-                        </span>
-                        <span className="flex-1">{opt.text}</span>
-                      </span>
-                    </motion.button>
-                  );
-                })}
-              </div>
+                className="absolute top-0 inset-x-0 h-px transition-colors duration-300"
+                style={{
+                  background: `linear-gradient(90deg, transparent, ${accentColor}, transparent)`,
+                }}
+              />
 
-              <div className="mt-6 flex justify-between gap-3">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={handleBack}
-                  disabled={currentQ === 0}
-                  className="gap-1.5 font-body transition-smooth"
-                  data-ocid="seven_sins_quiz.back_button"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  Back
-                </Button>
-                <Button
-                  type="button"
-                  onClick={handleNext}
-                  disabled={!hasSelection || isSaving}
-                  className="gap-2 font-body min-w-[130px] bg-primary text-primary-foreground font-semibold transition-smooth"
-                  data-ocid="seven_sins_quiz.next_button"
-                >
-                  {isSaving ? (
-                    <>
-                      <div className="w-4 h-4 rounded-full border-2 border-primary-foreground border-t-transparent animate-spin" />
-                      Saving…
-                    </>
-                  ) : isLast ? (
-                    <>
-                      See Results
-                      <ArrowRight className="w-4 h-4" />
-                    </>
-                  ) : (
-                    <>
-                      Next
-                      <ArrowRight className="w-4 h-4" />
-                    </>
-                  )}
-                </Button>
-              </div>
-            </div>
+              {isSaving ? (
+                <div className="flex flex-col items-center justify-center py-12">
+                  <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4" />
+                  <p className="text-muted-foreground font-body text-sm animate-pulse">
+                    Saving your results...
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <p className="text-xs uppercase tracking-widest text-muted-foreground font-body mb-4 text-center">
+                    Question {currentQ + 1} of {totalQ}
+                  </p>
+
+                  <p className="font-display text-lg font-semibold text-foreground mb-2 leading-relaxed text-center">
+                    {question.question}
+                  </p>
+                  
+                  {/* Multi-select hint */}
+                  <p className="text-xs text-muted-foreground font-body mb-6 flex items-center justify-center gap-1.5">
+                    <span className="inline-block w-3 h-3 rounded border-2 border-muted-foreground/50 flex-shrink-0" />
+                    Select all that apply
+                  </p>
+
+                  <div className="flex flex-col gap-2.5" data-ocid="seven_sins_quiz.options_list">
+                    {question.options.map((opt, idx) => {
+                      const isChosen = currentSelections.has(idx);
+                      const sinColor = SIN_PROFILES[opt.sin].color;
+                      return (
+                        <motion.button
+                          type="button"
+                          key={`${question.id}-${idx}`}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => toggleOption(idx)}
+                          className={[
+                            "w-full text-left px-4 py-3.5 rounded-lg border font-body text-sm transition-smooth focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring group relative overflow-hidden",
+                            isChosen
+                              ? "text-foreground shadow-sm"
+                              : "text-muted-foreground hover:text-foreground",
+                          ].join(" ")}
+                          style={{
+                            background: isChosen ? `${sinColor}18` : "oklch(var(--muted) / 0.5)",
+                            borderColor: isChosen ? sinColor : "oklch(var(--border))",
+                            boxShadow: isChosen ? `0 0 12px ${sinColor}20, inset 0 0 12px ${sinColor}10` : "none",
+                          }}
+                          data-ocid={`seven_sins_quiz.option.${idx + 1}`}
+                          aria-pressed={isChosen}
+                        >
+                          <span className="flex items-start gap-3">
+                            <span
+                              className={[
+                                "mt-0.5 w-5 h-5 rounded border-2 flex-shrink-0 flex items-center justify-center transition-smooth",
+                                isChosen
+                                  ? "text-white"
+                                  : "border-muted-foreground/60 bg-transparent",
+                              ].join(" ")}
+                              style={
+                                isChosen
+                                  ? {
+                                      backgroundColor: sinColor,
+                                      borderColor: sinColor,
+                                    }
+                                  : undefined
+                              }
+                            >
+                              {isChosen && (
+                                <svg
+                                  viewBox="0 0 10 8"
+                                  fill="none"
+                                  className="w-3 h-2.5"
+                                  aria-label="Selected"
+                                  role="img"
+                                >
+                                  <path
+                                    d="M1 4l2.5 2.5L9 1"
+                                    stroke="white"
+                                    strokeWidth="1.8"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  />
+                                </svg>
+                              )}
+                            </span>
+                            <span className="flex-1">{opt.text}</span>
+                          </span>
+                        </motion.button>
+                      );
+                    })}
+                  </div>
+
+                  <div className="mt-6 flex justify-between gap-3">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={handleBack}
+                      disabled={currentQ === 0}
+                      className="gap-1.5 font-body transition-smooth bg-transparent hover:bg-white/5 border-border text-foreground"
+                      data-ocid="seven_sins_quiz.back_button"
+                    >
+                      <ArrowLeft className="w-4 h-4" />
+                      Back
+                    </Button>
+                    <Button
+                      type="button"
+                      onClick={handleNext}
+                      disabled={!hasSelection || isSaving}
+                      className="gap-2 font-body min-w-[130px] text-white font-semibold transition-smooth border-none"
+                      style={{ background: hasSelection ? accentColor : "oklch(var(--muted))", color: hasSelection ? "white" : "oklch(var(--muted-foreground))" }}
+                      data-ocid="seven_sins_quiz.next_button"
+                    >
+                      {isLast ? (
+                        <>
+                          See Results
+                          <ArrowRight className="w-4 h-4" />
+                        </>
+                      ) : (
+                        <>
+                          Next
+                          <ArrowRight className="w-4 h-4" />
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                </>
+              )}
+            </Card>
           </motion.div>
         </AnimatePresence>
 

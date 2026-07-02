@@ -5,7 +5,7 @@ export function Footer() {
   const year = new Date().getFullYear();
   const { isAdmin } = useAuth();
   const instaLink =
-    "https://www.instagram.com/dip_mishra01?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==";
+    "https://www.instagram.com/deependra.mindlab?igsh=OHZhcjZnZmd3eHp2";
 
   return (
     <footer className="bg-card border-t border-border mt-auto">
@@ -40,7 +40,7 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="hover:text-primary font-medium transition-colors duration-200"
               >
-                Built with love by Dip Mishra
+                Built with <i className="ri-heart-fill text-red-500"></i> by MindLab
               </a>
             </p>
           </div>

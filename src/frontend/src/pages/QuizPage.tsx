@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useActor } from "@caffeineai/core-infrastructure";
 import { useNavigate } from "@tanstack/react-router";
-import { CheckCircle2, Loader2, Sparkles } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Loader2, Sparkles } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { createActor } from "../backend";
@@ -205,7 +205,7 @@ export function QuizPage() {
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center px-4 py-8 relative">
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none">
         <div
           className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full blur-3xl opacity-20"
           style={{ background: "oklch(var(--primary))" }}
@@ -213,6 +213,18 @@ export function QuizPage() {
       </div>
 
       <div className="relative z-10 w-full max-w-lg">
+        {/* Back to Home Button */}
+        <div className="mb-4 flex justify-start -ml-3">
+          <Button
+            variant="ghost"
+            onClick={() => navigate({ to: "/" })}
+            className="gap-2 px-3 text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors font-body text-sm"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Home
+          </Button>
+        </div>
+
         <motion.div
           initial={{ opacity: 0, y: -12 }}
           animate={{ opacity: 1, y: 0 }}

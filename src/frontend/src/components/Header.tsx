@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useInternetIdentity } from "@caffeineai/core-infrastructure";
 import { useRouter } from "@tanstack/react-router";
+import { AnimatePresence, motion } from "motion/react";
 import {
   Brain,
   ChevronDown,
@@ -51,7 +52,7 @@ export function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center pointer-events-none pt-4 px-4">
       <div className="relative w-full max-w-4xl">
-        <div className="relative pointer-events-auto w-full flex items-center justify-between gap-4 h-16 px-5 rounded-xl backdrop-blur-xl bg-card/60 border border-white/[0.14] ring-1 ring-white/[0.05] shadow-[0_4px_32px_rgba(0,0,0,0.45),0_1px_0_rgba(255,255,255,0.08)_inset]">
+        <div className="relative pointer-events-auto w-full flex items-center justify-between gap-4 h-16 lg:px-5 lg:rounded-xl lg:backdrop-blur-xl lg:bg-card/60 lg:border lg:border-white/[0.14] lg:ring-1 lg:ring-white/[0.05] lg:shadow-[0_4px_32px_rgba(0,0,0,0.45),0_1px_0_rgba(255,255,255,0.08)_inset]">
           {/* Logo */}
           <a
             href={isLoggedIn ? "/" : "/login"}
@@ -222,98 +223,136 @@ export function Header() {
         </div>
 
         {/* Mobile nav drawer */}
-        {mobileOpen && (
-          <div className="pointer-events-auto lg:hidden absolute top-full left-0 right-0 mt-2 rounded-xl bg-card border border-white/[0.14] ring-1 ring-white/[0.05] shadow-[0_4px_32px_rgba(0,0,0,0.45),0_1px_0_rgba(255,255,255,0.08)_inset] px-4 py-3 flex flex-col gap-1 max-h-[calc(100vh-6rem)] overflow-y-auto">
-            {navItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="px-3 py-2.5 text-sm font-body text-foreground hover:bg-muted/50 rounded-md transition-colors"
+        <AnimatePresence>
+          {mobileOpen && (
+            <>
+              {/* Backdrop */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="fixed inset-0 z-[60] bg-background/80 backdrop-blur-sm lg:hidden pointer-events-auto"
                 onClick={() => setMobileOpen(false)}
-                data-ocid={`header.mobile_nav.${item.label.toLowerCase().replace(" ", "_")}_link`}
+                data-ocid="header.mobile_menu_backdrop"
+              />
+              
+              {/* Drawer */}
+              <motion.div
+                initial={{ x: "100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "100%" }}
+                transition={{ type: "spring", bounce: 0, duration: 0.4 }}
+                className="fixed top-0 right-0 bottom-0 w-[280px] z-[70] bg-card border-l border-white/[0.14] shadow-2xl flex flex-col pointer-events-auto lg:hidden"
+                data-ocid="header.mobile_menu_drawer"
               >
-                {item.label}
-              </a>
-            ))}
-            {isLoggedIn && (
-              <>
-                <a
-                  href="/my-results"
-                  className="flex items-center gap-2 px-3 py-2.5 text-sm font-body text-foreground hover:bg-muted/50 rounded-md transition-colors"
-                  onClick={() => setMobileOpen(false)}
-                  data-ocid="header.mobile_nav.my_results_link"
-                >
-                  <ClipboardList className="w-3.5 h-3.5" />
-                  My Results
-                </a>
-              </>
-            )}
-            {isAdmin && (
-              <a
-                href="/admin"
-                className="flex items-center gap-2 px-3 py-2.5 text-sm font-body text-primary hover:bg-primary/10 rounded-md transition-colors"
-                onClick={() => setMobileOpen(false)}
-                data-ocid="header.mobile_nav.admin_link"
-              >
-                <Shield className="w-3.5 h-3.5" />
-                Admin Dashboard
-              </a>
-            )}
-            {isLoggedIn && (
-              <>
-                <div className="border-t border-border my-1" />
-                <a
-                  href="/profile"
-                  className="flex items-center gap-2 px-3 py-2.5 text-sm font-body text-foreground hover:bg-muted/50 rounded-md transition-colors"
-                  onClick={() => setMobileOpen(false)}
-                  data-ocid="header.mobile_nav.profile_link"
-                >
-                  <User className="w-3.5 h-3.5" />
-                  My Profile
-                </a>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setMobileOpen(false);
-                    handleEmailLogout();
-                  }}
-                  className="flex items-center gap-2 px-3 py-2.5 text-sm font-body text-destructive hover:bg-destructive/10 rounded-md transition-colors"
-                  data-ocid="header.mobile_nav.logout_button"
-                >
-                  <LogOut className="w-3.5 h-3.5" />
-                  Sign out
-                </button>
-              </>
-            )}
-            {!isLoggedIn && (
-              <div className="flex gap-2 pt-1">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="flex-1"
-                  onClick={() => {
-                    setMobileOpen(false);
-                    router.navigate({ to: "/login" });
-                  }}
-                  data-ocid="header.mobile_nav.login_button"
-                >
-                  Sign in
-                </Button>
-                <Button
-                  size="sm"
-                  className="flex-1"
-                  onClick={() => {
-                    setMobileOpen(false);
-                    router.navigate({ to: "/signup" });
-                  }}
-                  data-ocid="header.mobile_nav.signup_button"
-                >
-                  Sign up
-                </Button>
-              </div>
-            )}
-          </div>
-        )}
+                <div className="flex items-center justify-between p-5 border-b border-white/[0.08]">
+                  <span className="font-display font-semibold text-lg text-foreground">Menu</span>
+                  <button
+                    type="button"
+                    onClick={() => setMobileOpen(false)}
+                    className="p-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+                
+                <div className="flex flex-col gap-1 p-4 overflow-y-auto">
+                  {navItems.map((item) => (
+                    <a
+                      key={item.href}
+                      href={item.href}
+                      className="px-4 py-3 text-sm font-body text-foreground hover:bg-muted/50 rounded-lg transition-colors"
+                      onClick={() => setMobileOpen(false)}
+                      data-ocid={`header.mobile_nav.${item.label.toLowerCase().replace(" ", "_")}_link`}
+                    >
+                      {item.label}
+                    </a>
+                  ))}
+                  
+                  {isLoggedIn && (
+                    <>
+                      <a
+                        href="/my-results"
+                        className="flex items-center gap-3 px-4 py-3 text-sm font-body text-foreground hover:bg-muted/50 rounded-lg transition-colors"
+                        onClick={() => setMobileOpen(false)}
+                        data-ocid="header.mobile_nav.my_results_link"
+                      >
+                        <ClipboardList className="w-4 h-4" />
+                        My Results
+                      </a>
+                    </>
+                  )}
+                  
+                  {isAdmin && (
+                    <a
+                      href="/admin"
+                      className="flex items-center gap-3 px-4 py-3 text-sm font-body text-primary hover:bg-primary/10 rounded-lg transition-colors mt-2"
+                      onClick={() => setMobileOpen(false)}
+                      data-ocid="header.mobile_nav.admin_link"
+                    >
+                      <Shield className="w-4 h-4" />
+                      Admin Dashboard
+                    </a>
+                  )}
+                  
+                  {isLoggedIn && (
+                    <>
+                      <div className="border-t border-border my-2 mx-2" />
+                      <a
+                        href="/profile"
+                        className="flex items-center gap-3 px-4 py-3 text-sm font-body text-foreground hover:bg-muted/50 rounded-lg transition-colors"
+                        onClick={() => setMobileOpen(false)}
+                        data-ocid="header.mobile_nav.profile_link"
+                      >
+                        <User className="w-4 h-4" />
+                        My Profile
+                      </a>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setMobileOpen(false);
+                          handleEmailLogout();
+                        }}
+                        className="flex items-center gap-3 px-4 py-3 text-sm font-body text-destructive hover:bg-destructive/10 rounded-lg transition-colors"
+                        data-ocid="header.mobile_nav.logout_button"
+                      >
+                        <LogOut className="w-4 h-4" />
+                        Sign out
+                      </button>
+                    </>
+                  )}
+                  
+                  {!isLoggedIn && (
+                    <div className="flex flex-col gap-2 pt-4 mt-2 border-t border-border mx-2">
+                      <Button
+                        variant="outline"
+                        className="w-full justify-center"
+                        onClick={() => {
+                          setMobileOpen(false);
+                          router.navigate({ to: "/login" });
+                        }}
+                        data-ocid="header.mobile_nav.login_button"
+                      >
+                        Sign in
+                      </Button>
+                      <Button
+                        className="w-full justify-center gradient-warm-accent border-0 text-foreground"
+                        onClick={() => {
+                          setMobileOpen(false);
+                          router.navigate({ to: "/signup" });
+                        }}
+                        data-ocid="header.mobile_nav.signup_button"
+                      >
+                        Sign up
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
       </div>
     </header>
   );

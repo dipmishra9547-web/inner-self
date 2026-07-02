@@ -137,10 +137,11 @@ function CompatibilityCard({
         delay: index * 0.06,
         ease: [0.16, 1, 0.3, 1],
       }}
+      className="h-full flex flex-col"
       data-ocid={`compatibility.card.${index + 1}`}
     >
       <Card
-        className={`border overflow-hidden transition-smooth ${levelBg(score)}`}
+        className={`border overflow-hidden transition-smooth flex-1 flex flex-col ${levelBg(score)}`}
       >
         {/* Card header */}
         <div className="p-4 pb-3">
@@ -206,7 +207,7 @@ function CompatibilityCard({
         <Separator className="mx-4 opacity-50" />
 
         {/* Group context rows */}
-        <div className="p-4 pt-3 space-y-2">
+        <div className="p-4 pt-3 space-y-2 flex-1 flex flex-col justify-end">
           <p className="text-xs uppercase tracking-widest text-muted-foreground font-body mb-2">
             Pairing Context
           </p>
@@ -257,145 +258,116 @@ export function CompatibilityPage() {
     : ALL_ANIMAL_TYPES;
 
   return (
-    <div className="flex-1 bg-background" data-ocid="compatibility.page">
-      {/* Page header band */}
-      <div className="bg-card border-b border-border py-5 px-4">
-        <div className="max-w-2xl mx-auto">
-          <div className="flex items-center gap-3 mb-4">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() =>
-                myType
-                  ? navigate({ to: "/result", search: { type: myType } })
-                  : navigate({ to: "/" })
-              }
-              className="gap-1.5 font-body text-muted-foreground hover:text-foreground -ml-2"
-              data-ocid="compatibility.back_button"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              {myType ? "Back to My Result" : "Back"}
-            </Button>
-          </div>
+    <div className="min-h-screen bg-background" data-ocid="compatibility.page">
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        {/* Top controls & CTA */}
+        <div className="flex items-center justify-between mb-8 gap-4 flex-wrap">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() =>
+              myType
+                ? navigate({ to: "/result", search: { type: myType } })
+                : navigate({ to: "/" })
+            }
+            className="gap-1.5 font-body text-muted-foreground hover:text-foreground -ml-2"
+            data-ocid="compatibility.back_button"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            {myType ? "Back to My Result" : "Back to Home"}
+          </Button>
 
+          {/* Moved CTA here to top right */}
+          {!myType && !isLoading && (
+            <Button
+              size="sm"
+              className="font-body gradient-warm-accent text-foreground border-0"
+              onClick={() => navigate({ to: "/animal-quiz" })}
+              data-ocid="compatibility.take_quiz_button_top"
+            >
+              <Sparkles className="w-4 h-4 mr-2" />
+              Take the Quiz
+            </Button>
+          )}
+        </div>
+
+        {/* Page Title & Header */}
+        <div className="mb-10 text-center">
           {archetype ? (
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col items-center justify-center gap-3">
               <motion.div
                 initial={{ scale: 0.7, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ type: "spring", stiffness: 200, delay: 0.1 }}
-                className="text-4xl sm:text-5xl shrink-0"
+                className="text-5xl sm:text-6xl mb-2"
                 data-ocid="compatibility.my_archetype_emoji"
               >
                 {archetype.emoji}
               </motion.div>
-              <div className="min-w-0">
-                <p className="text-xs uppercase tracking-widest text-muted-foreground font-body">
-                  Your Archetype
-                </p>
-                <h1 className="font-display text-2xl font-bold text-foreground leading-tight">
-                  {archetype.name}
-                </h1>
-                <p className="text-xs text-muted-foreground font-body mt-1 line-clamp-1">
-                  {archetype.tagline}
-                </p>
-              </div>
+              <Badge variant="secondary" className="text-[10px] uppercase tracking-widest font-body">
+                Your Archetype
+              </Badge>
+              <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground">
+                {archetype.name}
+              </h1>
+              <p className="text-sm text-muted-foreground font-body">
+                {archetype.tagline}
+              </p>
             </div>
           ) : (
-            <div className="flex items-center gap-3">
-              <Compass className="w-8 h-8 text-muted-foreground shrink-0" />
-              <div>
-                <p className="text-xs uppercase tracking-widest text-muted-foreground font-body">
-                  Compatibility Reference
-                </p>
-                <h1 className="font-display text-xl font-bold text-foreground">
-                  Animal Mind Dynamics
-                </h1>
-              </div>
+            <div className="flex flex-col items-center justify-center gap-3">
+              <Compass className="w-8 h-8 text-primary mb-2" />
+              <Badge variant="secondary" className="text-[10px] uppercase tracking-widest font-body">
+                Compatibility Reference
+              </Badge>
+              <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground">
+                Animal Mind Dynamics
+              </h1>
             </div>
           )}
-
-          {/* Indicator legend */}
-          <div className="flex items-center gap-4 mt-4 pt-4 border-t border-border/50">
-            <p className="text-xs text-muted-foreground font-body shrink-0">
-              Legend:
-            </p>
-            <div className="flex flex-wrap gap-3">
-              {[
-                {
-                  icon: CircleCheck,
-                  label: "Highly Compatible / Strong Bond",
-                },
-                { icon: Handshake, label: "Balanced" },
-                {
-                  icon: TriangleAlert,
-                  label: "Potential Conflict / High Risk",
-                },
-              ].map(({ icon: Icon, label }) => (
-                <span
-                  key={label}
-                  className="flex items-center gap-1.5 text-xs text-muted-foreground font-body"
-                >
-                  <Icon className="w-3.5 h-3.5 shrink-0" />
-                  {label}
-                </span>
-              ))}
-            </div>
-          </div>
         </div>
-      </div>
 
-      {/* Content */}
-      <div className="py-8 px-4">
-        <div className="max-w-2xl mx-auto">
-          {/* No archetype state */}
+        {/* Indicator legend - centered and cleanly styled */}
+        <div className="flex justify-center flex-wrap gap-3 sm:gap-4 mb-10 pb-10 border-b border-white/[0.05]">
+          {[
+            { icon: CircleCheck, label: "Highly Compatible" },
+            { icon: Handshake, label: "Balanced" },
+            { icon: TriangleAlert, label: "Potential Conflict" },
+          ].map(({ icon: Icon, label }) => (
+            <span
+              key={label}
+              className="flex items-center gap-1.5 text-xs text-muted-foreground font-body bg-white/[0.03] border border-white/[0.05] px-3 py-1.5 rounded-full"
+            >
+              <Icon className="w-4 h-4 shrink-0 text-primary/70" />
+              {label}
+            </span>
+          ))}
+        </div>
+
+        {/* Content Section */}
+        <div className="max-w-5xl mx-auto">
           {!myType && !isLoading && (
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               transition={{ duration: 0.4 }}
-              data-ocid="compatibility.empty_state"
+              className="mb-6 text-center"
             >
-              <Card className="bg-card border-border p-8 text-center mb-8">
-                <div className="w-14 h-14 rounded-2xl bg-primary/15 border border-primary/30 flex items-center justify-center mx-auto mb-4">
-                  <Sparkles className="w-7 h-7 text-primary" />
-                </div>
-                <h2 className="font-display text-xl font-bold text-foreground mb-2">
-                  Discover Your Archetype First
-                </h2>
-                <p className="text-sm text-muted-foreground font-body mb-6 max-w-xs mx-auto leading-relaxed">
-                  Take the quiz to reveal your animal type, then come back here
-                  to see your personal compatibility map.
-                </p>
-                <Button
-                  size="lg"
-                  className="font-body gradient-warm-accent text-foreground border-0"
-                  onClick={() => navigate({ to: "/" })}
-                  data-ocid="compatibility.take_quiz_button"
-                >
-                  Take the Quiz
-                </Button>
-              </Card>
-
-              {/* Still show the full reference below */}
-              <div className="mb-4">
-                <p className="text-xs uppercase tracking-widest text-muted-foreground font-body mb-1">
-                  Full Reference
-                </p>
-                <p className="text-sm text-muted-foreground font-body">
-                  Browsing all 7 archetypes without a personal profile.
-                </p>
-              </div>
+              <p className="text-xs uppercase tracking-widest text-muted-foreground font-body mb-1">
+                Full Reference
+              </p>
+              <p className="text-sm text-muted-foreground font-body">
+                Browsing all 7 archetypes without a personal profile.
+              </p>
             </motion.div>
           )}
 
-          {/* Section label */}
           {myType && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
-              className="mb-5"
+              className="mb-6 text-center"
             >
               <p className="text-xs uppercase tracking-widest text-muted-foreground font-body">
                 All 7 Pairings: {archetype?.name} Edition
@@ -404,7 +376,7 @@ export function CompatibilityPage() {
           )}
 
           {/* Compatibility cards */}
-          <div className="space-y-4" data-ocid="compatibility.grid">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5" data-ocid="compatibility.grid">
             {orderedTypes.map((type, idx) => (
               <CompatibilityCard
                 key={type}
@@ -417,7 +389,7 @@ export function CompatibilityPage() {
           </div>
 
           {/* Bottom CTA */}
-          <div className="mt-10 pt-6 border-t border-border flex flex-col sm:flex-row gap-3 justify-center">
+          <div className="mt-12 pt-8 border-t border-white/[0.05] flex flex-col sm:flex-row gap-3 justify-center">
             {myType && (
               <Button
                 size="lg"
@@ -430,15 +402,6 @@ export function CompatibilityPage() {
                 Back to My Result
               </Button>
             )}
-            <Button
-              variant="outline"
-              size="lg"
-              className="font-body"
-              onClick={() => navigate({ to: "/" })}
-              data-ocid="compatibility.retake_quiz_button"
-            >
-              {myType ? "Retake the Quiz" : "Take the Quiz"}
-            </Button>
           </div>
         </div>
       </div>
