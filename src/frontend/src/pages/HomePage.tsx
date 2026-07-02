@@ -440,7 +440,7 @@ export function HomePage() {
         initial={{ opacity: 0, y: -16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="relative text-center mb-6 overflow-hidden"
+        className="relative text-center mb-6"
         data-ocid="home.welcome_section"
       >
         <div
@@ -500,32 +500,29 @@ export function HomePage() {
             data-ocid={`${quiz.ocid}.card.${index + 1}`}
           >
             <div
-              className="group relative flex flex-col h-full rounded-2xl border bg-card overflow-hidden transition-smooth hover:shadow-elevated"
+              className="group relative flex flex-col h-full rounded-2xl border backdrop-blur-xl overflow-hidden transition-all duration-500 hover:-translate-y-1.5"
               style={{
-                borderColor: quiz.theme.border,
-                boxShadow: "0 8px 24px rgba(0,0,0,0.3)",
+                borderColor: "rgba(255,255,255,0.08)",
+                background: "rgba(255,255,255,0.02)",
+                boxShadow: "0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06)",
               }}
               onMouseEnter={(e) => {
+                (e.currentTarget as HTMLDivElement).style.borderColor = quiz.theme.border;
                 (e.currentTarget as HTMLDivElement).style.boxShadow =
-                  `0 16px 40px rgba(0,0,0,0.45), 0 0 0 1px ${quiz.theme.border}`;
+                  `0 16px 48px rgba(0,0,0,0.6), inset 0 1px 0 ${quiz.theme.border}`;
               }}
               onMouseLeave={(e) => {
+                (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(255,255,255,0.08)";
                 (e.currentTarget as HTMLDivElement).style.boxShadow =
-                  "0 8px 24px rgba(0,0,0,0.3)";
+                  "0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06)";
               }}
             >
-              {/* Accent top bar */}
+              {/* Ambient Glow */}
               <div
-                className="h-1 w-full"
-                style={{ background: quiz.theme.color }}
-              />
-
-              {/* Glow blob */}
-              <div
-                className="absolute top-0 right-0 w-24 h-24 rounded-full blur-2xl opacity-30 pointer-events-none"
+                className="absolute top-0 right-0 w-56 h-56 rounded-full blur-[50px] opacity-20 pointer-events-none transition-opacity duration-500 group-hover:opacity-40"
                 style={{
-                  background: quiz.theme.muted,
-                  transform: "translate(30%, -30%)",
+                  background: quiz.theme.color,
+                  transform: "translate(35%, -35%)",
                 }}
               />
 
@@ -564,13 +561,18 @@ export function HomePage() {
                 </p>
 
                 {/* CTA Button */}
-                <Button
-                  size="sm"
-                  className="w-full font-body font-semibold text-sm transition-smooth"
+                <button
+                  type="button"
+                  className="w-full mt-auto py-2.5 rounded-lg font-body font-semibold text-sm transition-all duration-300 border bg-transparent"
                   style={{
-                    background: quiz.theme.color,
-                    color: "oklch(0.14 0.012 235)",
-                    border: "none",
+                    color: quiz.theme.color,
+                    borderColor: quiz.theme.border,
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLButtonElement).style.background = quiz.theme.muted;
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLButtonElement).style.background = "transparent";
                   }}
                   onClick={(e) => {
                     e.stopPropagation();
@@ -579,7 +581,7 @@ export function HomePage() {
                   data-ocid={`${quiz.ocid}.start_button`}
                 >
                   Start Quiz
-                </Button>
+                </button>
               </div>
             </div>
           </motion.div>

@@ -350,7 +350,13 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // Sync name from fetched account
   useEffect(() => {
-    if (account?.name) setSessionName(account.name);
+    if (account?.name) {
+      setSessionName(account.name);
+      const session = getStoredSession();
+      if (session) {
+        storeSession({ ...session, name: account.name });
+      }
+    }
   }, [account]);
 
   const login = async (email: string, password: string) => {
@@ -360,7 +366,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
     storeSession({
       token: sessionToken.token,
       email: sessionToken.email,
-      name: email,
+      name: "",
       expiresAt: Number(sessionToken.expiresAt),
     });
   };

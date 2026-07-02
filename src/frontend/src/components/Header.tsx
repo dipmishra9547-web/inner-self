@@ -24,8 +24,6 @@ const NAV_ITEMS_PUBLIC = [
 
 const NAV_ITEMS_AUTH = [
   { label: "Home", href: "/" },
-  { label: "Animal Quiz", href: "/animal-quiz" },
-  { label: "Emotion Quiz", href: "/emotion-quiz" },
   { label: "Guide", href: "/guide" },
   { label: "Compatibility", href: "/compatibility" },
 ];
@@ -52,8 +50,8 @@ export function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center pointer-events-none pt-4 px-4">
-      <div className="relative w-full max-w-6xl">
-        <div className="pointer-events-auto w-full flex items-center justify-between gap-4 h-16 px-5 rounded-xl backdrop-blur-xl bg-card/60 border border-white/[0.14] ring-1 ring-white/[0.05] shadow-[0_4px_32px_rgba(0,0,0,0.45),0_1px_0_rgba(255,255,255,0.08)_inset]">
+      <div className="relative w-full max-w-4xl">
+        <div className="relative pointer-events-auto w-full flex items-center justify-between gap-4 h-16 px-5 rounded-xl backdrop-blur-xl bg-card/60 border border-white/[0.14] ring-1 ring-white/[0.05] shadow-[0_4px_32px_rgba(0,0,0,0.45),0_1px_0_rgba(255,255,255,0.08)_inset]">
           {/* Logo */}
           <a
             href={isLoggedIn ? "/" : "/login"}
@@ -68,7 +66,7 @@ export function Header() {
 
           {/* Desktop Nav */}
           <nav
-            className="hidden lg:flex items-center gap-1"
+            className="hidden lg:flex items-center gap-1 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
             aria-label="Main navigation"
           >
             {navItems.map((item) => (
@@ -81,16 +79,6 @@ export function Header() {
                 {item.label}
               </a>
             ))}
-            {isLoggedIn && (
-              <a
-                href="/dark-side-quiz"
-                className="px-3 py-1.5 text-sm font-body text-muted-foreground hover:text-foreground transition-colors duration-200 rounded-md hover:bg-muted/50 flex items-center gap-1.5"
-                data-ocid="header.nav.dark_side_link"
-              >
-                <Skull className="w-3.5 h-3.5" />
-                Dark Side
-              </a>
-            )}
             {isAdmin && (
               <a
                 href="/admin"
@@ -139,33 +127,6 @@ export function Header() {
                     >
                       <ClipboardList className="w-3.5 h-3.5" />
                       My Results
-                    </a>
-                    <a
-                      href="/animal-quiz"
-                      className="flex items-center gap-2 px-3 py-2 text-sm font-body text-foreground hover:bg-muted/50 transition-colors"
-                      onClick={() => setUserMenuOpen(false)}
-                      data-ocid="header.animal_quiz_link"
-                    >
-                      <Brain className="w-3.5 h-3.5" />
-                      Animal Quiz
-                    </a>
-                    <a
-                      href="/emotion-quiz"
-                      className="flex items-center gap-2 px-3 py-2 text-sm font-body text-foreground hover:bg-muted/50 transition-colors"
-                      onClick={() => setUserMenuOpen(false)}
-                      data-ocid="header.emotion_quiz_link"
-                    >
-                      <Brain className="w-3.5 h-3.5" />
-                      Emotion Quiz
-                    </a>
-                    <a
-                      href="/dark-side-quiz"
-                      className="flex items-center gap-2 px-3 py-2 text-sm font-body text-foreground hover:bg-muted/50 transition-colors"
-                      onClick={() => setUserMenuOpen(false)}
-                      data-ocid="header.dark_side_link"
-                    >
-                      <Skull className="w-3.5 h-3.5" />
-                      Know Your Dark Side
                     </a>
                     {isAdmin && (
                       <a
@@ -276,15 +237,6 @@ export function Header() {
             ))}
             {isLoggedIn && (
               <>
-                <a
-                  href="/dark-side-quiz"
-                  className="flex items-center gap-2 px-3 py-2.5 text-sm font-body text-foreground hover:bg-muted/50 rounded-md transition-colors"
-                  onClick={() => setMobileOpen(false)}
-                  data-ocid="header.mobile_nav.dark_side_link"
-                >
-                  <Skull className="w-3.5 h-3.5" />
-                  Know Your Dark Side
-                </a>
                 <a
                   href="/my-results"
                   className="flex items-center gap-2 px-3 py-2.5 text-sm font-body text-foreground hover:bg-muted/50 rounded-md transition-colors"
