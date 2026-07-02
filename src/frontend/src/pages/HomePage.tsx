@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "@tanstack/react-router";
+import { LandingHomeContent } from "../components/LandingHomeContent";
 import {
   BookOpen,
   CheckCircle2,
@@ -425,7 +426,7 @@ function UserGuideModal({
   );
 }
 
-export function HomePage() {
+function LoggedInHomeContent() {
   const navigate = useNavigate();
   const { name } = useAuth();
   const [guideOpen, setGuideOpen] = useState(false);
@@ -592,4 +593,14 @@ export function HomePage() {
       <ShareSection message={SHARE_MESSAGE} ocidPrefix="home" />
     </div>
   );
+}
+
+export function HomePage() {
+  const { isLoggedIn } = useAuth();
+  
+  if (isLoggedIn) {
+    return <LoggedInHomeContent />;
+  }
+  
+  return <LandingHomeContent />;
 }

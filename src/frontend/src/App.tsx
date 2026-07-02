@@ -105,10 +105,6 @@ const rootRoute = createRootRoute({
 const quizRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/",
-  beforeLoad: () => {
-    const session = getStoredSession();
-    if (!session) throw redirect({ to: "/login" });
-  },
   component: HomePage,
 });
 

@@ -19,6 +19,7 @@ import { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 
 const NAV_ITEMS_PUBLIC = [
+  { label: "Home", href: "/" },
   { label: "Guide", href: "/guide" },
   { label: "Compatibility", href: "/compatibility" },
 ];
