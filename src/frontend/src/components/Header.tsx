@@ -56,7 +56,7 @@ export function Header() {
         <div className="relative pointer-events-auto w-full flex items-center justify-between gap-4 h-16 lg:px-5 lg:rounded-xl lg:backdrop-blur-xl lg:bg-card/60 lg:border lg:border-white/[0.14] lg:ring-1 lg:ring-white/[0.05] lg:shadow-[0_4px_32px_rgba(0,0,0,0.45),0_1px_0_rgba(255,255,255,0.08)_inset]">
           {/* Logo */}
           <a
-            href={isLoggedIn ? "/" : "/login"}
+            href="/"
             className="flex items-center shrink-0 transition-smooth hover:opacity-80"
           >
             <img
