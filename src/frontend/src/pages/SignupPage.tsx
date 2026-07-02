@@ -301,9 +301,6 @@ export function SignupPage() {
       <div className="w-full max-w-md">
         {/* Brand header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/20 border border-primary/30 mb-4 shadow-card">
-            <Brain className="w-8 h-8 text-primary" />
-          </div>
           <h1 className="font-display text-3xl font-bold text-foreground tracking-tight">
             Create Your Profile
           </h1>
@@ -636,13 +633,13 @@ export function SignupPage() {
           {/* Divider + link */}
           <div className="mt-6 pt-5 border-t border-border text-center">
             <p className="text-sm text-muted-foreground font-body">
-              Already have an account?{" "}
+              Already a user?{" "}
               <Link
                 to="/login"
                 data-ocid="signup.login_link"
                 className="text-primary font-medium hover:underline transition-colors"
               >
-                Sign in
+                Sign In
               </Link>
             </p>
           </div>

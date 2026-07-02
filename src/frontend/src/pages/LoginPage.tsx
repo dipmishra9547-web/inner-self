@@ -117,15 +117,12 @@ export function LoginPage() {
 
   return (
     <div
-      className="flex-1 flex items-start justify-center px-4 py-10"
+      className="flex-1 flex items-center justify-center px-4 py-10"
       data-ocid="login.page"
     >
       <div className="w-full max-w-md space-y-6">
         {/* ── Brand header ── */}
         <div className="text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/20 border border-primary/30 mb-4 shadow-card">
-            <Brain className="w-8 h-8 text-primary" />
-          </div>
           <h1 className="font-display text-3xl font-bold text-foreground tracking-tight">
             Welcome Back
           </h1>
@@ -285,105 +282,19 @@ export function LoginPage() {
                 </span>
               )}
             </Button>
-          </form>
-        </div>
-
-        {/* ── Divider ── */}
-        <div className="flex items-center gap-3">
-          <div className="flex-1 h-px bg-border" />
-          <span className="text-xs font-body text-muted-foreground px-1 uppercase tracking-widest">
-            New to Inner-Self?
-          </span>
-          <div className="flex-1 h-px bg-border" />
-        </div>
-
-        {/* ── Create Account card ── */}
-        <div
-          className="bg-card border-2 border-primary/40 rounded-2xl shadow-card overflow-hidden"
-          data-ocid="login.create_account.section"
-        >
-          {/* Header band */}
-          <div className="bg-primary/10 px-6 pt-6 pb-5 border-b border-primary/20">
-            <div className="flex items-center gap-3 mb-1">
-              <div className="w-10 h-10 rounded-xl bg-primary/20 border border-primary/30 flex items-center justify-center shrink-0">
-                <UserPlus className="w-5 h-5 text-primary" />
-              </div>
-              <div>
-                <h2 className="font-display text-xl font-bold text-foreground leading-tight">
-                  New here? Create your account
-                </h2>
-                <p className="text-sm text-muted-foreground font-body mt-0.5">
-                  It's free and takes under a minute.
-                </p>
-              </div>
+            {/* Divider + link */}
+            <div className="mt-6 pt-5 border-t border-border text-center">
+              <p className="text-sm text-muted-foreground font-body">
+                New Here?{" "}
+                <Link
+                  to="/signup"
+                  className="text-primary font-medium hover:underline transition-colors"
+                >
+                  Sign Up
+                </Link>
+              </p>
             </div>
-          </div>
-
-          {/* Guide section */}
-          <div className="px-6 pt-5 pb-2">
-            <button
-              type="button"
-              data-ocid="login.guide.toggle"
-              onClick={() => setGuideOpen((v) => !v)}
-              className="w-full flex items-center justify-between text-sm font-semibold text-foreground font-body mb-3 hover:text-primary transition-colors"
-              aria-expanded={guideOpen}
-            >
-              <span className="flex items-center gap-2">
-                <Mail className="w-4 h-4 text-primary" />
-                How to create an account
-              </span>
-              {guideOpen ? (
-                <ChevronUp className="w-4 h-4 text-muted-foreground" />
-              ) : (
-                <ChevronDown className="w-4 h-4 text-muted-foreground" />
-              )}
-            </button>
-
-            {guideOpen && (
-              <ol className="space-y-3 mb-4" data-ocid="login.guide.steps">
-                {GUIDE_STEPS.map((step, i) => (
-                  <li
-                    key={step.title}
-                    className="flex items-start gap-3 p-3 rounded-xl bg-primary/5 border border-primary/10"
-                    data-ocid={`login.guide.step.${i + 1}`}
-                  >
-                    {/* Number badge */}
-                    <span className="shrink-0 w-6 h-6 rounded-full bg-primary text-primary-foreground text-xs font-bold flex items-center justify-center mt-0.5">
-                      {i + 1}
-                    </span>
-                    {/* Icon + text */}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-1.5 mb-0.5">
-                        <step.icon className="w-3.5 h-3.5 text-primary shrink-0" />
-                        <span className="text-sm font-semibold text-foreground font-body">
-                          {step.title}
-                        </span>
-                      </div>
-                      <p className="text-xs text-muted-foreground font-body leading-relaxed">
-                        {step.desc}
-                      </p>
-                    </div>
-                  </li>
-                ))}
-              </ol>
-            )}
-          </div>
-
-          {/* CTA button */}
-          <div className="px-6 pb-6">
-            <Link to="/signup" data-ocid="login.create_account_button">
-              <Button
-                type="button"
-                className="w-full h-12 rounded-xl font-semibold text-base font-body bg-accent text-accent-foreground hover:bg-accent/90 border border-accent/30 shadow-sm transition-smooth gap-2"
-              >
-                <UserPlus className="w-5 h-5" />
-                Create My Account
-              </Button>
-            </Link>
-            <p className="text-center text-xs text-muted-foreground font-body mt-3">
-              Already have an account? Sign in above.
-            </p>
-          </div>
+          </form>
         </div>
 
         {/* Admin note */}
